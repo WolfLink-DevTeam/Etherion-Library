@@ -1,9 +1,4 @@
 import configs.SolarDeviationConfig
-import entities.FateCalendar
-import enums.DiZhi
-import enums.SolarTerm
-import enums.TianGan
-import java.util.Calendar
 
 fun main()
 {
@@ -35,6 +30,7 @@ fun main()
         /**
          * 等待测试的数据
          */
+        TestBaZi(1995,1,1,23,30,120.0,"甲戌丙子癸巳壬子",false),
     )
     for (test in testList)
     {

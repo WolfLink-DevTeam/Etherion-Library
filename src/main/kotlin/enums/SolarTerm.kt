@@ -1,7 +1,6 @@
 package enums
 
-import entities.SolarMDH
-import okhttp3.internal.notify
+import entities.timeunits.SolarMDH
 
 /**
  * @param date 真太阳时 月-日-时

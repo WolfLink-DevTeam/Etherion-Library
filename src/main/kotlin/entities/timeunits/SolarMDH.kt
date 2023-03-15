@@ -1,4 +1,4 @@
-package entities
+package entities.timeunits
 
 /**
  * 真太阳时 - 月 日 时
@@ -10,7 +10,7 @@ data class SolarMDH(val month : Int,val day : Int,val hour : Int)
         // TODO 一个月不一定是30天
         return hour + day * 24 + month * 30 * 24
     }
-    fun inRange(lastSolarMDH: SolarMDH,nextSolarMDH: SolarMDH) : Boolean
+    fun inRange(lastSolarMDH: SolarMDH, nextSolarMDH: SolarMDH) : Boolean
     {
         if(nextSolarMDH.getTotalHours() < lastSolarMDH.getTotalHours())
         {

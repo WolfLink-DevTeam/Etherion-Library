@@ -1,9 +1,8 @@
-package entities
+package entities.calendars
 
-import enums.DiZhi
-import enums.Month
-import enums.SolarTerm
-import enums.TianGan
+import entities.BaseBaZi
+import entities.timeunits.SolarMDH
+import enums.*
 import java.util.*
 
 /*
@@ -21,6 +20,7 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     // 1为立春~惊蛰 1月，2为惊蛰~清明 2月，以此类推，0为未初始化
     var fateMonth : Int = 0
 
+    // 命历日 = 真太阳日，如果命历时在当天的23点及以后，则命历日+1
     var fateDay : Int = 0
 
     // 命历时 = 真太阳时
@@ -46,7 +46,18 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 //            else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
 
+        fateHour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
+
+        fateDay = solarCalendar.solarCalendar.get(Calendar.DAY_OF_MONTH)
+        if(fateHour >= 23)fateDay++
+
     }
+    // 将生辰历转为基础八字对象
+    fun toBaseBaZi(name : String,sex : Sex,birthplace : String) : BaseBaZi
+    {
+        return BaseBaZi(name,sex,birthplace,solarCalendar,getYearGanZhi(),getMonthGanZhi(),getDayGanZhi(),getHourGanZhi())
+    }
+
     // 获取年柱 天干-地支
     fun getYearGanZhi() : Pair<TianGan, DiZhi>
     {
@@ -88,8 +99,7 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     {
         val solarYear = solarCalendar.solarCalendar.get(Calendar.YEAR)
         val solarMonth = solarCalendar.solarCalendar.get(Calendar.MONTH) + 1
-        val solarDay = solarCalendar.solarCalendar.get(Calendar.DAY_OF_MONTH)
-        val index = ((solarYear - 1) * 5 + (solarYear - 1)/4 + Month.getDays(solarYear,solarMonth,solarDay)) % 60
+        val index = ((solarYear - 1) * 5 + (solarYear - 1)/4 + Month.getDays(solarYear,solarMonth,fateDay)) % 60
         val tianGanIndex = if(index % 10 == 0)10 else index % 10
         val diZhiIndex = if(index % 12 == 0)12 else index % 12
         val tianGan = TianGan.values()[tianGanIndex-1]
@@ -105,28 +115,29 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
       */
     fun getHourGanZhi() : Pair<TianGan,DiZhi>
     {
-        val solarHour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
         val dayColumn = getDayGanZhi()
-        val diZhi : DiZhi = DiZhi.values()[((solarHour+1)/2) % 12]
+        val offset = ((fateHour + 1)%24)/2
+        val diZhi : DiZhi = DiZhi.values()[offset % 12]
         val tianGan : TianGan = when(dayColumn.first)
         {
             TianGan.Jia,TianGan.Ji -> {
-                TianGan.values()[(TianGan.Jia.ordinal + (solarHour+1)/2) % 10]
+                TianGan.values()[(TianGan.Jia.ordinal + offset) % 10]
             }
             TianGan.Yi,TianGan.Geng -> {
-                TianGan.values()[(TianGan.Bing.ordinal + (solarHour+1)/2) % 10]
+                TianGan.values()[(TianGan.Bing.ordinal + offset) % 10]
             }
             TianGan.Bing,TianGan.Xin -> {
-                TianGan.values()[(TianGan.Wu.ordinal + (solarHour+1)/2) % 10]
+                TianGan.values()[(TianGan.Wu.ordinal + offset) % 10]
             }
             TianGan.Ding,TianGan.Ren -> {
-                TianGan.values()[(TianGan.Geng.ordinal + (solarHour+1)/2) % 10]
+                TianGan.values()[(TianGan.Geng.ordinal + offset) % 10]
             }
             TianGan.Wu,TianGan.Gui -> {
-                TianGan.values()[(TianGan.Ren.ordinal + (solarHour+1)/2) % 10]
+                TianGan.values()[(TianGan.Ren.ordinal + offset) % 10]
             }
         }
         return tianGan to diZhi
     }
 
+    // 检查四柱准确性
 }

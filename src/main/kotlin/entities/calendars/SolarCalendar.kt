@@ -1,4 +1,4 @@
-package entities
+package entities.calendars
 
 import utils.SolarDeviation
 import java.util.Calendar
@@ -29,7 +29,7 @@ data class SolarCalendar(private val calendar: Calendar,private val longitude : 
         solarCalendar.add(Calendar.SECOND, ((longitude - 120) * 240).roundToInt())
     }
 
-    fun show()
+    fun show() 
     {
         println("""
         平太阳时 ${calendar.get(Calendar.YEAR)}年${calendar.get(Calendar.MONTH)+1}月${calendar.get(Calendar.DAY_OF_MONTH)}日${calendar.get(Calendar.HOUR_OF_DAY)}时${calendar.get(Calendar.MINUTE)}分${calendar.get(Calendar.SECOND)}秒

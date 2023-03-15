@@ -1,6 +1,16 @@
-import entities.FateCalendar
+import entities.calendars.FateCalendar
+import entities.calendars.SolarCalendar
 import java.util.*
-
+/**
+ * @param year          阳历年，如 2023 代表2023年
+ * @param month         阳历月，如 1 代表1月
+ * @param day           阳历日
+ * @param hour          阳历时
+ * @param min           阳历分
+ * @param longitude     出生地经度，如114.5度，不要分秒
+ * @param baZi          八字，用于纠正结果
+ * @param needDeviation 是否需要微调真太阳时
+ */
 data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,val min : Int,val longitude : Double,val baZi : String,val needDeviation : Boolean = true)
 {
     companion object{
@@ -32,22 +42,12 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         else failed++
         detailList.add("$year|$month|$day|$hour|$min|$longitude|${result.first}|${result.second}")
     }
-    /**
-     * @param year      阳历年，如 2023 代表2023年
-     * @param month     阳历月，如 1 代表1月
-     * @param day       阳历日
-     * @param hour      阳历时
-     * @param min       阳历分
-     * @param longitude 出生地经度，如114.5度，不要分秒
-     * @param baZi      八字，用于纠正结果
-     * @return  结果，原因
-     */
     fun testBaZi() : Pair<Boolean,String>
     {
         val calendar = Calendar.getInstance()
         // 这里的month 0代表1月
         calendar.set(year,month-1,day,hour,min)
-        val solarCalendar = entities.SolarCalendar(calendar,longitude,needDeviation)
+        val solarCalendar = SolarCalendar(calendar,longitude,needDeviation)
         val fateCalendar = FateCalendar(solarCalendar)
 
         val yearColumn = fateCalendar.getYearGanZhi()
