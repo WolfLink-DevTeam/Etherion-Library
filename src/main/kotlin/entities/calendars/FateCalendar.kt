@@ -13,10 +13,11 @@ import java.util.*
  * 命历月 根据节气划分月份，而不是农历月
  * 命历日 在命历月的基础上有所变动，视立春为1月1日，以此类推
  */
-class FateCalendar(val solarCalendar: SolarCalendar) {
+class FateCalendar(val solarCalendar : SolarCalendar) {
 
     // 命历年份，如果太阳历月份日数在立春之前，则视为还在上一年，即未过立春则 命历年 = 太阳历年 - 1
     var fateYear : Int = 0
+
     // 1为立春~惊蛰 1月，2为惊蛰~清明 2月，以此类推，0为未初始化
     var fateMonth : Int = 0
 
@@ -25,6 +26,7 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 
     // 命历时 = 真太阳时
     var fateHour : Int = 0
+
     init {
 
         // 太阳历时间对象
@@ -33,17 +35,15 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
         val day = solarCalendar.solarCalendar.get(Calendar.DAY_OF_MONTH)
         val hour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
 
-        val solarMDH = SolarMDH(month+1,day,hour)
+        val solarMDH = SolarMDH(month + 1, day, hour)
 
         //是否达到立春
-        fateYear = if((solarMDH >= SolarTerm.LiChun.solarMDH)) year else year - 1
+        fateYear = if ((solarMDH >= SolarTerm.LiChun.solarMDH)) year else year - 1
         val solarTerms = SolarTerm.values()
 
-        for (i in solarTerms.indices)
-        {
-            if(i >= solarTerms.size)break
-            if(solarMDH.inRange(solarTerms[i].solarMDH,solarTerms[(i+1)%solarTerms.size].solarMDH))fateMonth = i+1
-//            else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
+        for (i in solarTerms.indices) {
+            if (solarMDH.inRange(solarTerms[i].solarMDH, solarTerms[(i + 1) % solarTerms.size].solarMDH)) fateMonth = i + 1
+//          else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
 
         fateHour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
@@ -52,6 +52,7 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
         if(fateHour >= 23)fateDay++
 
     }
+
     // 将生辰历转为基础八字对象
     fun toBaseBaZi(name : String,sex : Sex,birthplace : String) : BaseBaZi
     {
@@ -59,14 +60,20 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     }
 
     // 获取年柱 天干-地支
-    fun getYearGanZhi() : Pair<TianGan, DiZhi>
-    {
-        val tianGanIndex = if((fateYear - 3) % 10 == 0) 10 else (fateYear - 3) % 10
-        val diZhiIndex = if((fateYear - 3) % 12 == 0) 12 else (fateYear - 3) % 12
-        val tianGan = TianGan.values()[tianGanIndex - 1]
-        val diZhi = DiZhi.values()[diZhiIndex - 1]
-        return Pair(tianGan, diZhi)
+    fun getYearGanZhi(): Pair<TianGan, DiZhi> {
+        val tianGanIndex = when (val i = (fateYear - 3) % 10) {
+            0 -> 9
+            else -> i - 1
+        }
+        val diZhiIndex = when (val i = (fateYear - 3) % 12) {
+            0 -> 11
+            else -> i - 1
+        }
+        val tianGan = TianGan.values()[tianGanIndex]
+        val diZhi = DiZhi.values()[diZhiIndex]
+        return tianGan to diZhi
     }
+
     /**
      * 获取月天干 月地支
      *
@@ -80,20 +87,20 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     fun getMonthGanZhi() : Pair<TianGan,DiZhi>
     {
         var fateMonth = fateMonth
-        if(fateMonth !in 1..12) throw IllegalArgumentException("不合规范(1~12)的命历月份，异常值为：$fateMonth")
+        if (fateMonth !in 1..12) throw IllegalArgumentException("不合规范(1~12)的命历月份，异常值为：$fateMonth")
         val yearColumn = getYearGanZhi()
-        val monthGan : TianGan = when(yearColumn.first)
-        {
-            TianGan.Jia,TianGan.Ji -> TianGan.values()[(TianGan.Bing.ordinal + fateMonth - 1) % 10]
-            TianGan.Yi,TianGan.Geng -> TianGan.values()[(TianGan.Wu.ordinal + fateMonth - 1) % 10]
-            TianGan.Bing,TianGan.Xin -> TianGan.values()[(TianGan.Geng.ordinal + fateMonth - 1) % 10]
-            TianGan.Ding,TianGan.Ren -> TianGan.values()[(TianGan.Ren.ordinal + fateMonth - 1) % 10]
-            TianGan.Wu,TianGan.Gui -> TianGan.values()[(TianGan.Jia.ordinal + fateMonth - 1) % 10]
+        val monthGan: TianGan = when (yearColumn.first) {
+            TianGan.Jia, TianGan.Ji -> TianGan.values()[(TianGan.Bing.ordinal + fateMonth - 1) % 10]
+            TianGan.Yi, TianGan.Geng -> TianGan.values()[(TianGan.Wu.ordinal + fateMonth - 1) % 10]
+            TianGan.Bing, TianGan.Xin -> TianGan.values()[(TianGan.Geng.ordinal + fateMonth - 1) % 10]
+            TianGan.Ding, TianGan.Ren -> TianGan.values()[(TianGan.Ren.ordinal + fateMonth - 1) % 10]
+            TianGan.Wu, TianGan.Gui -> TianGan.values()[(TianGan.Jia.ordinal + fateMonth - 1) % 10]
         }
-        if(fateMonth >= 11) fateMonth -= 12
-        val monthZhi : DiZhi = DiZhi.values()[fateMonth + 1]
+        if (fateMonth >= 11) fateMonth -= 12
+        val monthZhi: DiZhi = DiZhi.values()[fateMonth + 1]
         return monthGan to monthZhi
     }
+
     // 获取日天干 日地支
     fun getDayGanZhi() : Pair<TianGan,DiZhi>
     {
@@ -106,6 +113,7 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
         val diZhi = DiZhi.values()[diZhiIndex-1]
         return tianGan to diZhi
     }
+
     /**
      * 获取时天干 时地支
      *
