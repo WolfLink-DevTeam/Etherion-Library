@@ -2,8 +2,7 @@ import configs.SolarDeviationConfig
 import enums.base.DiZhi
 import enums.base.TianGan
 import enums.bazi.ShiErChangSheng
-import enums.bazi.ShiShen
-import kotlin.test.Test
+import enums.bazi.ShiShens
 
 
 fun main()
@@ -16,7 +15,7 @@ fun testShiShen()
     for (first in TianGan.values())
         for (second in TianGan.values())
         {
-            println("${first.chineseName} <- ${second.chineseName} : ${ShiShen.get(first,second).chineseName}")
+            println("${first.chineseName} <- ${second.chineseName} : ${ShiShens.get(first,second).chineseName}")
         }
 }
 fun testChangSheng()
