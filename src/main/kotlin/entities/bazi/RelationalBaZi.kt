@@ -22,14 +22,14 @@ class RelationalBaZi(val yearPillar : Pair<TianGan, DiZhi>,
     // 地支半合
     val halfCombine : MutableList<Pair<Int,Int>> = mutableListOf()
     // 地支三会方局
-    val threeMeet : MutableList<Pair<Int,Int>> = mutableListOf()
+    val threeMeet : MutableList<Triple<Int,Int,Int>> = mutableListOf()
     // 地支六冲
     val sixConflict : MutableList<Pair<Int,Int>> = mutableListOf()
-    // 地支相刑
+    // 地支相刑 ( 暂时不管 )
     val diZhiTorture : MutableList<Pair<Int,Int>> = mutableListOf()
-    // 地支相害
+    // 地支相害 ( 暂时不管 )
     val diZhiHurt : MutableList<Pair<Int,Int>> = mutableListOf()
-    // 地支破
+    // 地支破 ( 暂时不管 )
     val diZhiDestroy : MutableList<Pair<Int,Int>> = mutableListOf()
 
     init {
@@ -96,9 +96,39 @@ class RelationalBaZi(val yearPillar : Pair<TianGan, DiZhi>,
                 }
             }
         }
+        // 数字范围 0~11
+        // 三会方局 2/3/4 5/6/7 8/9/10 11/0/1
+        for (first in 1..7 step 2)
+        {
+            for(second in first+2..7 step 2)
+            {
+                for(third in second+2..7 step 2)
+                {
+                    val firstDiZhi = mapIndex<DiZhi>(first)
+                    val secondDiZhi = mapIndex<DiZhi>(second)
+                    val thirdDiZhi = mapIndex<DiZhi>(third)
+                    if(firstDiZhi == secondDiZhi || secondDiZhi == thirdDiZhi || firstDiZhi == thirdDiZhi)continue
 
-
-
+                    val list = mutableListOf(firstDiZhi.ordinal,secondDiZhi.ordinal,thirdDiZhi.ordinal)
+                    list.sort()
+                    if(list[0] == 2 && list[1] == 3 && list[2] == 4)threeMeet.add(Triple(first,second,third))
+                    if(list[0] == 5 && list[1] == 6 && list[2] == 7)threeMeet.add(Triple(first,second,third))
+                    if(list[0] == 8 && list[1] == 9 && list[2] == 10)threeMeet.add(Triple(first,second,third))
+                    if(list[0] == 0 && list[1] == 1 && list[2] == 11)threeMeet.add(Triple(first,second,third))
+                }
+            }
+        }
+        // 六冲
+        for (first in 1..7 step 2)
+        {
+            for (second in first+2..7 step 2)
+            {
+                val firstDiZhi = mapIndex<DiZhi>(first)
+                val secondDiZhi = mapIndex<DiZhi>(second)
+                val deltaIndex = (firstDiZhi.ordinal - secondDiZhi.ordinal).absoluteValue
+                if(deltaIndex == 6)sixConflict.add(first to second)
+            }
+        }
     }
 
     private fun <T> mapIndex(input : Int) : T
@@ -121,6 +151,7 @@ class RelationalBaZi(val yearPillar : Pair<TianGan, DiZhi>,
         println("六合 $sixCombine")
         println("三合 $threeCombine")
         println("半合 $halfCombine")
+        println("三会 $threeMeet")
     }
 
 }
