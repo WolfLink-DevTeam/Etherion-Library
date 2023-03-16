@@ -146,6 +146,4 @@ class FateCalendar(val solarCalendar : SolarCalendar) {
         }
         return tianGan to diZhi
     }
-
-    // 检查四柱准确性
 }

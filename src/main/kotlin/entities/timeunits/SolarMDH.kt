@@ -14,7 +14,6 @@ data class SolarMDH(val month : Int,val day : Int,val hour : Int)
     {
         if(nextSolarMDH.getTotalHours() < lastSolarMDH.getTotalHours())
         {
-            println("${this.month}-${this.day} in ${lastSolarMDH.month}-${lastSolarMDH.day}..${nextSolarMDH.month}-${nextSolarMDH.day}")
             return getTotalHours() >= lastSolarMDH.getTotalHours() || getTotalHours() <= nextSolarMDH.getTotalHours()
         }
         return getTotalHours() in lastSolarMDH.getTotalHours()..nextSolarMDH.getTotalHours()

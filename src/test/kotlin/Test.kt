@@ -1,4 +1,5 @@
 import configs.SolarDeviationConfig
+import enums.DiZhi
 
 fun main()
 {
@@ -20,6 +21,9 @@ fun main()
         TestBaZi(2002,12,20,2,46,120.0,"壬午壬子壬戌辛丑",false),
         TestBaZi(2002,12,20,9,20,120.0,"壬午壬子壬戌乙巳",false),
         TestBaZi(1997,12,15,2,0,120.0,"丁丑壬子辛卯己丑",false),
+        TestBaZi(1995,1,1,23,30,120.0,"甲戌丙子癸巳壬子",false),
+        TestBaZi(1975,1,1,0,0,120.0,"甲寅丙子丁未庚子",false),
+        TestBaZi(1975,1,1,23,59,120.0,"甲寅丙子戊申壬子",false),
         /**
          * 失败数据
          */
@@ -27,17 +31,22 @@ fun main()
         TestBaZi(2008,1,11,3,0,120.0,"丁亥癸丑庚戌戊寅",false),
         // 这组数据是上一组数据的纠正，算法没问题的
         TestBaZi(2008,1,10,3,0,120.0,"丁亥癸丑庚戌戊寅",false),
+
+        // 这组数据时间节点临近立春，1975年立春实际时间在2月4日晚19点，目前设定中的是2月4日12点，有差别
+        TestBaZi(1975,2,4,19,0,120.0,"甲寅丁丑辛巳丁酉",false),
+        TestBaZi(1975,2,4,19,0,120.0,"乙卯戊寅辛巳戊戌",false),
+
         /**
          * 等待测试的数据
          */
-        TestBaZi(1995,1,1,23,30,120.0,"甲戌丙子癸巳壬子",false),
+
     )
     for (test in testList)
     {
         test.test()
     }
-    TestBaZi.showResult()
     TestBaZi.showDetails()
+    TestBaZi.showResult()
 
     SolarDeviationConfig.save()
 

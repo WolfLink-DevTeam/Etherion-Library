@@ -1,5 +1,6 @@
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
+import enums.Sex
 import java.util.*
 /**
  * @param year          阳历年，如 2023 代表2023年
@@ -13,6 +14,10 @@ import java.util.*
  */
 data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,val min : Int,val longitude : Double,val baZi : String,val needDeviation : Boolean = true)
 {
+    // 存在误差的概率估计
+    var deviationRate = 0.0
+    val deviationResultList = mutableListOf<String>()
+
     companion object{
         var total = 0
         var success = 0
@@ -30,6 +35,9 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         }
         fun showDetails()
         {
+            val detail = "%-4s | %-2s | %-2s | %-2s | %-2s | %-5s | %s"
+            val detailStr = String.format(detail,"Year","Mo","Da","ho","mi","longi","result")
+            println(detailStr)
             for (detail in detailList) println(detail)
         }
     }
@@ -40,8 +48,12 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         val result = testBaZi()
         if(result.first) success++
         else failed++
-        detailList.add("$year|$month|$day|$hour|$min|$longitude|${result.first}|${result.second}")
+        val detail = "%-4s | %-2s | %-2s | %-2s | %-2s | %-5s | %s"
+        val detailStr = String.format(detail,year,month,day,hour,min,longitude,result.second)
+        detailList.add(detailStr)
+        if(deviationResultList.size > 0) detailList.add("↑ 该八字有大约 $deviationRate% 的概率存在偏差，原因：${deviationResultList}")
     }
+    // 批量测试八字
     fun testBaZi() : Pair<Boolean,String>
     {
         val calendar = Calendar.getInstance()
@@ -54,6 +66,13 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         val monthColumn = fateCalendar.getMonthGanZhi()
         val dayColumn = fateCalendar.getDayGanZhi()
         val hourColumn = fateCalendar.getHourGanZhi()
+
+        val baseBaZi = fateCalendar.toBaseBaZi("无名", Sex.MALE,"未知地")
+        for (pair in baseBaZi.checkDeviationDetails())
+        {
+            deviationRate += pair.first
+            deviationResultList += pair.second
+        }
 
         if(baZi[0] != yearColumn.first.chineseName)return false to "年天干不匹配。结果：${yearColumn.first.chineseName} 预期：${baZi[0]}"
         if(baZi[1] != yearColumn.second.chineseName)return false to "年地支不匹配。结果：${yearColumn.second.chineseName} 预期：${baZi[1]}"
