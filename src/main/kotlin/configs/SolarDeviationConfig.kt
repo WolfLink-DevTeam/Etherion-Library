@@ -11,7 +11,7 @@ import org.wolflink.common.configuration.AutoConfig
     例如 1|1|-189 则为1月1日偏差-189秒
     
 """)
-object SolarDeviationConfig : AutoConfig("solar_deviation_config") {
+object SolarDeviationConfig : AutoConfig("真太阳时校准数据") {
 
     @ConfigNode
     var solarDeviationList : List<String> = listOf("1|1|-189","5|1|70","9|1|60","1|2|-218","5|2|196","9|2|80","1|3|-246","5|3|201","9|3|100","1|4|-273","5|4|206",

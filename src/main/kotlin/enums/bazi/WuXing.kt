@@ -1,4 +1,4 @@
-package enums
+package enums.bazi
 
 import java.awt.Color
 

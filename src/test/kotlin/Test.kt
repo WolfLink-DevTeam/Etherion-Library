@@ -1,7 +1,36 @@
 import configs.SolarDeviationConfig
-import enums.DiZhi
+import enums.base.DiZhi
+import enums.base.TianGan
+import enums.bazi.ShiErChangSheng
+import enums.bazi.ShiShen
+import kotlin.test.Test
+
 
 fun main()
+{
+    testBazi()
+}
+
+fun testShiShen()
+{
+    for (first in TianGan.values())
+        for (second in TianGan.values())
+        {
+            println("${first.chineseName} <- ${second.chineseName} : ${ShiShen.get(first,second).chineseName}")
+        }
+}
+fun testChangSheng()
+{
+    for (gan in TianGan.values())
+    {
+        for (zhi in DiZhi.values())
+        {
+            println("${gan.chineseName} ${zhi.chineseName} ${ShiErChangSheng.get(gan,zhi).chineseName}")
+        }
+    }
+}
+
+fun testBazi()
 {
     SolarDeviationConfig.load()
 

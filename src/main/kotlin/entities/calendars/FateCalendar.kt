@@ -1,8 +1,12 @@
 package entities.calendars
 
-import entities.BaseBaZi
+import entities.bazi.DetailBaZi
 import entities.timeunits.SolarMDH
 import enums.*
+import enums.base.DiZhi
+import enums.base.TianGan
+import enums.date.Month
+import enums.date.SolarTerm
 import java.util.*
 
 /*
@@ -54,9 +58,9 @@ class FateCalendar(val solarCalendar : SolarCalendar) {
     }
 
     // 将生辰历转为基础八字对象
-    fun toBaseBaZi(name : String,sex : Sex,birthplace : String) : BaseBaZi
+    fun toBaseBaZi(name : String,sex : Sex,birthplace : String) : DetailBaZi
     {
-        return BaseBaZi(name,sex,birthplace,solarCalendar,getYearGanZhi(),getMonthGanZhi(),getDayGanZhi(),getHourGanZhi())
+        return DetailBaZi(name,sex,birthplace,solarCalendar,getYearGanZhi(),getMonthGanZhi(),getDayGanZhi(),getHourGanZhi())
     }
 
     // 获取年柱 天干-地支
@@ -84,7 +88,7 @@ class FateCalendar(val solarCalendar : SolarCalendar) {
      *
      * 地支 1月为寅(3)，2月卯(4)，3月辰，以此类推，10月亥(12)，11月子(1)，12月丑(2)
      */
-    fun getMonthGanZhi() : Pair<TianGan,DiZhi>
+    fun getMonthGanZhi() : Pair<TianGan, DiZhi>
     {
         var fateMonth = fateMonth
         if (fateMonth !in 1..12) throw IllegalArgumentException("不合规范(1~12)的命历月份，异常值为：$fateMonth")
@@ -102,7 +106,7 @@ class FateCalendar(val solarCalendar : SolarCalendar) {
     }
 
     // 获取日天干 日地支
-    fun getDayGanZhi() : Pair<TianGan,DiZhi>
+    fun getDayGanZhi() : Pair<TianGan, DiZhi>
     {
         val solarYear = solarCalendar.solarCalendar.get(Calendar.YEAR)
         val solarMonth = solarCalendar.solarCalendar.get(Calendar.MONTH) + 1
@@ -121,26 +125,26 @@ class FateCalendar(val solarCalendar : SolarCalendar) {
      * 丙辛从戊起，丁壬庚子居
      * 戊癸何方发，壬子是真途
       */
-    fun getHourGanZhi() : Pair<TianGan,DiZhi>
+    fun getHourGanZhi() : Pair<TianGan, DiZhi>
     {
         val dayColumn = getDayGanZhi()
         val offset = ((fateHour + 1)%24)/2
         val diZhi : DiZhi = DiZhi.values()[offset % 12]
         val tianGan : TianGan = when(dayColumn.first)
         {
-            TianGan.Jia,TianGan.Ji -> {
+            TianGan.Jia, TianGan.Ji -> {
                 TianGan.values()[(TianGan.Jia.ordinal + offset) % 10]
             }
-            TianGan.Yi,TianGan.Geng -> {
+            TianGan.Yi, TianGan.Geng -> {
                 TianGan.values()[(TianGan.Bing.ordinal + offset) % 10]
             }
-            TianGan.Bing,TianGan.Xin -> {
+            TianGan.Bing, TianGan.Xin -> {
                 TianGan.values()[(TianGan.Wu.ordinal + offset) % 10]
             }
-            TianGan.Ding,TianGan.Ren -> {
+            TianGan.Ding, TianGan.Ren -> {
                 TianGan.values()[(TianGan.Geng.ordinal + offset) % 10]
             }
-            TianGan.Wu,TianGan.Gui -> {
+            TianGan.Wu, TianGan.Gui -> {
                 TianGan.values()[(TianGan.Ren.ordinal + offset) % 10]
             }
         }

@@ -1,4 +1,4 @@
-package enums
+package enums.date
 
 import entities.timeunits.SolarMDH
 
