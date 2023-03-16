@@ -1,6 +1,6 @@
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
-import enums.Sex
+import enums.Gender
 import java.util.*
 /**
  * @param year          阳历年，如 2023 代表2023年
@@ -67,7 +67,7 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         val dayColumn = fateCalendar.getDayGanZhi()
         val hourColumn = fateCalendar.getHourGanZhi()
 
-        val baseBaZi = fateCalendar.toBaseBaZi("无名", Sex.MALE,"未知地")
+        val baseBaZi = fateCalendar.toBaseBaZi("无名", Gender.MALE,"未知地")
         baseBaZi.show()
         for (pair in baseBaZi.checkDeviationDetails())
         {
