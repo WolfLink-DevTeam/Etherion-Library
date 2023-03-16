@@ -13,6 +13,7 @@ import java.util.*
  * 包含以下参数：姓名，性别，出生地，真太阳时，年柱干支，月柱干支，日柱干支，时柱干支
  *
  * 详细的年柱(十神、星运、自坐、空亡、神煞)、详细的月柱、详细的日柱、详细的时柱
+ * 五行生克关系
  */
 
 open class DetailBaZi(val name : String,
@@ -27,12 +28,14 @@ open class DetailBaZi(val name : String,
     val monthPillar : BaZiPillar
     val dayPillar : BaZiPillar
     val hourPillar : BaZiPillar
+    val relationalBaZi : RelationalBaZi
     init {
         val master = dayPillar.first
         this.yearPillar = BaZiPillar(master,yearPillar)
         this.monthPillar = BaZiPillar(master,monthPillar)
         this.dayPillar = BaZiPillar(master,dayPillar)
         this.hourPillar = BaZiPillar(master,hourPillar)
+        relationalBaZi = RelationalBaZi(yearPillar,monthPillar,dayPillar,hourPillar)
     }
 
     fun show()
@@ -50,6 +53,7 @@ open class DetailBaZi(val name : String,
         println(String.format(format,"副星",yearPillar.accessoryStars.third.chineseName,monthPillar.accessoryStars.third.chineseName,dayPillar.accessoryStars.third.chineseName,hourPillar.accessoryStars.third.chineseName))
         println(String.format(format,"星运",yearPillar.xingYun.chineseName,monthPillar.xingYun.chineseName,dayPillar.xingYun.chineseName,hourPillar.xingYun.chineseName))
         println(String.format(format,"自坐",yearPillar.ziZuo.chineseName,monthPillar.ziZuo.chineseName,dayPillar.ziZuo.chineseName,hourPillar.ziZuo.chineseName))
+        relationalBaZi.show()
     }
 
     /**
