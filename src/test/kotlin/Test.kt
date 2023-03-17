@@ -67,6 +67,7 @@ fun testBazi()
         /**
          * 等待测试的数据
          */
+        TestBaZi(2002,1,20,17,0,120.0,"辛巳辛丑戊子辛酉",false)
 
     )
     for (test in testList)
