@@ -1,13 +1,29 @@
 import configs.SolarDeviationConfig
+import entities.calendars.FateCalendar
+import entities.calendars.SolarCalendar
+import entities.purplestar.TianBoard
+import enums.Gender
 import enums.base.DiZhi
 import enums.base.TianGan
 import enums.bazi.ShiErChangSheng
 import enums.bazi.ShiShens
+import java.util.*
 
 
 fun main()
 {
-    testBazi()
+    testPurpleStar()
+}
+
+fun testPurpleStar()
+{
+    val calendar = Calendar.getInstance()
+    // 这里的month 0代表1月
+    calendar.set(2004,12-1,20,3,9)
+    val board = TianBoard("匿名",Gender.MALE,"未知", FateCalendar(SolarCalendar(calendar,120.0,false)))
+    for (palace in board.twelvePalaces) println("""
+        ${palace.palaceType.chineseName} ${palace.tianGan.chineseName} ${palace.diZhi.chineseName}
+    """.trimIndent())
 }
 
 fun testShiShen()
