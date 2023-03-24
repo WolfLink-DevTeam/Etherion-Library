@@ -2,13 +2,6 @@ package enums.date
 
 import entities.timeunits.SolarMDH
 
-/**
- * @param date 真太阳时 月-日-时
- *
- * 立春 索引值 0 月份 1
- * 惊蛰 索引值 1 月份 2
- * ......
- */
 enum class SolarTerm(val chineseName: String, val solarMDH: SolarMDH) {
     LiChun("立春", SolarMDH(2, 4, 12)),
     JingZhe("惊蛰", SolarMDH(3, 6, 0)),

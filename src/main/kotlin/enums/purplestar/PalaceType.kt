@@ -1,8 +1,7 @@
 package enums.purplestar
 
-import java.util.StringJoiner
 
-enum class PalaceType(val chineseName : String) {
+enum class PalaceType(val chineseName: String) {
     Ming("主命宫"),
     FuMu("父母宫"),
     FuDe("福德宫"),
