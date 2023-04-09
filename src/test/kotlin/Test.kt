@@ -8,18 +8,20 @@ import enums.base.TianGan
 import enums.bazi.ShiErChangSheng
 import enums.bazi.ShiShens
 import java.util.*
+import kotlin.math.min
 
 
 fun main()
 {
-    testPurpleStar()
+    testPurpleStar(2001,10,17,19,14)
 }
 
-fun testPurpleStar()
+fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
 {
     val calendar = Calendar.getInstance()
     // 这里的month 0代表1月
-    calendar.set(2004,12-1,20,3,9)
+    calendar.set(year,month-1,date,hour,minute)
+    println("生辰 ${year}年${month}月${date}日 $hour:$minute")
     val board = TianBoard("匿名",Gender.MALE,"未知", FateCalendar(SolarCalendar(calendar,120.0,false)))
     for (palace in board.twelvePalaces) println("""
         ${palace.palaceType.chineseName} ${palace.tianGan.chineseName} ${palace.diZhi.chineseName}

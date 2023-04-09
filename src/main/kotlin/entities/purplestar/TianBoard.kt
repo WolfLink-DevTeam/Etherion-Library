@@ -8,7 +8,7 @@ import enums.base.TianGan
 import enums.purplestar.PalaceType
 
 /**
- * 天盘
+ * 紫微斗数 天星盘
  *
  * @property twelvePalaces 十二宫，索引 0 为子宫，1为丑，以此类推
  */
