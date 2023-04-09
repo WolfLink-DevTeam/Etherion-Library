@@ -175,10 +175,10 @@ open class DetailBaZi(
         val solarMDH = SolarMDH(month + 1, day, hour)
         val totalHours = solarMDH.getTotalHours()
         // 立春附近检查
-        if (totalHours - SolarTerm.LiChun.solarMDH.getTotalHours() in -24..24) list.add(20.0 to "立春附近24小时内")
+        if (totalHours - SolarTerm.LiChun.getSolarMDH(year).getTotalHours() in -24..24) list.add(20.0 to "立春附近24小时内")
         // 节气附近检查
         for (solarTerm in SolarTerm.values()) {
-            if (totalHours - solarTerm.solarMDH.getTotalHours() in -24..24) list.add(10.0 to "节气附近24小时内")
+            if (totalHours - solarTerm.getSolarMDH(year).getTotalHours() in -24..24) list.add(10.0 to "节气附近24小时内")
         }
         // 时辰分界线检查
         if (hour % 2 == 0 && min >= 55) list.add(10.0 to "临近时辰分界线5分钟以内")

@@ -12,7 +12,7 @@ import java.util.*
 
 fun main()
 {
-    testPurpleStar()
+    testBazi()
 }
 
 fun testPurpleStar()
