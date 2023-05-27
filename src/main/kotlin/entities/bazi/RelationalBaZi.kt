@@ -6,6 +6,7 @@ import kotlin.math.absoluteValue
 
 /**
  * 关系化的八字盘，此类不包含流年大运等八字关系
+ * 也不包含命主相关的其他信息如神煞、长生十二宫等
  *
  * 包含天干地支之间生克合化的关系
  * 六合、三合、半合、三会、刑、冲、克、破
@@ -152,6 +153,7 @@ class RelationalBaZi(val yearPillar : Pair<TianGan, DiZhi>,
         println("三合 $threeCombine")
         println("半合 $halfCombine")
         println("三会 $threeMeet")
+        println()
     }
 
 }

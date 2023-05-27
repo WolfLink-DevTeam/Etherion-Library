@@ -9,10 +9,11 @@ import enums.date.SolarTerm
 import java.util.*
 
 /**
- * 基础的八字信息
+ * 详细的八字信息
  * 包含以下参数：姓名，性别，出生地，真太阳时，年柱干支，月柱干支，日柱干支，时柱干支
  *
  * 详细的年柱(十神、星运、自坐、空亡、神煞)、详细的月柱、详细的日柱、详细的时柱
+ * 详细的五行关系，生克合化等
  */
 
 open class DetailBaZi(
@@ -30,12 +31,18 @@ open class DetailBaZi(
     val dayPillar: BaZiPillar
     val hourPillar: BaZiPillar
 
+    /**
+     * 五行关系对象
+     */
+    val relationalBaZi: RelationalBaZi
+
     init {
         val master = dayPillar.first
         this.yearPillar = BaZiPillar(master, yearPillar)
         this.monthPillar = BaZiPillar(master, monthPillar)
         this.dayPillar = BaZiPillar(master, dayPillar)
         this.hourPillar = BaZiPillar(master, hourPillar)
+        this.relationalBaZi = RelationalBaZi(yearPillar,monthPillar,dayPillar,hourPillar)
     }
 
     fun show() {
@@ -151,6 +158,8 @@ open class DetailBaZi(
                 hourPillar.ziZuo.chineseName
             )
         )
+        println("五行关系 >>")
+        relationalBaZi.show()
     }
 
     /**

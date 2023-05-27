@@ -18,10 +18,10 @@ class TianBoard(
     val birthplace: String,
     val fateCalendar: FateCalendar
 ) {
-    val twelvePalaces: MutableList<Palace>
+    val twelvePalaces: MutableList<Palace> = mutableListOf()
+    val mingPalaceIndex : Int = 1 + fateCalendar.fateMonth - (fateCalendar.getHourGanZhi().second).ordinal
+
     init {
-        val mingPalaceIndex = 1 + fateCalendar.fateMonth - (fateCalendar.getHourGanZhi().second).ordinal
-        twelvePalaces = mutableListOf()
         val yearPillar = fateCalendar.getYearGanZhi()
         val firstTianGanIndex = (yearPillar.first.ordinal * 2 + 2)%10
         for (index in 0..11)

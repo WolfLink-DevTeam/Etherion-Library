@@ -22,8 +22,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     // 命历年份，如果太阳历月份日数在立春之前，则视为还在上一年，即未过立春则 命历年 = 太阳历年 - 1
     var fateYear: Int = 0
 
-    // 1为立春~惊蛰 1月，2为惊蛰~清明 2月，以此类推，0为未初始化
-    var fateMonth: Int = 0
+    // 1为立春~惊蛰 1月，2为惊蛰~清明 2月，以此类推，-999为未初始化
+    var fateMonth: Int = -999
 
     // 命历日 = 真太阳日，如果命历时在当天的23点及以后，则命历日+1
     var fateDay: Int = 0

@@ -13,7 +13,8 @@ import kotlin.math.min
 
 fun main()
 {
-    testPurpleStar(2001,10,17,19,14)
+    testBazi()
+    testPurpleStar(2004,3,14,0,20)
 }
 
 fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
@@ -23,6 +24,8 @@ fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
     calendar.set(year,month-1,date,hour,minute)
     println("生辰 ${year}年${month}月${date}日 $hour:$minute")
     val board = TianBoard("匿名",Gender.MALE,"未知", FateCalendar(SolarCalendar(calendar,120.0,false)))
+    println("命宫索引 ${board.mingPalaceIndex}")
+    println("命历月 ${board.fateCalendar.fateMonth}")
     for (palace in board.twelvePalaces) println("""
         ${palace.palaceType.chineseName} ${palace.tianGan.chineseName} ${palace.diZhi.chineseName}
     """.trimIndent())
@@ -81,11 +84,13 @@ fun testBazi()
         // 这组数据时间节点临近立春，1975年立春实际时间在2月4日晚19点，目前设定中的是2月4日12点，有差别
         TestBaZi(1975,2,4,19,0,120.0,"甲寅丁丑辛巳丁酉",false),
         TestBaZi(1975,2,4,19,0,120.0,"乙卯戊寅辛巳戊戌",false),
-
+        // 壬午年十月初一，以目前的算法为9月末，但八字恰好合上了...紫微盘是错误的
+        TestBaZi(2002,11,5,6,0,120.0,"壬午庚戌丁丑癸卯",false),
         /**
          * 等待测试的数据
          */
-        TestBaZi(2002,1,20,17,0,120.0,"辛巳辛丑戊子辛酉",false)
+        TestBaZi(2002,1,20,17,0,120.0,"辛巳辛丑戊子辛酉",false),
+
 
     )
     for (test in testList)
