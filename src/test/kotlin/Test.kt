@@ -1,4 +1,5 @@
 import configs.SolarDeviationConfig
+import entities.bazi.DetailBaZi
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
 import entities.purplestar.TianBoard
@@ -14,7 +15,7 @@ import kotlin.math.min
 fun main()
 {
     testBazi()
-    testPurpleStar(2004,3,14,0,20)
+//    testPurpleStar(2004,3,14,0,20)
 }
 
 fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
@@ -49,7 +50,6 @@ fun testChangSheng()
         }
     }
 }
-
 fun testBazi()
 {
     SolarDeviationConfig.load()
@@ -73,24 +73,22 @@ fun testBazi()
         TestBaZi(1995,1,1,23,30,120.0,"甲戌丙子癸巳壬子",false),
         TestBaZi(1975,1,1,0,0,120.0,"甲寅丙子丁未庚子",false),
         TestBaZi(1975,1,1,23,59,120.0,"甲寅丙子戊申壬子",false),
+        TestBaZi(2002,1,20,17,0,120.0,"辛巳辛丑戊子辛酉",false),
+        TestBaZi(1975,2,4,19,0,120.0,"乙卯戊寅辛巳戊戌",false),
+        TestBaZi(2008,1,10,3,0,120.0,"丁亥癸丑庚戌戊寅",false),
+
         /**
          * 失败数据
          */
         // 这组数据时间与节气当天重合，在看日柱的时候存在1天的偏差，时柱可能也受到了影响
         TestBaZi(2008,1,11,3,0,120.0,"丁亥癸丑庚戌戊寅",false),
-        // 这组数据是上一组数据的纠正，算法没问题的
-        TestBaZi(2008,1,10,3,0,120.0,"丁亥癸丑庚戌戊寅",false),
-
         // 这组数据时间节点临近立春，1975年立春实际时间在2月4日晚19点，目前设定中的是2月4日12点，有差别
         TestBaZi(1975,2,4,19,0,120.0,"甲寅丁丑辛巳丁酉",false),
-        TestBaZi(1975,2,4,19,0,120.0,"乙卯戊寅辛巳戊戌",false),
         // 壬午年十月初一，以目前的算法为9月末，但八字恰好合上了...紫微盘是错误的
         TestBaZi(2002,11,5,6,0,120.0,"壬午庚戌丁丑癸卯",false),
         /**
          * 等待测试的数据
          */
-        TestBaZi(2002,1,20,17,0,120.0,"辛巳辛丑戊子辛酉",false),
-
 
     )
     for (test in testList)
@@ -100,7 +98,7 @@ fun testBazi()
     TestBaZi.showDetails()
     TestBaZi.showResult()
 
-    SolarDeviationConfig.save()
+//    SolarDeviationConfig.save()
 
 //    for (month in listOf(1,2,3,4,5,6,7,8,9,10,11,12))
 //    {

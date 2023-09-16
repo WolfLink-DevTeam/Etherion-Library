@@ -8,14 +8,12 @@ group = "org.wolflink.fate"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
     testImplementation(kotlin("test"))
-    // 找不到依赖就去这里 https://github.com/MikkoAyaka/WolfLink-DevUtils
-    implementation("org.wolflink.common","WolfLink-DevUtils","1.1.3")
 }
 
 tasks.test {

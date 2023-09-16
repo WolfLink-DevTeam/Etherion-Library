@@ -15,7 +15,6 @@ class BaZiPillar(master : TianGan, val pillar: Pair<TianGan, DiZhi>) {
     // 自坐
     val ziZuo : ShiErChangSheng
 
-
     init {
         primaryStar = ShiShens.get(master,pillar.first)
         accessoryStars = Triple(
