@@ -42,11 +42,15 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
         val solarMDH = SolarMDH(month + 1, day, hour)
 
         //是否达到立春
-        fateYear = if ((solarMDH >= SolarTerm.LiChun.solarMDH)) year else year - 1
+        fateYear = if (solarMDH >= SolarTerm.LiChun.getSolarMDH(year)) year else year - 1
         val solarTerms = SolarTerm.values()
 
         for (i in solarTerms.indices) {
-            if (solarMDH.inRange(solarTerms[i].solarMDH, solarTerms[(i + 1) % solarTerms.size].solarMDH)) fateMonth =
+            if (solarMDH.inRange(
+                    solarTerms[i].getSolarMDH(fateYear),
+                    solarTerms[(i + 1) % solarTerms.size].getSolarMDH(fateYear)
+                )
+            ) fateMonth =
                 i + 1
 //          else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
