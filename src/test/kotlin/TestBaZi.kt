@@ -67,7 +67,7 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         val dayColumn = fateCalendar.getDayGanZhi()
         val hourColumn = fateCalendar.getHourGanZhi()
 
-        val baseBaZi = fateCalendar.toBaseBaZi("无名", Gender.MALE,"未知地")
+        val baseBaZi = fateCalendar.toDetailBaZi("无名", Gender.MALE,"未知地")
         baseBaZi.show()
         for (pair in baseBaZi.checkDeviationDetails())
         {

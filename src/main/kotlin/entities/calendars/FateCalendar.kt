@@ -58,8 +58,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 
     }
 
-    // 将生辰历转为基础八字对象
-    fun toBaseBaZi(name: String, gender: Gender, birthplace: String): DetailBaZi {
+    // 将生辰历转为详细八字对象
+    fun toDetailBaZi(name: String, gender: Gender, birthplace: String): DetailBaZi {
         return DetailBaZi(
             name,
             gender,
