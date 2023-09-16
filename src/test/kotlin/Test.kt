@@ -52,7 +52,6 @@ fun testChangSheng()
 }
 fun testBazi()
 {
-    SolarDeviationConfig.load()
 
     val testList = listOf(
         /**
