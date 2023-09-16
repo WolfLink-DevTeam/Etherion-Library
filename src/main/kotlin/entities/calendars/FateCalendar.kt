@@ -34,10 +34,10 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     init {
 
         // 太阳历时间对象
-        val year = solarCalendar.solarCalendar.get(Calendar.YEAR)
-        val month = solarCalendar.solarCalendar.get(Calendar.MONTH)
-        val day = solarCalendar.solarCalendar.get(Calendar.DAY_OF_MONTH)
-        val hour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
+        val year = solarCalendar.realCalendar.get(Calendar.YEAR)
+        val month = solarCalendar.realCalendar.get(Calendar.MONTH)
+        val day = solarCalendar.realCalendar.get(Calendar.DAY_OF_MONTH)
+        val hour = solarCalendar.realCalendar.get(Calendar.HOUR_OF_DAY)
 
         val solarMDH = SolarMDH(month + 1, day, hour)
 
@@ -51,9 +51,9 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 //          else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
 
-        fateHour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
+        fateHour = solarCalendar.realCalendar.get(Calendar.HOUR_OF_DAY)
 
-        fateDay = solarCalendar.solarCalendar.get(Calendar.DAY_OF_MONTH)
+        fateDay = solarCalendar.realCalendar.get(Calendar.DAY_OF_MONTH)
         if (fateHour >= 23) fateDay++
 
     }
@@ -64,11 +64,7 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
             name,
             gender,
             birthplace,
-            solarCalendar,
-            getYearGanZhi(),
-            getMonthGanZhi(),
-            getDayGanZhi(),
-            getHourGanZhi()
+            this
         )
     }
 
@@ -115,8 +111,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 
     // 获取日天干 日地支
     fun getDayGanZhi(): Pair<TianGan, DiZhi> {
-        val solarYear = solarCalendar.solarCalendar.get(Calendar.YEAR)
-        val solarMonth = solarCalendar.solarCalendar.get(Calendar.MONTH) + 1
+        val solarYear = solarCalendar.realCalendar.get(Calendar.YEAR)
+        val solarMonth = solarCalendar.realCalendar.get(Calendar.MONTH) + 1
         val index = ((solarYear - 1) * 5 + (solarYear - 1) / 4 + Month.getDays(solarYear, solarMonth, fateDay)) % 60
         val tianGanIndex = if (index % 10 == 0) 10 else index % 10
         val diZhiIndex = if (index % 12 == 0) 12 else index % 12

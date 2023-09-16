@@ -19,14 +19,14 @@ import kotlin.math.roundToInt
  */
 data class SolarCalendar(private val calendar: Calendar,private val longitude : Double,private val needDeviation : Boolean = true)
 {
-    val solarCalendar : Calendar = calendar.clone() as Calendar
+    val realCalendar : Calendar = calendar.clone() as Calendar
 
     init {
         // Java-Calendar 中，0为1月，11为12月
-        val month = solarCalendar.get(Calendar.MONTH)
-        val day = solarCalendar.get(Calendar.DAY_OF_MONTH)
-        if(needDeviation) solarCalendar.add(Calendar.SECOND, SolarDeviation.getDeviation(month + 1, day))
-        solarCalendar.add(Calendar.SECOND, ((longitude - 120) * 240).roundToInt())
+        val month = realCalendar.get(Calendar.MONTH)
+        val day = realCalendar.get(Calendar.DAY_OF_MONTH)
+        if(needDeviation) realCalendar.add(Calendar.SECOND, SolarDeviation.getDeviation(month + 1, day))
+        realCalendar.add(Calendar.SECOND, ((longitude - 120) * 240).roundToInt())
     }
 
     fun show()
@@ -34,7 +34,7 @@ data class SolarCalendar(private val calendar: Calendar,private val longitude : 
         println("""
         平太阳时 ${calendar.get(Calendar.YEAR)}年${calendar.get(Calendar.MONTH)+1}月${calendar.get(Calendar.DAY_OF_MONTH)}日${calendar.get(Calendar.HOUR_OF_DAY)}时${calendar.get(Calendar.MINUTE)}分${calendar.get(Calendar.SECOND)}秒
         经度 $longitude
-        真太阳时 ${solarCalendar.get(Calendar.YEAR)}年${solarCalendar.get(Calendar.MONTH)+1}月${solarCalendar.get(Calendar.DAY_OF_MONTH)}日${solarCalendar.get(Calendar.HOUR_OF_DAY)}时${solarCalendar.get(Calendar.MINUTE)}分${solarCalendar.get(Calendar.SECOND)}秒
+        真太阳时 ${realCalendar.get(Calendar.YEAR)}年${realCalendar.get(Calendar.MONTH)+1}月${realCalendar.get(Calendar.DAY_OF_MONTH)}日${realCalendar.get(Calendar.HOUR_OF_DAY)}时${realCalendar.get(Calendar.MINUTE)}分${realCalendar.get(Calendar.SECOND)}秒
     """.trimIndent())
     }
 }

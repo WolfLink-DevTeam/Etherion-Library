@@ -1,10 +1,8 @@
 package entities.bazi
 
-import entities.calendars.SolarCalendar
+import entities.calendars.FateCalendar
 import entities.timeunits.SolarMDH
 import enums.Gender
-import enums.base.DiZhi
-import enums.base.TianGan
 import enums.date.SolarTerm
 import java.util.*
 
@@ -20,29 +18,19 @@ open class DetailBaZi(
     val name: String,
     val gender: Gender,
     val birthplace: String,
-    val solarCalendar: SolarCalendar,
-    yearPillar: Pair<TianGan, DiZhi>,
-    monthPillar: Pair<TianGan, DiZhi>,
-    dayPillar: Pair<TianGan, DiZhi>,
-    hourPillar: Pair<TianGan, DiZhi>,
+    val fateCalendar: FateCalendar
 ) {
     val yearPillar: BaZiPillar
     val monthPillar: BaZiPillar
     val dayPillar: BaZiPillar
     val hourPillar: BaZiPillar
 
-    /**
-     * 五行关系对象
-     */
-    val relationalBaZi: RelationalBaZi
-
     init {
-        val master = dayPillar.first
-        this.yearPillar = BaZiPillar(master, yearPillar)
-        this.monthPillar = BaZiPillar(master, monthPillar)
-        this.dayPillar = BaZiPillar(master, dayPillar)
-        this.hourPillar = BaZiPillar(master, hourPillar)
-        this.relationalBaZi = RelationalBaZi(yearPillar,monthPillar,dayPillar,hourPillar)
+        val master = fateCalendar.getDayGanZhi().first
+        this.yearPillar = BaZiPillar(master, fateCalendar.getYearGanZhi())
+        this.monthPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
+        this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
+        this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
     }
 
     fun show() {
@@ -158,8 +146,8 @@ open class DetailBaZi(
                 hourPillar.ziZuo.chineseName
             )
         )
-        println("五行关系 >>")
-        relationalBaZi.show()
+//        println("五行关系 >>")
+//        relationalBaZi.show()
     }
 
     /**
@@ -174,25 +162,25 @@ open class DetailBaZi(
      */
     fun checkDeviationDetails(): List<Pair<Double, String>> {
         val list = mutableListOf<Pair<Double, String>>()
-        // 太阳历时间对象
-        val year = solarCalendar.solarCalendar.get(Calendar.YEAR)
-        val month = solarCalendar.solarCalendar.get(Calendar.MONTH)
-        val day = solarCalendar.solarCalendar.get(Calendar.DAY_OF_MONTH)
-        val hour = solarCalendar.solarCalendar.get(Calendar.HOUR_OF_DAY)
-        val min = solarCalendar.solarCalendar.get(Calendar.MINUTE)
-
-        val solarMDH = SolarMDH(month + 1, day, hour)
-        val totalHours = solarMDH.getTotalHours()
-        // 立春附近检查
-        if (totalHours - SolarTerm.LiChun.solarMDH.getTotalHours() in -24..24) list.add(20.0 to "立春附近24小时内")
-        // 节气附近检查
-        for (solarTerm in SolarTerm.values()) {
-            if (totalHours - solarTerm.solarMDH.getTotalHours() in -24..24) list.add(10.0 to "节气附近24小时内")
+        fateCalendar.solarCalendar.realCalendar.apply {
+            // 太阳历时间对象
+            val year = get(Calendar.YEAR)
+            val month = get(Calendar.MONTH)
+            val day = get(Calendar.DAY_OF_MONTH)
+            val hour = get(Calendar.HOUR_OF_DAY)
+            val min = get(Calendar.MINUTE)
+            val solarMDH = SolarMDH(month + 1, day, hour)
+            val totalHours = solarMDH.getTotalHours()
+            // 立春附近检查
+            if (totalHours - SolarTerm.LiChun.solarMDH.getTotalHours() in -24..24) list.add(20.0 to "立春附近24小时内")
+            // 节气附近检查
+            for (solarTerm in SolarTerm.values()) {
+                if (totalHours - solarTerm.solarMDH.getTotalHours() in -24..24) list.add(10.0 to "节气附近24小时内")
+            }
+            // 时辰分界线检查
+            if (hour % 2 == 0 && min >= 55) list.add(10.0 to "临近时辰分界线5分钟以内")
+            if (hour % 2 != 0 && min <= 5) list.add(10.0 to "临近时辰分界线5分钟以内")
         }
-        // 时辰分界线检查
-        if (hour % 2 == 0 && min >= 55) list.add(10.0 to "临近时辰分界线5分钟以内")
-        if (hour % 2 != 0 && min <= 5) list.add(10.0 to "临近时辰分界线5分钟以内")
-
         return list
     }
 }
