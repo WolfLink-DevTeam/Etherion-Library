@@ -1,4 +1,4 @@
-import entities.bazi.DetailBaZi
+import entities.bazi.StandardBaZi
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
 import enums.Gender
@@ -30,7 +30,7 @@ class BaZiAPI {
         hour: Int,
         min: Int,
         longitude: Double
-    ): DetailBaZi {
+    ): StandardBaZi {
         val calendar = Calendar.getInstance()
         calendar.set(year,month-1,day,hour,min)
         val solarCalendar = SolarCalendar(calendar,longitude,true)

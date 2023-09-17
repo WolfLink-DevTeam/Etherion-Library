@@ -14,7 +14,7 @@ import java.util.*
  * 详细的五行关系，生克合化等
  */
 
-open class DetailBaZi(
+open class StandardBaZi(
     val name: String,
     val gender: Gender,
     val birthplace: String,

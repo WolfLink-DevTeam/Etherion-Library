@@ -1,5 +1,3 @@
-import configs.SolarDeviationConfig
-import entities.bazi.DetailBaZi
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
 import entities.purplestar.TianBoard
@@ -9,7 +7,6 @@ import enums.base.TianGan
 import enums.bazi.ShiErChangSheng
 import enums.bazi.ShiShens
 import java.util.*
-import kotlin.math.min
 
 
 fun main()

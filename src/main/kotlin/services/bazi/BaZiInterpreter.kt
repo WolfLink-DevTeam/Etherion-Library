@@ -1,6 +1,6 @@
 package services.bazi
 
-import entities.bazi.DetailBaZi
+import entities.bazi.StandardBaZi
 
 /**
  * 八字解释器
@@ -19,11 +19,11 @@ object BaZiInterpreter {
      * 五行旺衰信息
      * 用神忌神信息
      */
-    fun overallEvaluation(detailBaZi: DetailBaZi) {
+    fun overallEvaluation(standardBaZi: StandardBaZi) {
         // 日主
-        val dayMaster = detailBaZi.dayPillar.pillar.first
+        val dayMaster = standardBaZi.dayPillar.pillar.first
         // 月令
-        val monthDecree = detailBaZi.monthPillar.pillar.second
+        val monthDecree = standardBaZi.monthPillar.pillar.second
     }
 
 }
