@@ -2,7 +2,7 @@ package enums.base
 
 import enums.bazi.WuXing
 
-enum class TianGan(val chineseName : Char, val yinYang : YinYang, val wuXing: WuXing) {
+enum class TianGan(val chineseName : Char, val yinYang : YinYang, val wuXing: WuXing) : GanZhiWord {
     Jia('甲', YinYang.Yang, WuXing.Mu),
     Yi('乙', YinYang.Yin, WuXing.Mu),
     Bing('丙', YinYang.Yang, WuXing.Huo),
@@ -12,5 +12,10 @@ enum class TianGan(val chineseName : Char, val yinYang : YinYang, val wuXing: Wu
     Geng('庚', YinYang.Yang, WuXing.Jin),
     Xin('辛', YinYang.Yin, WuXing.Jin),
     Ren('壬', YinYang.Yang, WuXing.Shui),
-    Gui('癸', YinYang.Yin, WuXing.Shui)
+    Gui('癸', YinYang.Yin, WuXing.Shui);
+    override fun getChineseName(): Char = chineseName
+    override fun getWuXing(): Triple<WuXing, WuXing, WuXing> {
+        return Triple(wuXing,wuXing,wuXing)
+    }
+    override fun getYinYang(): YinYang = yinYang
 }
