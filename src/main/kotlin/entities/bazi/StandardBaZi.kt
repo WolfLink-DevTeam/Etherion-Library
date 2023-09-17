@@ -5,6 +5,7 @@ import entities.deviation.DeviationRecord
 import entities.deviation.DeviationTable
 import entities.timeunits.SolarMDH
 import enums.Gender
+import enums.base.GanZhiWord
 import enums.date.SolarTerm
 import java.util.*
 
@@ -22,6 +23,7 @@ open class StandardBaZi(
     val birthplace: String = "",
     val fateCalendar: FateCalendar
 ) {
+    val eightWords: List<GanZhiWord>
     val yearPillar: BaZiPillar
     val monthPillar: BaZiPillar
     val dayPillar: BaZiPillar
@@ -33,6 +35,16 @@ open class StandardBaZi(
         this.monthPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
         this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
         this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
+        eightWords = listOf(
+            yearPillar.pillar.first,
+            yearPillar.pillar.second,
+            monthPillar.pillar.first,
+            monthPillar.pillar.second,
+            dayPillar.pillar.first,
+            dayPillar.pillar.second,
+            hourPillar.pillar.first,
+            hourPillar.pillar.second
+        )
     }
 
     fun show() {
@@ -72,30 +84,30 @@ open class StandardBaZi(
             String.format(
                 format,
                 "藏干",
-                yearPillar.pillar.second.nativeTianGan.chineseName,
-                monthPillar.pillar.second.nativeTianGan.chineseName,
-                dayPillar.pillar.second.nativeTianGan.chineseName,
-                hourPillar.pillar.second.nativeTianGan.chineseName
+                yearPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName,
+                monthPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName,
+                dayPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName,
+                hourPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName
             )
         )
         println(
             String.format(
                 format,
                 "藏干",
-                yearPillar.pillar.second.middleTianGan.chineseName,
-                monthPillar.pillar.second.middleTianGan.chineseName,
-                dayPillar.pillar.second.middleTianGan.chineseName,
-                hourPillar.pillar.second.middleTianGan.chineseName
+                yearPillar.pillar.second.mixedWuXing.middleTianGan.chineseName,
+                monthPillar.pillar.second.mixedWuXing.middleTianGan.chineseName,
+                dayPillar.pillar.second.mixedWuXing.middleTianGan.chineseName,
+                hourPillar.pillar.second.mixedWuXing.middleTianGan.chineseName
             )
         )
         println(
             String.format(
                 format,
                 "藏干",
-                yearPillar.pillar.second.remnantTianGan.chineseName,
-                monthPillar.pillar.second.remnantTianGan.chineseName,
-                dayPillar.pillar.second.remnantTianGan.chineseName,
-                hourPillar.pillar.second.remnantTianGan.chineseName
+                yearPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName,
+                monthPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName,
+                dayPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName,
+                hourPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName
             )
         )
         println(
