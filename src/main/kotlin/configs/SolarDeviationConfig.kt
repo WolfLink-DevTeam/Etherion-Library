@@ -51,4 +51,12 @@ object SolarDeviationConfig {
         "2100年|2100-02-04|02:59"
 )
     val solarDeviationMap : MutableMap<Pair<Int,Int>,Int> = mutableMapOf()
+
+    init {
+        for (str in solarDeviationList)
+        {
+            val array = str.filter { it != ' ' } .split("|")
+            solarDeviationMap[array[0].toInt() to array[1].toInt()] = array[2].toInt()
+        }
+    }
 }

@@ -2,7 +2,10 @@ package enums.base
 
 import enums.bazi.WuXing
 
-enum class TianGan(val chineseName : Char, val yinYang : YinYang, val wuXing: WuXing) : GanZhiWord {
+enum class TianGan(@JvmField val chineseName : Char,
+                   @JvmField val yinYang : YinYang,
+                   @JvmField val wuXing: WuXing
+) : GanZhiWord {
     Jia('甲', YinYang.Yang, WuXing.Mu),
     Yi('乙', YinYang.Yin, WuXing.Mu),
     Bing('丙', YinYang.Yang, WuXing.Huo),

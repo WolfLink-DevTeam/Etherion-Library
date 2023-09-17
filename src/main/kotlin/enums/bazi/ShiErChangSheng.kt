@@ -8,8 +8,6 @@ enum class ShiErChangSheng(val chineseName: String) {
     LinGuan("临官"), DiWang("帝旺"), Shuai("衰"),
     Bing("病"), Si("死"), Mu("墓"),
     Jue("绝"), Tai("胎"), Yang("养");
-
-
     companion object {
 
         private fun getIndex(startDiZhi: DiZhi, positive: Boolean, diZhi: DiZhi): Int {

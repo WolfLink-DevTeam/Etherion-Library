@@ -4,9 +4,9 @@ import enums.bazi.MixedWuXing
 import enums.bazi.WuXing
 
 enum class DiZhi(
-    val chineseName: Char,
-    val yinYang: YinYang,
-    val mixedWuXing: MixedWuXing
+    @JvmField val chineseName: Char,
+    @JvmField val yinYang: YinYang,
+    @JvmField val mixedWuXing: MixedWuXing
 ) : GanZhiWord {
     Zi('子', YinYang.Yang,MixedWuXing(TianGan.Gui, TianGan.Gui, TianGan.Gui)),
     Chou('丑', YinYang.Yin, MixedWuXing(TianGan.Ji, TianGan.Gui, TianGan.Xin)),

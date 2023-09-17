@@ -3,12 +3,13 @@ package enums.bazi
 import enums.base.TianGan
 
 enum class ShiShens(val chineseName: String) {
-    ZhengGuan("正官"), QiSha("七杀"), ZhengYin("正印"), PianYin("偏印"), ShiShen("食神"),
+    ZhengGuan("正官"),
+    QiSha("七杀"), ZhengYin("正印"), PianYin("偏印"), ShiShen("食神"),
     ShangGuan("伤官"), BiJian("比肩"), JieCai("劫财"), ZhengCai("正财"), PianCai("偏财");
 
     companion object {
         fun get(master: TianGan, another: TianGan): enums.bazi.ShiShens {
-            val wuXingRelation = WuXingRelation.get(master.wuXing, another.wuXing)
+            val wuXingRelation = master.wuXing relationTo another.wuXing
             val yinYangRelation = YinYangRelation.get(master.yinYang, another.yinYang)
             return when (wuXingRelation) {
                 WuXingRelation.ShengWo -> if (yinYangRelation == YinYangRelation.TongXing) PianYin else ZhengYin

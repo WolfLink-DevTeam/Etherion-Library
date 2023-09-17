@@ -7,6 +7,7 @@ import entities.timeunits.SolarMDH
 import enums.Gender
 import enums.base.GanZhiWord
 import enums.date.SolarTerm
+import services.bazi.BaZiInterpreter
 import java.util.*
 
 /**
@@ -48,6 +49,7 @@ open class StandardBaZi(
     }
 
     fun show() {
+        fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
         println(String.format(format, "日期", "年柱", "月柱", "日柱", "时柱"))
         println(
@@ -160,6 +162,7 @@ open class StandardBaZi(
                 hourPillar.ziZuo.chineseName
             )
         )
+        println("日主旺衰 ${BaZiInterpreter.calcWangShuai(this).chineseName}")
 //        println("五行关系 >>")
 //        relationalBaZi.show()
     }

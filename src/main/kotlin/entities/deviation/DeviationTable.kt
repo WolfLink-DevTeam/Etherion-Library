@@ -8,8 +8,11 @@ data class DeviationTable(val set : MutableSet<DeviationRecord> = mutableSetOf()
     /**
      * 获取总偏差权重
      */
-    val deviationWeight
-        get() = set.map { it.weight }.reduce{ a, b -> a+b }
+    val deviationWeight : Int
+        get() {
+            return if(set.isEmpty()) 0
+            else set.map { it.weight }.reduce{ a, b -> a+b }
+        }
     /**
      * 获取偏差信息
      */
