@@ -16,6 +16,13 @@ class RelationalBaZi(val yearPillar : Pair<TianGan, DiZhi>,
                      val dayPillar : Pair<TianGan, DiZhi>,
                      val hourPillar : Pair<TianGan, DiZhi>){
 
+    constructor(standardBaZi: StandardBaZi) : this(
+        standardBaZi.yearPillar.pillar,
+        standardBaZi.monthPillar.pillar,
+        standardBaZi.dayPillar.pillar,
+        standardBaZi.hourPillar.pillar
+    )
+
     // 此处存放的干支六合坐标，0为年干，1为年支，2为月干，3为月支，4日干，5为日支，6为时干，7为时支
     val sixCombine : MutableList<Pair<Int,Int>> = mutableListOf()
     // 地支三合坐标
