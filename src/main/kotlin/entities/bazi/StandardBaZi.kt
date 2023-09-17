@@ -1,6 +1,8 @@
 package entities.bazi
 
 import entities.calendars.FateCalendar
+import entities.deviation.DeviationRecord
+import entities.deviation.DeviationTable
 import entities.timeunits.SolarMDH
 import enums.Gender
 import enums.date.SolarTerm
@@ -15,9 +17,9 @@ import java.util.*
  */
 
 open class StandardBaZi(
-    val name: String,
-    val gender: Gender,
-    val birthplace: String,
+    val name: String = "",
+    val gender: Gender = Gender.MALE,
+    val birthplace: String = "",
     val fateCalendar: FateCalendar
 ) {
     val yearPillar: BaZiPillar
@@ -160,8 +162,8 @@ open class StandardBaZi(
      * 存偏概率 0 ~ 100
      * 0为绝对不可能有误，100为绝对存在偏差
      */
-    fun checkDeviationDetails(): List<Pair<Double, String>> {
-        val list = mutableListOf<Pair<Double, String>>()
+    fun checkDeviation(): DeviationTable {
+        val deviationTable = DeviationTable()
         fateCalendar.solarCalendar.realCalendar.apply {
             // 太阳历时间对象
             val year = get(Calendar.YEAR)
@@ -172,15 +174,15 @@ open class StandardBaZi(
             val solarMDH = SolarMDH(month + 1, day, hour)
             val totalHours = solarMDH.getTotalHours()
             // 立春附近检查
-            if (totalHours - SolarTerm.LiChun.getSolarMDH(year).getTotalHours() in -24..24) list.add(20.0 to "立春附近24小时内")
+            if (totalHours - SolarTerm.LiChun.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(DeviationRecord.LiChunDeviation)
             // 节气附近检查
             for (solarTerm in SolarTerm.values()) {
-                if (totalHours - solarTerm.getSolarMDH(year).getTotalHours() in -24..24) list.add(10.0 to "节气附近24小时内")
+                if (totalHours - solarTerm.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(DeviationRecord.SolarTermDeviation)
             }
             // 时辰分界线检查
-            if (hour % 2 == 0 && min >= 55) list.add(10.0 to "临近时辰分界线5分钟以内")
-            if (hour % 2 != 0 && min <= 5) list.add(10.0 to "临近时辰分界线5分钟以内")
+            if (hour % 2 == 0 && min >= 55) deviationTable.add(DeviationRecord.HourDeviation)
+            if (hour % 2 != 0 && min <= 5) deviationTable.add(DeviationRecord.HourDeviation)
         }
-        return list
+        return deviationTable
     }
 }

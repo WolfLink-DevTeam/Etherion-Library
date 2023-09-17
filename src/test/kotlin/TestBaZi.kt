@@ -1,3 +1,4 @@
+import entities.bazi.StandardBaZi
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
 import enums.Gender
@@ -14,9 +15,15 @@ import java.util.*
  */
 data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,val min : Int,val longitude : Double,val baZi : String,val needDeviation : Boolean = true)
 {
-    // 存在误差的概率估计
-    var deviationRate = 0.0
-    val deviationResultList = mutableListOf<String>()
+    private val baseBaZi : StandardBaZi
+    init {
+        val calendar = Calendar.getInstance()
+        // 这里的month 0代表1月
+        calendar.set(year,month-1,day,hour,min)
+        val solarCalendar = SolarCalendar(calendar,longitude,needDeviation)
+        val fateCalendar = FateCalendar(solarCalendar)
+        baseBaZi = fateCalendar.toDetailBaZi("无名", Gender.MALE,"未知地")
+    }
 
     companion object{
         var total = 0
@@ -51,29 +58,23 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         val detail = "%-4s | %-2s | %-2s | %-2s | %-2s | %-5s | %s"
         val detailStr = String.format(detail,year,month,day,hour,min,longitude,result.second)
         detailList.add(detailStr)
-        if(deviationResultList.size > 0) detailList.add("↑ 该八字有大约 $deviationRate% 的概率存在偏差，原因：${deviationResultList}")
+
+        val deviationTable = baseBaZi.checkDeviation()
+        if(deviationTable.deviationWeight > 0) {
+            detailList.add("↑ 该八字有大约 ${deviationTable.deviationWeight}% 的概率存在偏差，原因：${deviationTable.deviationInfo}")
+        }
     }
     // 批量测试八字
     fun testBaZi() : Pair<Boolean,String>
     {
-        val calendar = Calendar.getInstance()
-        // 这里的month 0代表1月
-        calendar.set(year,month-1,day,hour,min)
-        val solarCalendar = SolarCalendar(calendar,longitude,needDeviation)
-        val fateCalendar = FateCalendar(solarCalendar)
 
-        val yearColumn = fateCalendar.getYearGanZhi()
-        val monthColumn = fateCalendar.getMonthGanZhi()
-        val dayColumn = fateCalendar.getDayGanZhi()
-        val hourColumn = fateCalendar.getHourGanZhi()
 
-        val baseBaZi = fateCalendar.toDetailBaZi("无名", Gender.MALE,"未知地")
+        val yearColumn = baseBaZi.yearPillar.pillar
+        val monthColumn = baseBaZi.monthPillar.pillar
+        val dayColumn = baseBaZi.dayPillar.pillar
+        val hourColumn = baseBaZi.hourPillar.pillar
+
         baseBaZi.show()
-        for (pair in baseBaZi.checkDeviationDetails())
-        {
-            deviationRate += pair.first
-            deviationResultList += pair.second
-        }
 
         if(baZi[0] != yearColumn.first.chineseName)return false to "年天干不匹配。结果：${yearColumn.first.chineseName} 预期：${baZi[0]}"
         if(baZi[1] != yearColumn.second.chineseName)return false to "年地支不匹配。结果：${yearColumn.second.chineseName} 预期：${baZi[1]}"
