@@ -24,7 +24,7 @@ open class StandardBaZi(
     val birthplace: String = "",
     fateCalendar: FateCalendar
 ) : AbstractBazi(fateCalendar) {
-    fun show() {
+    override fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
         println(String.format(format, "日期", "年柱", "月柱", "日柱", "时柱"))
@@ -143,14 +143,27 @@ open class StandardBaZi(
 //        relationalBaZi.show()
     }
 
+
+    private var wangShuaiValue: Pair<Double,Double>? = null
     private var wangShuai: WangShuai? = null
+
+    /**
+     * 获取当前日主旺衰的具体值
+     * Pair<HelpValue,restrainValue>
+     */
+    override fun getWangShuaiValue(): Pair<Double,Double> {
+        if(wangShuaiValue == null) wangShuaiValue = BaZiInterpreter.calcWangShuaiValue(this)
+        return wangShuaiValue!!
+    }
+
     /**
      * 获取当前日主旺衰
      * 静态盘为固定值
      * 动态盘为动态计算值，与流年大运有关
      */
     override fun getWangShuai(): WangShuai {
-        if(wangShuai == null) wangShuai = BaZiInterpreter.calcWangShuai(this)
+        if(wangShuaiValue == null) getWangShuaiValue()
+        wangShuai = BaZiInterpreter.calcWangShuai(wangShuaiValue!!)
         return wangShuai!!
     }
 

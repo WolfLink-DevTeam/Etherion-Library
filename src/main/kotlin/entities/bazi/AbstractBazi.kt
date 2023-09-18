@@ -3,6 +3,7 @@ package entities.bazi
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationTable
 import enums.bazi.WangShuai
+import org.jetbrains.annotations.TestOnly
 
 abstract class AbstractBazi(
     val fateCalendar: FateCalendar
@@ -20,6 +21,12 @@ abstract class AbstractBazi(
         this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
         eightWords = EightWords(yearPillar.pillar,monthPillar.pillar,dayPillar.pillar,hourPillar.pillar)
     }
+
+    /**
+     * 获取当前日主旺衰的具体值
+     * Pair<HelpValue,restrainValue>
+     */
+    abstract fun getWangShuaiValue(): Pair<Double,Double>
     /**
      * 获取当前日主旺衰
      * 静态盘为固定值
@@ -37,4 +44,10 @@ abstract class AbstractBazi(
      * 0为绝对不可能有误，100为绝对存在偏差
      */
     abstract fun checkDeviation(): DeviationTable
+
+    /**
+     * 展示命盘信息
+     */
+    @TestOnly
+    abstract fun show()
 }
