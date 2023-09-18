@@ -1,4 +1,4 @@
-package entities.bazi
+package entities.bazi.packs
 
 import enums.base.DiZhi
 import enums.base.TianGan

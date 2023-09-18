@@ -1,13 +1,21 @@
 package entities.bazi
 
+import entities.bazi.packs.BaZiPillar
+import entities.bazi.packs.EightWords
+import entities.bazi.relations.IBaZiRelation
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationTable
+import enums.Gender
 import enums.bazi.WangShuai
 import org.jetbrains.annotations.TestOnly
 
 abstract class AbstractBaZi(
-    val fateCalendar: FateCalendar
-) {
+    val name: String = "",
+    val gender: Gender = Gender.MALE,
+    val birthplace: String = "",
+    val fateCalendar: FateCalendar,
+    private val baziRelation: IBaZiRelation
+): IBaZiRelation by baziRelation {
     val yearPillar: BaZiPillar
     val monthPillar: BaZiPillar
     val dayPillar: BaZiPillar
@@ -20,6 +28,7 @@ abstract class AbstractBaZi(
         this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
         this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
         eightWords = EightWords(yearPillar.pillar,monthPillar.pillar,dayPillar.pillar,hourPillar.pillar)
+        baziRelation.updateBy(eightWords)
     }
 
     /**

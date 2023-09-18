@@ -1,7 +1,7 @@
-package entities.bazi
+package entities.bazi.relations
 
+import entities.bazi.StaticBaZi
 import enums.base.DiZhi
-import enums.base.TianGan
 import kotlin.math.absoluteValue
 
 /**
@@ -11,7 +11,7 @@ import kotlin.math.absoluteValue
  * 包含天干地支之间生克合化的关系
  * 六合、三合、半合、三会、刑、冲、克、破
  */
-class StaticRelationalBaZi: IRelationalBaZi {
+class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
     private fun clearCache() {
         sixCombine.clear()
         threeCombine.clear()
@@ -22,7 +22,8 @@ class StaticRelationalBaZi: IRelationalBaZi {
         diZhiHurt.clear()
         diZhiDestroy.clear()
     }
-    fun updateBy(eightWords: EightWords) {
+    override fun updateBy(baZi: StaticBaZi) {
+        val eightWords = baZi.eightWords
         clearCache()
         // 天干六合检测
         for (main in 0..6 step 2)

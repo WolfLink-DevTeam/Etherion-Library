@@ -1,6 +1,9 @@
-package entities.bazi
+package entities.bazi.relations
 
-interface IRelationalBaZi {
+import entities.bazi.AbstractBaZi
+
+interface IBaZiRelation<T: AbstractBaZi> {
+    fun updateBy(baZi: T)
     /**
      * 获取六合元素索引
      */

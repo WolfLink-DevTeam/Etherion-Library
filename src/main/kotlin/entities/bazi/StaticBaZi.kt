@@ -1,5 +1,6 @@
 package entities.bazi
 
+import entities.bazi.relations.StaticBaZiRelation
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationRecord
 import entities.deviation.DeviationTable
@@ -19,15 +20,11 @@ import java.util.*
  */
 
 open class StaticBaZi(
-    val name: String = "",
-    val gender: Gender = Gender.MALE,
-    val birthplace: String = "",
-    fateCalendar: FateCalendar,
-    private val staticRelationalBaZi: StaticRelationalBaZi = StaticRelationalBaZi()
-) : AbstractBaZi(fateCalendar),IRelationalBaZi by staticRelationalBaZi {
-    init {
-        staticRelationalBaZi.updateBy(eightWords)
-    }
+    name: String = "",
+    gender: Gender = Gender.MALE,
+    birthplace: String = "",
+    fateCalendar: FateCalendar
+) : AbstractBaZi(name, gender, birthplace, fateCalendar, StaticBaZiRelation()) {
     override fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
@@ -148,15 +145,15 @@ open class StaticBaZi(
     }
 
 
-    private var wangShuaiValue: Pair<Double,Double>? = null
+    private var wangShuaiValue: Pair<Double, Double>? = null
     private var wangShuai: WangShuai? = null
 
     /**
      * 获取当前日主旺衰的具体值
      * Pair<HelpValue,restrainValue>
      */
-    override fun getWangShuaiValue(): Pair<Double,Double> {
-        if(wangShuaiValue == null) wangShuaiValue = BaZiInterpreter.calcWangShuaiValue(this)
+    override fun getWangShuaiValue(): Pair<Double, Double> {
+        if (wangShuaiValue == null) wangShuaiValue = BaZiInterpreter.calcWangShuaiValue(this)
         return wangShuaiValue!!
     }
 
@@ -166,7 +163,7 @@ open class StaticBaZi(
      * 动态盘为动态计算值，与流年大运有关
      */
     override fun getWangShuai(): WangShuai {
-        if(wangShuaiValue == null) getWangShuaiValue()
+        if (wangShuaiValue == null) getWangShuaiValue()
         wangShuai = BaZiInterpreter.calcWangShuai(wangShuaiValue!!)
         return wangShuai!!
     }
@@ -184,10 +181,14 @@ open class StaticBaZi(
             val solarMDH = SolarMDH(month + 1, day, hour)
             val totalHours = solarMDH.getTotalHours()
             // 立春附近检查
-            if (totalHours - SolarTerm.LiChun.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(DeviationRecord.LiChunDeviation)
+            if (totalHours - SolarTerm.LiChun.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(
+                DeviationRecord.LiChunDeviation
+            )
             // 节气附近检查
             for (solarTerm in SolarTerm.values()) {
-                if (totalHours - solarTerm.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(DeviationRecord.SolarTermDeviation)
+                if (totalHours - solarTerm.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(
+                    DeviationRecord.SolarTermDeviation
+                )
             }
             // 时辰分界线检查
             if (hour % 2 == 0 && min >= 55) deviationTable.add(DeviationRecord.HourDeviation)
