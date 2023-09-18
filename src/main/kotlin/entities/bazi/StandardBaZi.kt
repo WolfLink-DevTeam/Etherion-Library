@@ -24,7 +24,7 @@ open class StandardBaZi(
     val birthplace: String = "",
     val fateCalendar: FateCalendar
 ) {
-    val eightWords: List<GanZhiWord>
+    val eightWords: EightWords
     val yearPillar: BaZiPillar
     val monthPillar: BaZiPillar
     val dayPillar: BaZiPillar
@@ -36,16 +36,7 @@ open class StandardBaZi(
         this.monthPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
         this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
         this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
-        eightWords = listOf(
-            yearPillar.pillar.first,
-            yearPillar.pillar.second,
-            monthPillar.pillar.first,
-            monthPillar.pillar.second,
-            dayPillar.pillar.first,
-            dayPillar.pillar.second,
-            hourPillar.pillar.first,
-            hourPillar.pillar.second
-        )
+        eightWords = EightWords(yearPillar.pillar,monthPillar.pillar,dayPillar.pillar,hourPillar.pillar)
     }
 
     fun show() {
