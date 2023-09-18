@@ -9,8 +9,8 @@ import kotlin.math.min
  * 包含天干地支8字+流年大运4字
  */
 class TwelveWords(
-    val words: List<GanZhiWord>
-): List<GanZhiWord> by words {
+    words: List<GanZhiWord>
+): AbstractWords(words) {
     constructor(yearPillar: Pair<TianGan, DiZhi>,
                 monthPillar: Pair<TianGan, DiZhi>,
                 dayPillar: Pair<TianGan, DiZhi>,

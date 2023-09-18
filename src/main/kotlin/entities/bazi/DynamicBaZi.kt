@@ -1,5 +1,6 @@
 package entities.bazi
 
+import entities.bazi.relations.DynamicBaZiRelation
 import entities.bazi.relations.StaticBaZiRelation
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationTable
@@ -13,7 +14,7 @@ class DynamicBaZi(
     birthplace: String = "",
     fateCalendar: FateCalendar,
     val queryCalendar: Calendar
-) : AbstractBaZi(name, gender, birthplace, fateCalendar, StaticBaZiRelation()) {
+) : AbstractBaZi(name, gender, birthplace, fateCalendar, DynamicBaZiRelation()) {
     /**
      * 获取当前日主旺衰的具体值
      * Pair<HelpValue,restrainValue>

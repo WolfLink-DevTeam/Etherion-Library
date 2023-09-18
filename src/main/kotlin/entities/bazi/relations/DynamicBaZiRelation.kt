@@ -1,9 +1,16 @@
 package entities.bazi.relations
 
 import entities.bazi.DynamicBaZi
+import entities.bazi.packs.AbstractWords
+import entities.bazi.packs.TwelveWords
+import enums.base.GanZhiWord
 
-class DynamicBaZiRelation: IBaZiRelation<DynamicBaZi> {
-    override fun updateBy(baZi: DynamicBaZi) {
+class DynamicBaZiRelation: IBaZiRelation {
+    override fun clearCache() {
+        TODO("Not yet implemented")
+    }
+
+    override fun <T : AbstractWords> updateBy(words: T) {
         TODO("Not yet implemented")
     }
 

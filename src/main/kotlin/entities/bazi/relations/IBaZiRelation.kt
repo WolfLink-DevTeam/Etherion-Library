@@ -1,9 +1,11 @@
 package entities.bazi.relations
 
-import entities.bazi.AbstractBaZi
+import entities.bazi.packs.AbstractWords
 
-interface IBaZiRelation<T: AbstractBaZi> {
-    fun updateBy(baZi: T)
+interface IBaZiRelation {
+
+    fun clearCache()
+    fun <T: AbstractWords> updateBy(words: T)
     /**
      * 获取六合元素索引
      */

@@ -8,8 +8,8 @@ import enums.base.TianGan
  * 只包含简单的天干地支八个字
  */
 class EightWords(
-    val words: List<GanZhiWord>
-) : List<GanZhiWord> by words {
+    words: List<GanZhiWord>
+) : AbstractWords(words) {
     constructor(
         yearPillar: Pair<TianGan, DiZhi>,
         monthPillar: Pair<TianGan, DiZhi>,

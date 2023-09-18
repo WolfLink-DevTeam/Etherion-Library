@@ -14,8 +14,8 @@ abstract class AbstractBaZi(
     val gender: Gender = Gender.MALE,
     val birthplace: String = "",
     val fateCalendar: FateCalendar,
-    private val baziRelation: IBaZiRelation
-): IBaZiRelation by baziRelation {
+    private val baZiRelation: IBaZiRelation
+): IBaZiRelation by baZiRelation {
     val yearPillar: BaZiPillar
     val monthPillar: BaZiPillar
     val dayPillar: BaZiPillar
@@ -28,7 +28,7 @@ abstract class AbstractBaZi(
         this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
         this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
         eightWords = EightWords(yearPillar.pillar,monthPillar.pillar,dayPillar.pillar,hourPillar.pillar)
-        baziRelation.updateBy(eightWords)
+        baZiRelation.updateBy(eightWords)
     }
 
     /**

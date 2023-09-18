@@ -1,7 +1,9 @@
 package entities.bazi.relations
 
 import entities.bazi.StaticBaZi
+import entities.bazi.packs.AbstractWords
 import enums.base.DiZhi
+import enums.base.GanZhiWord
 import kotlin.math.absoluteValue
 
 /**
@@ -11,8 +13,8 @@ import kotlin.math.absoluteValue
  * 包含天干地支之间生克合化的关系
  * 六合、三合、半合、三会、刑、冲、克、破
  */
-class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
-    private fun clearCache() {
+class StaticBaZiRelation: IBaZiRelation {
+    override fun clearCache() {
         sixCombine.clear()
         threeCombine.clear()
         halfCombine.clear()
@@ -22,15 +24,14 @@ class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
         diZhiHurt.clear()
         diZhiDestroy.clear()
     }
-    override fun updateBy(baZi: StaticBaZi) {
-        val eightWords = baZi.eightWords
+    override fun <T : AbstractWords> updateBy(words: T) {
         clearCache()
         // 天干六合检测
         for (main in 0..6 step 2)
         {
             for (i in main+2..6 step 2)
             {
-                val deltaIndex = (eightWords[main].ordinal - eightWords[i].ordinal).absoluteValue
+                val deltaIndex = (words[main].ordinal - words[i].ordinal).absoluteValue
                 if(deltaIndex == 5)sixCombine.add(main to i)
             }
         }
@@ -39,7 +40,7 @@ class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
         {
             for (i in main+2..7 step 2)
             {
-                val totalIndex = eightWords[main].ordinal + eightWords[i].ordinal
+                val totalIndex = words[main].ordinal + words[i].ordinal
                 if(totalIndex == 1 || totalIndex == 13)sixCombine.add(main to i)
             }
         }
@@ -50,9 +51,9 @@ class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
             {
                 for (third in second+2..7 step 2)
                 {
-                    val firstDiZhi = eightWords[first]
-                    val secondDiZhi = eightWords[second]
-                    val thirdDiZhi = eightWords[third]
+                    val firstDiZhi = words[first]
+                    val secondDiZhi = words[second]
+                    val thirdDiZhi = words[third]
                     var delta1 = firstDiZhi.ordinal - secondDiZhi.ordinal
                     if(delta1 < 0)delta1 = 0 - delta1
                     if(delta1 > 4)delta1 -= 4
@@ -72,8 +73,8 @@ class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
         {
             out@for(second in first+2..7 step 2)
             {
-                val firstDiZhi = eightWords[first]
-                val secondDiZhi = eightWords[second]
+                val firstDiZhi = words[first]
+                val secondDiZhi = words[second]
                 var delta = (firstDiZhi.ordinal - secondDiZhi.ordinal).absoluteValue
                 if(delta > 4)delta -= 4
                 if(delta == 4 && (firstDiZhi in temp1 || secondDiZhi in temp1))
@@ -96,9 +97,9 @@ class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
             {
                 for(third in second+2..7 step 2)
                 {
-                    val firstDiZhi = eightWords[first]
-                    val secondDiZhi = eightWords[second]
-                    val thirdDiZhi = eightWords[third]
+                    val firstDiZhi = words[first]
+                    val secondDiZhi = words[second]
+                    val thirdDiZhi = words[third]
                     if(firstDiZhi == secondDiZhi || secondDiZhi == thirdDiZhi || firstDiZhi == thirdDiZhi)continue
 
                     val list = mutableListOf(firstDiZhi.ordinal,secondDiZhi.ordinal,thirdDiZhi.ordinal)
@@ -115,8 +116,8 @@ class StaticBaZiRelation: IBaZiRelation<StaticBaZi> {
         {
             for (second in first+2..7 step 2)
             {
-                val firstDiZhi = eightWords[first]
-                val secondDiZhi = eightWords[second]
+                val firstDiZhi = words[first]
+                val secondDiZhi = words[second]
                 val deltaIndex = (firstDiZhi.ordinal - secondDiZhi.ordinal).absoluteValue
                 if(deltaIndex == 6)sixConflict.add(first to second)
             }
