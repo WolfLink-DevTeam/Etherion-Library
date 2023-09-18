@@ -1,9 +1,7 @@
 package entities.bazi.relations
 
-import entities.bazi.StaticBaZi
 import entities.bazi.packs.AbstractWords
 import enums.base.DiZhi
-import enums.base.GanZhiWord
 import kotlin.math.absoluteValue
 
 /**

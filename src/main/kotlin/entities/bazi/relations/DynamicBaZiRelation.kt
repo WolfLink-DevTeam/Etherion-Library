@@ -1,9 +1,6 @@
 package entities.bazi.relations
 
-import entities.bazi.DynamicBaZi
 import entities.bazi.packs.AbstractWords
-import entities.bazi.packs.TwelveWords
-import enums.base.GanZhiWord
 
 class DynamicBaZiRelation: IBaZiRelation {
     override fun clearCache() {

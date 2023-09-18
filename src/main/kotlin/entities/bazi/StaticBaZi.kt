@@ -1,5 +1,7 @@
 package entities.bazi
 
+import entities.bazi.packs.AbstractWords
+import entities.bazi.packs.EightWords
 import entities.bazi.relations.StaticBaZiRelation
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationRecord
@@ -25,6 +27,12 @@ open class StaticBaZi(
     birthplace: String = "",
     fateCalendar: FateCalendar
 ) : AbstractBaZi(name, gender, birthplace, fateCalendar, StaticBaZiRelation()) {
+    override val words: EightWords = EightWords(
+        yearPillar.pillar,
+        monthPillar.pillar,
+        dayPillar.pillar,
+        hourPillar.pillar
+    )
     override fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
@@ -153,7 +161,7 @@ open class StaticBaZi(
      * Pair<HelpValue,restrainValue>
      */
     override fun getWangShuaiValue(): Pair<Double, Double> {
-        if (wangShuaiValue == null) wangShuaiValue = BaZiInterpreter.calcWangShuaiValue(this)
+        if (wangShuaiValue == null) wangShuaiValue = BaZiInterpreter.calcWangShuaiValue(words)
         return wangShuaiValue!!
     }
 

@@ -1,12 +1,16 @@
 package entities.bazi
 
+import entities.bazi.packs.AbstractWords
+import entities.bazi.packs.BaZiPillar
+import entities.bazi.packs.TwelveWords
 import entities.bazi.relations.DynamicBaZiRelation
-import entities.bazi.relations.StaticBaZiRelation
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationTable
 import enums.Gender
+import enums.base.DiZhi
+import enums.base.TianGan
 import enums.bazi.WangShuai
-import java.util.Calendar
+import java.util.*
 
 class DynamicBaZi(
     name: String = "",
@@ -15,6 +19,13 @@ class DynamicBaZi(
     fateCalendar: FateCalendar,
     val queryCalendar: Calendar
 ) : AbstractBaZi(name, gender, birthplace, fateCalendar, DynamicBaZiRelation()) {
+    // TODO 临时实现，请根据实际 queryCalendar 日期计算以获得，可以在 init 初始化块中完成相关任务
+    val majorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
+    val minorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
+
+    override val words: TwelveWords =
+        TwelveWords(yearPillar.pillar, monthPillar.pillar, dayPillar.pillar, hourPillar.pillar, majorLuckPillar.pillar, minorLuckPillar.pillar)
+
     /**
      * 获取当前日主旺衰的具体值
      * Pair<HelpValue,restrainValue>

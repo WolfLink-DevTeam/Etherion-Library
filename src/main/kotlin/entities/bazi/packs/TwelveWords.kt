@@ -3,7 +3,6 @@ package entities.bazi.packs
 import enums.base.DiZhi
 import enums.base.GanZhiWord
 import enums.base.TianGan
-import kotlin.math.min
 
 /**
  * 包含天干地支8字+流年大运4字

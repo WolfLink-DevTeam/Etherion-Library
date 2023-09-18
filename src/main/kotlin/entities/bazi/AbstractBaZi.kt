@@ -1,11 +1,14 @@
 package entities.bazi
 
+import entities.bazi.packs.AbstractWords
 import entities.bazi.packs.BaZiPillar
 import entities.bazi.packs.EightWords
 import entities.bazi.relations.IBaZiRelation
+import entities.bazi.relations.StaticBaZiRelation
 import entities.calendars.FateCalendar
 import entities.deviation.DeviationTable
 import enums.Gender
+import enums.base.TianGan
 import enums.bazi.WangShuai
 import org.jetbrains.annotations.TestOnly
 
@@ -16,21 +19,16 @@ abstract class AbstractBaZi(
     val fateCalendar: FateCalendar,
     private val baZiRelation: IBaZiRelation
 ): IBaZiRelation by baZiRelation {
-    val yearPillar: BaZiPillar
-    val monthPillar: BaZiPillar
-    val dayPillar: BaZiPillar
-    val hourPillar: BaZiPillar
-    val eightWords: EightWords
+    val master: TianGan = fateCalendar.getDayGanZhi().first
+    val yearPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getYearGanZhi())
+    val monthPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
+    val dayPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
+    val hourPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
+    abstract val words: AbstractWords
     init {
-        val master = fateCalendar.getDayGanZhi().first
-        yearPillar = BaZiPillar(master, fateCalendar.getYearGanZhi())
-        monthPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
-        this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
-        this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
-        eightWords = EightWords(yearPillar.pillar,monthPillar.pillar,dayPillar.pillar,hourPillar.pillar)
-        baZiRelation.updateBy(eightWords)
+        // TODO 不安全的调用方式
+        baZiRelation.updateBy(words)
     }
-
     /**
      * 获取当前日主旺衰的具体值
      * Pair<HelpValue,restrainValue>

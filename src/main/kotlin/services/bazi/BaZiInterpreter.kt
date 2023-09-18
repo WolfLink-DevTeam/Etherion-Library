@@ -1,6 +1,10 @@
 package services.bazi
 
+import entities.bazi.AbstractBaZi
 import entities.bazi.StaticBaZi
+import entities.bazi.packs.AbstractWords
+import entities.bazi.packs.EightWords
+import entities.bazi.packs.TwelveWords
 import enums.bazi.*
 
 /**
@@ -8,51 +12,93 @@ import enums.bazi.*
  */
 object BaZiInterpreter {
 
-
     /**
-     * 总和 0~99 便于映射
+     * 权重系数，会自动规范化，总和100为标准参考
+     * 10  12  0   12  15  15
+     * 8   40  14  10  15  15
+     * 年  月  日   时  大运 流年
      */
-    private val wangShuaiValueList = listOf(8,4,12,39,0,14,12,10)
+    private val wangShuaiValueList = listOf(10, 8, 12, 40, 0, 14, 12, 10, 15, 15, 15, 15)
 
-    fun calcWangShuaiValue(staticBaZi: StaticBaZi): Pair<Double,Double> {
-        val master = staticBaZi.eightWords[4]
+    fun calcWangShuaiValue(abstractWords: AbstractWords): Pair<Double, Double> = when (abstractWords) {
+        is TwelveWords -> calcWangShuaiValue(abstractWords)
+        is EightWords -> calcWangShuaiValue(abstractWords)
+        else -> (0.0 to 0.0)
+    }
+
+    private fun calcWangShuaiValue(twelveWords: TwelveWords): Pair<Double, Double> {
+        val master = twelveWords[4]
         var helpWeights = 0.0
         var restrainWeights = 0.0
-        for (index in 0..7) {
-            if(index == 3) continue // 暂时跳过月令
-            if(index == 4) continue // 跳过日主
-            val tripleRelation = (master relationTo staticBaZi.eightWords[index]).toList()
+        val normalizationValue = 100.0 / wangShuaiValueList.subList(0, twelveWords.size).reduce { a, b -> a + b }
+        for (index in 0..11) {
+            if (index == 3) continue // 暂时跳过月令
+            if (index == 4) continue // 跳过日主
+            val tripleRelation = (master relationTo twelveWords[index]).toList()
             for (relationIndex in 0..2) {
                 val power = MixedWuXing.powers[relationIndex]
                 val relation = tripleRelation[relationIndex]
 
-                helpWeights += (wangShuaiValueList[index] * power * relation.helpWeight)
-                restrainWeights += (wangShuaiValueList[index] * power * relation.restrainWeight)
+                helpWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.helpWeight)
+                restrainWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.restrainWeight)
             }
         }
-        val tripleRelation = (master relationTo staticBaZi.eightWords[3]).toList()
-        helpWeights += wangShuaiValueList[3] * tripleRelation[0].helpWeight * 0.8
-        helpWeights += wangShuaiValueList[3] * tripleRelation[1].helpWeight * 0.15
-        helpWeights += wangShuaiValueList[3] * tripleRelation[2].helpWeight * 0.05
-        restrainWeights += wangShuaiValueList[3] * tripleRelation[0].restrainWeight * 0.8
-        restrainWeights += wangShuaiValueList[3] * tripleRelation[1].restrainWeight * 0.15
-        restrainWeights += wangShuaiValueList[3] * tripleRelation[2].restrainWeight * 0.05
+        // 月令
+        val tripleRelation = (master relationTo twelveWords[3]).toList()
+        helpWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[0].helpWeight * 0.8
+        helpWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[1].helpWeight * 0.15
+        helpWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[2].helpWeight * 0.05
+        restrainWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[0].restrainWeight * 0.8
+        restrainWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[1].restrainWeight * 0.15
+        restrainWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[2].restrainWeight * 0.05
         //TODO
         println("助力值：${helpWeights.toInt()}")
         println("克制值：${restrainWeights.toInt()}")
 
         return helpWeights to restrainWeights
     }
+
+    private fun calcWangShuaiValue(eightWords: EightWords): Pair<Double, Double> {
+        val master = eightWords[4]
+        var helpWeights = 0.0
+        var restrainWeights = 0.0
+        val normalizationValue = 100.0 / wangShuaiValueList.subList(0, eightWords.size).reduce { a, b -> a + b }
+        for (index in 0..7) {
+            if (index == 3) continue // 暂时跳过月令
+            if (index == 4) continue // 跳过日主
+            val tripleRelation = (master relationTo eightWords[index]).toList()
+            for (relationIndex in 0..2) {
+                val power = MixedWuXing.powers[relationIndex]
+                val relation = tripleRelation[relationIndex]
+
+                helpWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.helpWeight)
+                restrainWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.restrainWeight)
+            }
+        }
+        // 月令
+        val tripleRelation = (master relationTo eightWords[3]).toList()
+        helpWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[0].helpWeight * 0.8
+        helpWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[1].helpWeight * 0.15
+        helpWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[2].helpWeight * 0.05
+        restrainWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[0].restrainWeight * 0.8
+        restrainWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[1].restrainWeight * 0.15
+        restrainWeights += wangShuaiValueList[3] * normalizationValue * tripleRelation[2].restrainWeight * 0.05
+        //TODO
+        println("助力值：${helpWeights.toInt()}")
+        println("克制值：${restrainWeights.toInt()}")
+
+        return helpWeights to restrainWeights
+    }
+
     /**
      * 定日主旺衰
-     * 8 12 0 12
-     * 4 40 14 10
      */
-    fun calcWangShuai(staticBaZi: StaticBaZi) : WangShuai {
-        val wangShuaiValue = calcWangShuaiValue(staticBaZi)
+    fun calcWangShuai(baZi: AbstractBaZi): WangShuai {
+        val wangShuaiValue = calcWangShuaiValue(baZi.words)
         return calcWangShuai(wangShuaiValue)
     }
-    fun calcWangShuai(wangShuaiValue: Pair<Double,Double>) : WangShuai {
+
+    fun calcWangShuai(wangShuaiValue: Pair<Double, Double>): WangShuai {
         val delta = wangShuaiValue.first - wangShuaiValue.second
         return when {
             delta >= 40 -> WangShuai.Wang
