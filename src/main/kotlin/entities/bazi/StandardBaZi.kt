@@ -5,7 +5,7 @@ import entities.deviation.DeviationRecord
 import entities.deviation.DeviationTable
 import entities.timeunits.SolarMDH
 import enums.Gender
-import enums.base.GanZhiWord
+import enums.bazi.WangShuai
 import enums.date.SolarTerm
 import services.bazi.BaZiInterpreter
 import java.util.*
@@ -22,23 +22,8 @@ open class StandardBaZi(
     val name: String = "",
     val gender: Gender = Gender.MALE,
     val birthplace: String = "",
-    val fateCalendar: FateCalendar
-) {
-    val eightWords: EightWords
-    val yearPillar: BaZiPillar
-    val monthPillar: BaZiPillar
-    val dayPillar: BaZiPillar
-    val hourPillar: BaZiPillar
-
-    init {
-        val master = fateCalendar.getDayGanZhi().first
-        this.yearPillar = BaZiPillar(master, fateCalendar.getYearGanZhi())
-        this.monthPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
-        this.dayPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
-        this.hourPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
-        eightWords = EightWords(yearPillar.pillar,monthPillar.pillar,dayPillar.pillar,hourPillar.pillar)
-    }
-
+    fateCalendar: FateCalendar
+) : AbstractBazi(fateCalendar) {
     fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
@@ -158,17 +143,19 @@ open class StandardBaZi(
 //        relationalBaZi.show()
     }
 
+    private var wangShuai: WangShuai? = null
     /**
-     * 检查四柱准确度详细信息
-     *
-     * 生辰时间是否在立春前后24小时内
-     * 月日是否临近节气前后24小时内
-     * 生辰历的时是否刚好处于单数时分界线附近30分钟
-     *
-     * 存偏概率 0 ~ 100
-     * 0为绝对不可能有误，100为绝对存在偏差
+     * 获取当前日主旺衰
+     * 静态盘为固定值
+     * 动态盘为动态计算值，与流年大运有关
      */
-    fun checkDeviation(): DeviationTable {
+    override fun getWangShuai(): WangShuai {
+        if(wangShuai == null) wangShuai = BaZiInterpreter.calcWangShuai(this)
+        return wangShuai!!
+    }
+
+
+    override fun checkDeviation(): DeviationTable {
         val deviationTable = DeviationTable()
         fateCalendar.solarCalendar.realCalendar.apply {
             // 太阳历时间对象

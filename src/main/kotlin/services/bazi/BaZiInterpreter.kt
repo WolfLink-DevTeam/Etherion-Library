@@ -13,12 +13,8 @@ object BaZiInterpreter {
      * 总和 0~99 便于映射
      */
     private val wangShuaiValueList = listOf(8,4,12,39,0,14,12,10)
-    /**
-     * 定日主旺衰
-     * 8 12 0 12
-     * 4 40 14 10
-     */
-    fun calcWangShuai(standardBaZi: StandardBaZi) : WangShuai {
+
+    fun calcWangShuaiValue(standardBaZi: StandardBaZi): Double {
         val master = standardBaZi.eightWords[4]
         var helpWeights = 0.0
         var restrainWeights = 0.0
@@ -45,12 +41,29 @@ object BaZiInterpreter {
         println("助力值：${helpWeights.toInt()}")
         println("克制值：${restrainWeights.toInt()}")
 
-        val delta = helpWeights - restrainWeights
+        return helpWeights - restrainWeights
+    }
+    /**
+     * 定日主旺衰
+     * 8 12 0 12
+     * 4 40 14 10
+     */
+    fun calcWangShuai(standardBaZi: StandardBaZi) : WangShuai {
+        val wangShuaiValue = calcWangShuaiValue(standardBaZi)
         return when {
-            delta >= 40 -> WangShuai.Wang
-            delta >= 15 -> WangShuai.Xiang
-            delta >= -10 -> WangShuai.Xiu
-            delta >= -35 -> WangShuai.Qiu
+            wangShuaiValue >= 40 -> WangShuai.Wang
+            wangShuaiValue >= 15 -> WangShuai.Xiang
+            wangShuaiValue >= -10 -> WangShuai.Xiu
+            wangShuaiValue >= -35 -> WangShuai.Qiu
+            else -> WangShuai.Si
+        }
+    }
+    fun calcWangShuai(wangShuaiValue: Double) : WangShuai {
+        return when {
+            wangShuaiValue >= 40 -> WangShuai.Wang
+            wangShuaiValue >= 15 -> WangShuai.Xiang
+            wangShuaiValue >= -10 -> WangShuai.Xiu
+            wangShuaiValue >= -35 -> WangShuai.Qiu
             else -> WangShuai.Si
         }
     }
