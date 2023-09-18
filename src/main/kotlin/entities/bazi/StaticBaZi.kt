@@ -18,12 +18,16 @@ import java.util.*
  * 详细的五行关系，生克合化等
  */
 
-open class StandardBaZi(
+open class StaticBaZi(
     val name: String = "",
     val gender: Gender = Gender.MALE,
     val birthplace: String = "",
-    fateCalendar: FateCalendar
-) : AbstractBazi(fateCalendar) {
+    fateCalendar: FateCalendar,
+    private val staticRelationalBaZi: StaticRelationalBaZi = StaticRelationalBaZi()
+) : AbstractBaZi(fateCalendar),IRelationalBaZi by staticRelationalBaZi {
+    init {
+        staticRelationalBaZi.updateBy(eightWords)
+    }
     override fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"

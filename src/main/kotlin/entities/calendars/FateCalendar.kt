@@ -1,6 +1,6 @@
 package entities.calendars
 
-import entities.bazi.StandardBaZi
+import entities.bazi.StaticBaZi
 import entities.timeunits.SolarMDH
 import enums.Gender
 import enums.base.DiZhi
@@ -63,8 +63,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     }
 
     // 将生辰历转为详细八字对象
-    fun toDetailBaZi(name: String, gender: Gender, birthplace: String): StandardBaZi {
-        return StandardBaZi(
+    fun toDetailBaZi(name: String, gender: Gender, birthplace: String): StaticBaZi {
+        return StaticBaZi(
             name,
             gender,
             birthplace,

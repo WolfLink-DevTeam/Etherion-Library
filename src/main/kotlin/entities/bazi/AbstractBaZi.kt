@@ -5,7 +5,7 @@ import entities.deviation.DeviationTable
 import enums.bazi.WangShuai
 import org.jetbrains.annotations.TestOnly
 
-abstract class AbstractBazi(
+abstract class AbstractBaZi(
     val fateCalendar: FateCalendar
 ) {
     val yearPillar: BaZiPillar

@@ -1,4 +1,4 @@
-import entities.bazi.StandardBaZi
+import entities.bazi.StaticBaZi
 import entities.calendars.FateCalendar
 import entities.calendars.SolarCalendar
 import enums.Gender
@@ -15,7 +15,7 @@ import java.util.*
  */
 data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,val min : Int,val longitude : Double,val baZi : String,val needDeviation : Boolean = true)
 {
-    private val baseBaZi : StandardBaZi
+    private val baseBaZi : StaticBaZi
     init {
         val calendar = Calendar.getInstance()
         // 这里的month 0代表1月

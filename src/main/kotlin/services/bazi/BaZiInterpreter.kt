@@ -1,6 +1,6 @@
 package services.bazi
 
-import entities.bazi.StandardBaZi
+import entities.bazi.StaticBaZi
 import enums.bazi.*
 
 /**
@@ -14,14 +14,14 @@ object BaZiInterpreter {
      */
     private val wangShuaiValueList = listOf(8,4,12,39,0,14,12,10)
 
-    fun calcWangShuaiValue(standardBaZi: StandardBaZi): Pair<Double,Double> {
-        val master = standardBaZi.eightWords[4]
+    fun calcWangShuaiValue(staticBaZi: StaticBaZi): Pair<Double,Double> {
+        val master = staticBaZi.eightWords[4]
         var helpWeights = 0.0
         var restrainWeights = 0.0
         for (index in 0..7) {
             if(index == 3) continue // 暂时跳过月令
             if(index == 4) continue // 跳过日主
-            val tripleRelation = (master relationTo standardBaZi.eightWords[index]).toList()
+            val tripleRelation = (master relationTo staticBaZi.eightWords[index]).toList()
             for (relationIndex in 0..2) {
                 val power = MixedWuXing.powers[relationIndex]
                 val relation = tripleRelation[relationIndex]
@@ -30,7 +30,7 @@ object BaZiInterpreter {
                 restrainWeights += (wangShuaiValueList[index] * power * relation.restrainWeight)
             }
         }
-        val tripleRelation = (master relationTo standardBaZi.eightWords[3]).toList()
+        val tripleRelation = (master relationTo staticBaZi.eightWords[3]).toList()
         helpWeights += wangShuaiValueList[3] * tripleRelation[0].helpWeight * 0.8
         helpWeights += wangShuaiValueList[3] * tripleRelation[1].helpWeight * 0.15
         helpWeights += wangShuaiValueList[3] * tripleRelation[2].helpWeight * 0.05
@@ -48,8 +48,8 @@ object BaZiInterpreter {
      * 8 12 0 12
      * 4 40 14 10
      */
-    fun calcWangShuai(standardBaZi: StandardBaZi) : WangShuai {
-        val wangShuaiValue = calcWangShuaiValue(standardBaZi)
+    fun calcWangShuai(staticBaZi: StaticBaZi) : WangShuai {
+        val wangShuaiValue = calcWangShuaiValue(staticBaZi)
         return calcWangShuai(wangShuaiValue)
     }
     fun calcWangShuai(wangShuaiValue: Pair<Double,Double>) : WangShuai {
@@ -69,11 +69,11 @@ object BaZiInterpreter {
      * 五行旺衰信息
      * 用神忌神信息
      */
-    fun overallEvaluation(standardBaZi: StandardBaZi) {
+    fun overallEvaluation(staticBaZi: StaticBaZi) {
         // 日主
-        val dayMaster = standardBaZi.dayPillar.pillar.first
+        val dayMaster = staticBaZi.dayPillar.pillar.first
         // 月令
-        val monthDecree = standardBaZi.monthPillar.pillar.second
+        val monthDecree = staticBaZi.monthPillar.pillar.second
     }
 
 }

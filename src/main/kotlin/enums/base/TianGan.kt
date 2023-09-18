@@ -16,6 +16,7 @@ enum class TianGan(@JvmField val chineseName : Char,
     Xin('辛', YinYang.Yin, WuXing.Jin),
     Ren('壬', YinYang.Yang, WuXing.Shui),
     Gui('癸', YinYang.Yin, WuXing.Shui);
+
     override fun getChineseName(): Char = chineseName
     override fun getWuXing(): Triple<WuXing, WuXing, WuXing> {
         return Triple(wuXing,wuXing,wuXing)
