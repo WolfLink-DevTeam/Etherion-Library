@@ -6,17 +6,30 @@ import java.io.FileReader
 
 enum class SolarTerm(val chineseName: String) {
     LiChun("立春"),
+    YuShui("雨水"),
     JingZhe("惊蛰"),
+    ChunFen("春分"),
     QingMing("清明"),
+    GuYu("谷雨"),
     LiXia("立夏"),
+    XiaoMan("小满"),
     MangZhong("芒种"),
+    XiaZhi("夏至"),
     XiaoShu("小暑"),
+    DaShu("大暑"),
     LiQiu("立秋"),
+    ChuShu("处暑"),
     BaiLu("白露"),
-    HanShuang("寒露"),
+    QiuFen("秋分"),
+    HanLu("寒露"),
+    ShuangJiang("霜降"),
     LiDong("立冬"),
+    XiaoXue("小雪"),
     DaXue("大雪"),
-    XiaoHan("小寒");
+    DongZhi("冬至"),
+    XiaoHan("小寒"),
+    DaHan("大寒")
+    ;
 
     fun getSolarMDH(year: Int): SolarMDH {
         val jieqi = this.chineseName
