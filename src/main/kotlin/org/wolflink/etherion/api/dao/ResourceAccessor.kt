@@ -1,8 +1,8 @@
-package org.wolflink.etherion.api.utils
+package org.wolflink.etherion.api.dao
 
 import java.io.InputStreamReader
 
-object ResourceUtil {
+object ResourceAccessor {
     /**
      * 加载项目资源文件
      * @param path  资源文件相对路径，例如 data/SolarDeviation

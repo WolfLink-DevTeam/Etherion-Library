@@ -1,7 +1,7 @@
 package org.wolflink.etherion.api.enums.date
 
 import org.wolflink.etherion.api.entities.timeunits.SolarMDH
-import org.wolflink.etherion.api.utils.ResourceUtil
+import org.wolflink.etherion.api.dao.ResourceAccessor
 import java.io.BufferedReader
 import java.io.FileReader
 import java.text.SimpleDateFormat
@@ -38,7 +38,7 @@ enum class SolarTerm(val chineseName: String) {
     private val exactTimeMap: Map<Int, Calendar>
 
     init {
-        val dataText = ResourceUtil.loadResource("data/solarterm/$name")
+        val dataText = ResourceAccessor.loadResource("data/solarterm/$name")
         if (dataText.isEmpty()) {
             println("节气 $chineseName 数据加载失败！")
             exactTimeMap = mutableMapOf()

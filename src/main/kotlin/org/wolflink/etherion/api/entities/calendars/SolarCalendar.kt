@@ -1,6 +1,6 @@
 package org.wolflink.etherion.api.entities.calendars
 
-import org.wolflink.etherion.api.utils.SolarDeviation
+import org.wolflink.etherion.api.dao.SolarDeviation
 import java.util.Calendar
 import kotlin.math.roundToInt
 
