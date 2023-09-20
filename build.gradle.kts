@@ -1,11 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-plugins {
-    kotlin("jvm") version "1.9.10"
-}
-
 group = "org.wolflink.etherion.api"
 version = "1.0-SNAPSHOT"
+val mainClassPath = "$group.Test"
+
+plugins {
+    kotlin("jvm") version "1.9.10"
+    application
+    id("com.github.johnrengelman.shadow") version ("8.1.1")
+}
+
+application {
+    mainClass.set(mainClassPath)
+}
 
 repositories {
     mavenLocal()
@@ -15,18 +22,16 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 }
-sourceSets {
-    main {
-        resources {
-            // Include src/assets folder
-            srcDir("src/resources")
-        }
-    }
-}
 tasks.test {
     useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = mainClassPath
+    }
 }

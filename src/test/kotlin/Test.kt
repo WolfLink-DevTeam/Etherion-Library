@@ -11,7 +11,7 @@ import java.util.*
 
 fun main()
 {
-    testBazi()
+//    testBazi()
 //    testPurpleStar(2004,3,14,0,20)
 }
 
