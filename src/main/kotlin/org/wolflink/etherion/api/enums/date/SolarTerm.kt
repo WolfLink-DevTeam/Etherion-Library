@@ -1,8 +1,11 @@
 package org.wolflink.etherion.api.enums.date
 
 import org.wolflink.etherion.api.entities.timeunits.SolarMDH
+import org.wolflink.etherion.api.utils.ResourceUtil
 import java.io.BufferedReader
 import java.io.FileReader
+import java.text.SimpleDateFormat
+import java.util.*
 
 enum class SolarTerm(val chineseName: String) {
     LiChun("立春"),
@@ -31,10 +34,33 @@ enum class SolarTerm(val chineseName: String) {
     DaHan("大寒")
     ;
 
+    private val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+    private val exactTimeMap: Map<Int, Calendar>
+
+    init {
+        val dataText = ResourceUtil.loadResource("data/solarterm/$name")
+        if (dataText.isEmpty()) {
+            println("节气 $chineseName 数据加载失败！")
+            exactTimeMap = mutableMapOf()
+        } else {
+            exactTimeMap = dataText.split('\n')
+                .filter { it.isNotEmpty() }.associate { line ->
+                    val calendar = Calendar.getInstance()
+                    calendar.time = format.parse(line)
+                    calendar.get(Calendar.YEAR) to calendar
+                }
+        }
+    }
+
+    /**
+     * 查询该节气在指定年份的准确日期
+     */
+    fun getExactTime(year: Int): Calendar = exactTimeMap[year]!!
+
     fun getSolarMDH(year: Int): SolarMDH {
         val jieqi = this.chineseName
-        if (year < 1900 || year > 2100) {
-            throw IllegalArgumentException("year out of range, must be between 1900 and 2100")
+        if (year < 1900 || year >= 2100) {
+            throw IllegalArgumentException("year out of range, must be between 1900 and 2099")
         }
         val fileName = "src/assets/jieqi_data/$year.json"
         val dataStr = file2String(fileName)

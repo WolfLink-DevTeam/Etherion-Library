@@ -1,3 +1,5 @@
+package org.wolflink.etherion.api
+
 import enums.date.SolarTerm
 
 fun main() {

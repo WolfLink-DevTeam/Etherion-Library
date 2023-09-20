@@ -1,16 +1,20 @@
-import entities.calendars.FateCalendar
-import entities.calendars.SolarCalendar
-import entities.purplestar.TianBoard
-import enums.Gender
-import enums.base.DiZhi
-import enums.base.TianGan
-import enums.bazi.ShiErChangSheng
-import enums.bazi.ShiShens
+package org.wolflink.etherion.api
+
+import org.wolflink.etherion.api.entities.calendars.FateCalendar
+import org.wolflink.etherion.api.entities.calendars.SolarCalendar
+import org.wolflink.etherion.api.entities.purplestar.TianBoard
+import org.wolflink.etherion.api.enums.Gender
+import org.wolflink.etherion.api.enums.base.DiZhi
+import org.wolflink.etherion.api.enums.base.TianGan
+import org.wolflink.etherion.api.enums.bazi.ShiErChangSheng
+import org.wolflink.etherion.api.enums.bazi.ShiShens
+import org.wolflink.etherion.api.enums.date.SolarTerm
 import java.util.*
 
 
 fun main()
 {
+    println(SolarTerm.BaiLu.getExactTime(2015).timeInMillis)
 //    testBazi()
 //    testPurpleStar(2004,3,14,0,20)
 }
