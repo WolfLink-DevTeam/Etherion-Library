@@ -35,25 +35,24 @@ enum class SolarTerm(val chineseName: String) {
     ;
 
     companion object {
-        private val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         /**
          * 查询给定日期最近的上一个节气
-         * @return 节气,相距日期
+         * @return 节气,相距时间(毫秒)
          */
-        fun lastSolarTerm(calendar: Calendar): Pair<SolarTerm,Calendar>
+        fun lastSolarTerm(calendar: Calendar): Pair<SolarTerm,Long>
         = findNearestSolarTerm(calendar,true)
         /**
          * 查询给定日期最近的下一个节气
-         * @return 节气,相距日期
+         * @return 节气,相距时间(毫秒)
          */
-        fun nextSolarTerm(calendar: Calendar): Pair<SolarTerm,Calendar>
+        fun nextSolarTerm(calendar: Calendar): Pair<SolarTerm,Long>
         = findNearestSolarTerm(calendar,false)
 
         /**
          * @param calendar  查询日期
          * @param reverse   是否逆向查找(是则为最近的上一个节气，否则为最近的下一个节气)
          */
-        private fun findNearestSolarTerm(calendar: Calendar,reverse: Boolean): Pair<SolarTerm,Calendar> {
+        private fun findNearestSolarTerm(calendar: Calendar,reverse: Boolean): Pair<SolarTerm,Long> {
             val year = calendar.get(Calendar.YEAR)
             var last: SolarTerm? = null
             var delta: Long = Long.MAX_VALUE
@@ -66,13 +65,10 @@ enum class SolarTerm(val chineseName: String) {
                     last = solarTerm
                 }
             }
-            return last!! to Calendar.getInstance().run {
-                timeInMillis = delta
-                this
-            }
+            return last!! to delta
         }
     }
-
+    private val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     private val exactTimeMap: Map<Int, Calendar>
 
     init {
