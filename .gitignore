@@ -5,7 +5,7 @@ build/
 !**/src/test/**/build/
 solar_deviation_config.wolf
 
-
+.idea/
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
