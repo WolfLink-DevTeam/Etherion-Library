@@ -34,7 +34,45 @@ enum class SolarTerm(val chineseName: String) {
     DaHan("大寒")
     ;
 
-    private val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+    companion object {
+        private val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        /**
+         * 查询给定日期最近的上一个节气
+         * @return 节气,相距日期
+         */
+        fun lastSolarTerm(calendar: Calendar): Pair<SolarTerm,Calendar>
+        = findNearestSolarTerm(calendar,true)
+        /**
+         * 查询给定日期最近的下一个节气
+         * @return 节气,相距日期
+         */
+        fun nextSolarTerm(calendar: Calendar): Pair<SolarTerm,Calendar>
+        = findNearestSolarTerm(calendar,false)
+
+        /**
+         * @param calendar  查询日期
+         * @param reverse   是否逆向查找(是则为最近的上一个节气，否则为最近的下一个节气)
+         */
+        private fun findNearestSolarTerm(calendar: Calendar,reverse: Boolean): Pair<SolarTerm,Calendar> {
+            val year = calendar.get(Calendar.YEAR)
+            var last: SolarTerm? = null
+            var delta: Long = Long.MAX_VALUE
+            for (solarTerm in entries) {
+                val tempDelta =
+                    if(reverse) calendar.timeInMillis - solarTerm.getExactTime(year).timeInMillis
+                    else solarTerm.getExactTime(year).timeInMillis - calendar.timeInMillis
+                if(tempDelta in 0..delta) {
+                    delta = tempDelta
+                    last = solarTerm
+                }
+            }
+            return last!! to Calendar.getInstance().run {
+                timeInMillis = delta
+                this
+            }
+        }
+    }
+
     private val exactTimeMap: Map<Int, Calendar>
 
     init {
