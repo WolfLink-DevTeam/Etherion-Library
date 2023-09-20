@@ -8,7 +8,12 @@ import org.wolflink.etherion.api.entities.deviation.DeviationTable
 import org.wolflink.etherion.api.enums.Gender
 import org.wolflink.etherion.api.enums.base.DiZhi
 import org.wolflink.etherion.api.enums.base.TianGan
+import org.wolflink.etherion.api.enums.base.YinYang
 import org.wolflink.etherion.api.enums.bazi.WangShuai
+import org.wolflink.etherion.api.enums.date.SolarTerm
+import org.wolflink.etherion.api.expansions.lastSolarTerm
+import org.wolflink.etherion.api.expansions.millsToHours
+import org.wolflink.etherion.api.expansions.nextSolarTerm
 import java.util.*
 
 class DynamicBaZi(
@@ -19,11 +24,32 @@ class DynamicBaZi(
     val queryCalendar: Calendar
 ) : AbstractBaZi(name, gender, birthplace, fateCalendar, DynamicBaZiRelation()) {
     // TODO 临时实现，请根据实际 queryCalendar 日期计算以获得，可以在 init 初始化块中完成相关任务
+    /**
+     * 大运柱
+     */
     val majorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
+
+    /**
+     * 流年柱
+     */
     val minorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
 
     override val words: TwelveWords =
         TwelveWords(yearPillar.pillar, monthPillar.pillar, dayPillar.pillar, hourPillar.pillar, majorLuckPillar.pillar, minorLuckPillar.pillar)
+
+    /**
+     * 起运时间(自出生起的小时数)
+     */
+    val luckStartHours: Int
+    init {
+        // 阳男阴女 顺数
+        if((words[0].getYinYang() == YinYang.Yang && gender == Gender.MALE)
+            || (words[0].getYinYang() == YinYang.Yin && gender == Gender.FEMALE)) {
+            luckStartHours = (120 * fateCalendar.solarCalendar.realCalendar.nextSolarTerm().second.millsToHours()).toInt()
+        } else {
+            luckStartHours = (120 * fateCalendar.solarCalendar.realCalendar.lastSolarTerm().second.millsToHours()).toInt()
+        }
+    }
 
     /**
      * 获取当前日主旺衰的具体值

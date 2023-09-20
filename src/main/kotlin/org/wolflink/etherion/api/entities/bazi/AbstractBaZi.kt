@@ -25,7 +25,7 @@ abstract class AbstractBaZi(
     abstract val words: AbstractWords
     init {
         // TODO 不安全的调用方式
-        baZiRelation.updateBy(words)
+//        baZiRelation.updateBy(words)
     }
     /**
      * 获取当前日主旺衰的具体值

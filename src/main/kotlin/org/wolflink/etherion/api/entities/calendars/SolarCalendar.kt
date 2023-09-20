@@ -19,6 +19,9 @@ import kotlin.math.roundToInt
  */
 data class SolarCalendar(private val calendar: Calendar,private val longitude : Double,private val needDeviation : Boolean = true)
 {
+    /**
+     * 原始日期Calendar对象(可能经过了真太阳时校准，存在几分钟偏差)
+     */
     val realCalendar : Calendar = calendar.clone() as Calendar
 
     init {
@@ -26,7 +29,8 @@ data class SolarCalendar(private val calendar: Calendar,private val longitude : 
         val month = realCalendar.get(Calendar.MONTH)
         val day = realCalendar.get(Calendar.DAY_OF_MONTH)
         if(needDeviation) realCalendar.add(Calendar.SECOND, SolarDeviation.getDeviation(month + 1, day))
-        realCalendar.add(Calendar.SECOND, ((longitude - 120) * 240).roundToInt())
+        // 以出生地时间为准，不需要使用北京时间，以下代码废弃
+//        realCalendar.add(Calendar.SECOND, ((longitude - 120) * 240).roundToInt())
     }
 
     fun show()
