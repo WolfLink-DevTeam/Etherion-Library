@@ -15,7 +15,14 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 }
-
+sourceSets {
+    main {
+        resources {
+            // Include src/assets folder
+            srcDir("src/resources")
+        }
+    }
+}
 tasks.test {
     useJUnitPlatform()
 }

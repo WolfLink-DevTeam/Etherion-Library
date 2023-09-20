@@ -18,7 +18,6 @@ class StandardBazi {
     var luckValue: Double = 0.0
     // 日主旺衰
     lateinit var wangShuai: WangShuai
-    //
 
     val sixCombine : MutableList<Pair<Int,Int>> = mutableListOf()
     // 地支三合坐标
