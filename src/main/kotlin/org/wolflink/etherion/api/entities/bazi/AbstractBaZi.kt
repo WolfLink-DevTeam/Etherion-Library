@@ -15,6 +15,7 @@ abstract class AbstractBaZi(
     val gender: Gender = Gender.MALE,
     val birthplace: String = "",
     val fateCalendar: FateCalendar,
+    val words: AbstractWords,
     private val baZiRelation: IBaZiRelation
 ): IBaZiRelation by baZiRelation {
     val master: TianGan = fateCalendar.getDayGanZhi().first
@@ -22,10 +23,9 @@ abstract class AbstractBaZi(
     val monthPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
     val dayPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
     val hourPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
-    abstract val words: AbstractWords
     init {
         // TODO 不安全的调用方式
-//        baZiRelation.updateBy(words)
+        baZiRelation.updateBy(words)
     }
     /**
      * 获取当前日主旺衰的具体值

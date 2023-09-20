@@ -2,6 +2,7 @@ package org.wolflink.etherion.api.enums.base
 
 import org.wolflink.etherion.api.enums.bazi.MixedWuXing
 import org.wolflink.etherion.api.enums.bazi.WuXing
+import kotlin.enums.EnumEntries
 
 enum class DiZhi(
     @JvmField val chineseName: Char,
@@ -21,6 +22,7 @@ enum class DiZhi(
     Xu('戌', YinYang.Yang, MixedWuXing(TianGan.Wu, TianGan.Xin, TianGan.Ding)),
     Hai('亥', YinYang.Yin, MixedWuXing(TianGan.Ren, TianGan.Jia, TianGan.Ren));
 
+    override val entries: EnumEntries<*> = DiZhi.entries
     override fun getChineseName(): Char = chineseName
     override fun getWuXing(): Triple<WuXing, WuXing, WuXing> = mixedWuXing.getWuXing()
     override fun getYinYang(): YinYang = yinYang

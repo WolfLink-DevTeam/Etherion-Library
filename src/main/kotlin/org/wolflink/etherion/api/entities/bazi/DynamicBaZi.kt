@@ -17,38 +17,41 @@ import org.wolflink.etherion.api.expansions.nextSolarTerm
 import java.util.*
 
 class DynamicBaZi(
-    name: String = "",
-    gender: Gender = Gender.MALE,
-    birthplace: String = "",
-    fateCalendar: FateCalendar,
-    val queryCalendar: Calendar
-) : AbstractBaZi(name, gender, birthplace, fateCalendar, DynamicBaZiRelation()) {
+    val staticBaZi: StaticBaZi,
+    val queryYear: Int
+) : AbstractBaZi(staticBaZi.name, staticBaZi.gender, staticBaZi.birthplace, staticBaZi.fateCalendar,TwelveWords(staticBaZi.fateCalendar), DynamicBaZiRelation()) {
     // TODO 临时实现，请根据实际 queryCalendar 日期计算以获得，可以在 init 初始化块中完成相关任务
     /**
      * 大运柱
      */
-    val majorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
+    val majorLuckPillar: BaZiPillar
 
     /**
      * 流年柱
      */
     val minorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
 
-    override val words: TwelveWords =
-        TwelveWords(yearPillar.pillar, monthPillar.pillar, dayPillar.pillar, hourPillar.pillar, majorLuckPillar.pillar, minorLuckPillar.pillar)
 
     /**
      * 起运时间(自出生起的小时数)
      */
     val luckStartHours: Int
     init {
-        // 阳男阴女 顺数
-        if((words[0].getYinYang() == YinYang.Yang && gender == Gender.MALE)
-            || (words[0].getYinYang() == YinYang.Yin && gender == Gender.FEMALE)) {
-            luckStartHours = (120 * fateCalendar.solarCalendar.realCalendar.nextSolarTerm().second.millsToHours()).toInt()
+        val needReverse = needReverse()
+        // 阴男阳女 倒排
+        luckStartHours = if(needReverse) {
+            (120 * fateCalendar.solarCalendar.realCalendar.lastSolarTerm().second.millsToHours()).toInt()
         } else {
-            luckStartHours = (120 * fateCalendar.solarCalendar.realCalendar.lastSolarTerm().second.millsToHours()).toInt()
+            (120 * fateCalendar.solarCalendar.realCalendar.nextSolarTerm().second.millsToHours()).toInt()
         }
+        // 起运时间
+        val startCalendar = fateCalendar.solarCalendar.realCalendar.clone() as Calendar
+        startCalendar.add(Calendar.HOUR,luckStartHours)
+
+        val startYear = startCalendar[Calendar.YEAR]
+        val index = queryYear - startYear
+        majorLuckPillar = if(needReverse) BaZiPillar(master,monthPillar.pillar.first.last(index) as TianGan to monthPillar.pillar.second.last(index) as DiZhi)
+        else BaZiPillar(master,monthPillar.pillar.first.next(index) as TianGan to monthPillar.pillar.second.next(index) as DiZhi)
     }
 
     /**
@@ -78,14 +81,20 @@ class DynamicBaZi(
      * 存偏概率 0 ~ 100
      * 0为绝对不可能有误，100为绝对存在偏差
      */
-    override fun checkDeviation(): DeviationTable {
-        TODO("Not yet implemented")
-    }
+    override fun checkDeviation(): DeviationTable = staticBaZi.checkDeviation()
 
     /**
      * 展示命盘信息
      */
     override fun show() {
         TODO("Not yet implemented")
+    }
+    /**
+     * 需要逆排大运流年
+     */
+    private fun needReverse(): Boolean {
+        val yearTianGan = words[0]
+        return !((gender == Gender.MALE && yearTianGan.getYinYang() == YinYang.Yang)
+                || (gender == Gender.FEMALE && yearTianGan.getYinYang() == YinYang.Yin))
     }
 }

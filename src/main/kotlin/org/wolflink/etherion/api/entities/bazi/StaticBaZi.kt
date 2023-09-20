@@ -25,13 +25,7 @@ open class StaticBaZi(
     gender: Gender = Gender.MALE,
     birthplace: String = "",
     fateCalendar: FateCalendar
-) : AbstractBaZi(name, gender, birthplace, fateCalendar, StaticBaZiRelation()) {
-    override val words: EightWords = EightWords(
-        yearPillar.pillar,
-        monthPillar.pillar,
-        dayPillar.pillar,
-        hourPillar.pillar
-    )
+) : AbstractBaZi(name, gender, birthplace, fateCalendar,EightWords(fateCalendar) ,StaticBaZiRelation()) {
     override fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
