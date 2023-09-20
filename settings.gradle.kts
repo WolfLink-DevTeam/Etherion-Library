@@ -1,3 +1,3 @@
 
-rootProject.name = "WolfLink-FateCore"
+rootProject.name = "Etherion-API"
 
