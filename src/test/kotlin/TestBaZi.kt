@@ -13,7 +13,7 @@ import java.util.*
  * @param baZi          八字，用于纠正结果
  * @param needDeviation 是否需要微调真太阳时
  */
-data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,val min : Int,val longitude : Double,val baZi : String,val needDeviation : Boolean = true)
+data class TestBaZi(val year : Int, val month : Int, val day : Int, val hour : Int, val min : Int, val longitude : Double, val baZi : String, val gender: Gender = Gender.MALE, val needDeviation : Boolean = true)
 {
     private val baseBaZi : StaticBaZi
     init {
@@ -22,7 +22,7 @@ data class TestBaZi(val year : Int,val month : Int,val day : Int,val hour : Int,
         calendar.set(year,month-1,day,hour,min)
         val solarCalendar = SolarCalendar(calendar,longitude,needDeviation)
         val fateCalendar = FateCalendar(solarCalendar)
-        baseBaZi = fateCalendar.toDetailBaZi("无名", Gender.MALE,"未知地")
+        baseBaZi = fateCalendar.toDetailBaZi("无名", gender,"未知地")
     }
 
     companion object{
