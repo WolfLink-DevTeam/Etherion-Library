@@ -9,7 +9,9 @@ interface GanZhiWord {
     val ordinal: Int
 
     fun last(index: Int):GanZhiWord {
-        return entries[(ordinal - index) % entries.size + entries.size] as GanZhiWord
+        var resultIndex = (ordinal - index) % entries.size
+        if(resultIndex < 0) resultIndex += entries.size
+        return entries[resultIndex] as GanZhiWord
     }
     fun next(index: Int):GanZhiWord {
         return entries[(ordinal + index) % entries.size] as GanZhiWord
