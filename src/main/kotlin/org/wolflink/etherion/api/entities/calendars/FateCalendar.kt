@@ -1,14 +1,12 @@
 package org.wolflink.etherion.api.entities.calendars
 
 import org.wolflink.etherion.api.entities.bazi.StaticBaZi
-import org.wolflink.etherion.api.entities.timeunits.SolarMDH
 import org.wolflink.etherion.api.enums.Gender
 import org.wolflink.etherion.api.enums.base.DiZhi
 import org.wolflink.etherion.api.enums.base.TianGan
 import org.wolflink.etherion.api.enums.date.Month
 import org.wolflink.etherion.api.enums.date.SolarTerm
 import org.wolflink.etherion.api.expansions.inRange
-import org.wolflink.etherion.api.expansions.show
 import java.util.*
 
 /*
@@ -62,8 +60,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
             return monthGan to monthZhi
         }
         // 获取日天干 日地支
-        fun getDayGanZhi(solarYear: Int, solarMonth: Int, fateDay: Int): Pair<TianGan, DiZhi> {
-            val index = ((solarYear - 1) * 5 + (solarYear - 1) / 4 + Month.getDays(solarYear, solarMonth + 1, fateDay)) % 60
+        fun getDayGanZhi(fateYear: Int, fateMonth: Int, fateDay: Int): Pair<TianGan, DiZhi> {
+            val index = ((fateYear - 1) * 5 + (fateYear - 1) / 4 + Month.getDays(fateYear, fateMonth, fateDay)) % 60
             val tianGanIndex = if (index % 10 == 0) 10 else index % 10
             val diZhiIndex = if (index % 12 == 0) 12 else index % 12
             val tianGan = TianGan.entries[tianGanIndex - 1]
@@ -77,8 +75,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
          * 丙辛从戊起，丁壬庚子居
          * 戊癸何方发，壬子是真途
          */
-        fun getHourGanZhi(solarYear: Int, solarMonth: Int, fateDay: Int, fateHour: Int): Pair<TianGan, DiZhi> {
-            val dayColumn = getDayGanZhi(solarYear,solarMonth,fateDay)
+        fun getHourGanZhi(solarYear: Int, fateMonth: Int, fateDay: Int, fateHour: Int): Pair<TianGan, DiZhi> {
+            val dayColumn = getDayGanZhi(solarYear,fateMonth,fateDay)
             val offset = ((fateHour + 1) % 24) / 2
             val diZhi: DiZhi = DiZhi.entries[offset % 12]
             val tianGan: TianGan = when (dayColumn.first) {
@@ -120,17 +118,22 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 
     init {
 
-        // 太阳历时间对象
-        val calendar = solarCalendar.realCalendar
+        // 生辰历时间对象，年份跟立春有关
+        val calendar = solarCalendar.realCalendar.clone() as Calendar
         val year = calendar.get(Calendar.YEAR)
         //是否达到立春
         fateYear = if (calendar >= SolarTerm.LiChun.getExactTime(year)) year else year - 1
+        calendar.set(Calendar.YEAR,fateYear)
         val solarTerms = SolarTerm.entries.toTypedArray()
 
         for (i in solarTerms.indices step 2) {
-            val start = solarTerms[i].getExactTime(fateYear)
-            val end = solarTerms[(i + 2) % solarTerms.size].getExactTime(fateYear)
-            if (calendar.inRange(start, end)) fateMonth = i/2 + 1
+            val startTerm = solarTerms[i]
+            val endTerm = solarTerms[(i+2)%solarTerms.size]
+            val start = startTerm.getExactTime(fateYear)
+            val end = endTerm.getExactTime(fateYear)
+            if (calendar.inRange(start, end)) {
+                fateMonth = i/2 + 1
+            }
 //          else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
 
@@ -152,6 +155,6 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     }
     fun getYearGanZhi(): Pair<TianGan, DiZhi> = Companion.getYearGanZhi(fateYear)
     fun getMonthGanZhi(): Pair<TianGan, DiZhi> = Companion.getMonthGanZhi(fateYear,fateMonth)
-    fun getDayGanZhi(): Pair<TianGan, DiZhi> = Companion.getDayGanZhi(solarCalendar.realCalendar[Calendar.YEAR],solarCalendar.realCalendar[Calendar.MONTH],fateDay)
-    fun getHourGanZhi(): Pair<TianGan, DiZhi> = getHourGanZhi(solarCalendar.realCalendar[Calendar.YEAR],solarCalendar.realCalendar[Calendar.MONTH],fateDay,fateHour)
+    fun getDayGanZhi(): Pair<TianGan, DiZhi> = Companion.getDayGanZhi(fateYear,fateMonth,fateDay)
+    fun getHourGanZhi(): Pair<TianGan, DiZhi> = getHourGanZhi(fateYear,fateMonth,fateDay,fateHour)
 }

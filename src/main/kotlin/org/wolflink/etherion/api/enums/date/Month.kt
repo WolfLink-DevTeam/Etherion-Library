@@ -12,8 +12,8 @@ enum class Month(val dayCount: Int) {
     companion object {
         fun getDays(year: Int, month: Int, day: Int): Int {
             var result = day
-            for (i in 0 until month - 1) {
-                result += values()[i].dayCount
+            for (i in 0 until month) {
+                result += entries[i].dayCount
             }
             if (year % 4 == 0 && year % 100 != 0) return result + 1
             if (year % 400 == 0) return result + 1
