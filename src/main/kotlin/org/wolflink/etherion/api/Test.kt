@@ -14,13 +14,14 @@ object Test {
     @JvmStatic
     fun main(args: Array<String>) {
         val calendar = Calendar.getInstance()
-        calendar.set(2002,10,21,20,45)
+        calendar.set(2000,11,25,15,18)
         val staticBaZi = StaticBaZi(fateCalendar = FateCalendar(SolarCalendar(calendar,120.0,false)))
-        staticBaZi.show()
+        println(staticBaZi.getWangShuaiValue())
         DynamicBaZi(staticBaZi).apply {
-            println((words as TwelveWords).extraFourWords!!)
+            println(getWangShuaiValue())
+            println((words as TwelveWords))
             queryYear = 2085
-            println((words as TwelveWords).extraFourWords!!)
+            println((words as TwelveWords))
         }
 
     }

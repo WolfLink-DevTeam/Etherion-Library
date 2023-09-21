@@ -8,7 +8,7 @@ import org.wolflink.etherion.api.enums.base.GanZhiWord
 enum class WuXingRelation(val chineseName: String,val helpWeight: Double,val restrainWeight: Double) {
     ShengWo("生我",0.75,-0.25),
     WoSheng("我生",-0.25,-0.25),
-    KeWo("克我",0.0,1.0),
+    KeWo("克我",0.0,+1.0),
     WoKe("我克",-0.5,+0.5),
     TongWo("同我",+1.0,0.0);
 }

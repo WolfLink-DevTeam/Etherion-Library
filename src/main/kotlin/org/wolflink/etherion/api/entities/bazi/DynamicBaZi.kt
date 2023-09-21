@@ -1,5 +1,6 @@
 package org.wolflink.etherion.api.entities.bazi
 
+import org.wolflink.etherion.api.bazi.BaZiInterpreter
 import org.wolflink.etherion.api.entities.bazi.packs.BaZiPillar
 import org.wolflink.etherion.api.entities.bazi.packs.TwelveWords
 import org.wolflink.etherion.api.entities.bazi.relations.DynamicBaZiRelation
@@ -13,6 +14,7 @@ import org.wolflink.etherion.api.enums.bazi.WangShuai
 import org.wolflink.etherion.api.enums.date.SolarTerm
 import org.wolflink.etherion.api.expansions.*
 import java.util.*
+import kotlin.math.min
 
 class DynamicBaZi(
     val staticBaZi: StaticBaZi
@@ -42,12 +44,7 @@ class DynamicBaZi(
         majorLuckPillar = if(needReverse()) BaZiPillar(master,monthPillar.pillar.first.last(index) as TianGan to monthPillar.pillar.second.last(index) as DiZhi)
         else BaZiPillar(master,monthPillar.pillar.first.next(index) as TianGan to monthPillar.pillar.second.next(index) as DiZhi)
         minorLuckPillar = BaZiPillar(master,FateCalendar.getYearGanZhi(queryYear))
-        (words as TwelveWords).extraFourWords = listOf(
-            majorLuckPillar.pillar.first,
-            majorLuckPillar.pillar.second,
-            minorLuckPillar.pillar.first,
-            minorLuckPillar.pillar.second
-        )
+        (words as TwelveWords).updateLuckPillars(majorLuckPillar, minorLuckPillar)
     }
 
     /**
@@ -73,7 +70,7 @@ class DynamicBaZi(
      * Pair<HelpValue,restrainValue>
      */
     override fun getWangShuaiValue(): Pair<Double, Double> {
-        TODO("Not yet implemented")
+        return BaZiInterpreter.calcWangShuaiValue(words)
     }
 
     /**

@@ -29,7 +29,6 @@ object BaZiInterpreter {
             for (relationIndex in 0..2) {
                 val power = MixedWuXing.powers[relationIndex]
                 val relation = tripleRelation[relationIndex]
-
                 helpWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.helpWeight)
                 restrainWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.restrainWeight)
             }

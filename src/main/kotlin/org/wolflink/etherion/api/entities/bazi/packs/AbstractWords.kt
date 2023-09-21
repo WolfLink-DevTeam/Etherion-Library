@@ -7,7 +7,7 @@ import org.wolflink.etherion.api.enums.base.TianGan
 
 abstract class AbstractWords(
     val fateCalendar: FateCalendar,
-    val eightWords: List<GanZhiWord>
+    protected val eightWords: List<GanZhiWord>
 ): List<GanZhiWord> by eightWords {
     constructor(fateCalendar: FateCalendar): this(
         fateCalendar,
