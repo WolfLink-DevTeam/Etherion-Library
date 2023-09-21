@@ -7,6 +7,9 @@ import java.io.FileReader
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * 节令索引能被2整除
+ */
 enum class SolarTerm(val chineseName: String) {
     LiChun("立春"),
     YuShui("雨水"),
@@ -36,23 +39,12 @@ enum class SolarTerm(val chineseName: String) {
 
     companion object {
         /**
-         * 查询给定日期最近的上一个节气
-         * @return 节气,相距时间(毫秒)
-         */
-        fun lastSolarTerm(calendar: Calendar): Pair<SolarTerm,Long>
-        = findNearestSolarTerm(calendar,true)
-        /**
-         * 查询给定日期最近的下一个节气
-         * @return 节气,相距时间(毫秒)
-         */
-        fun nextSolarTerm(calendar: Calendar): Pair<SolarTerm,Long>
-        = findNearestSolarTerm(calendar,false)
-
-        /**
+         * 查询节气(24节气)
+         *
          * @param calendar  查询日期
          * @param reverse   是否逆向查找(是则为最近的上一个节气，否则为最近的下一个节气)
          */
-        private fun findNearestSolarTerm(calendar: Calendar,reverse: Boolean): Pair<SolarTerm,Long> {
+        fun findNearestSolarTerm(calendar: Calendar,reverse: Boolean): Pair<SolarTerm,Long> {
             val year = calendar.get(Calendar.YEAR)
             var last: SolarTerm? = null
             var delta: Long = Long.MAX_VALUE
@@ -60,12 +52,38 @@ enum class SolarTerm(val chineseName: String) {
                 val tempDelta =
                     if(reverse) calendar.timeInMillis - solarTerm.getExactTime(year).timeInMillis
                     else solarTerm.getExactTime(year).timeInMillis - calendar.timeInMillis
-                if(tempDelta in 0..delta) {
+                if(tempDelta in 1..delta) {
                     delta = tempDelta
                     last = solarTerm
                 }
             }
-            return last!! to delta
+            if(last == null) {
+                if(reverse) {
+                    last = DongZhi
+                    delta = calendar.timeInMillis - DongZhi.getExactTime(year-1).timeInMillis
+                } else {
+                    last = XiaoHan
+                    delta = XiaoHan.getExactTime(year+1).timeInMillis - calendar.timeInMillis
+                }
+            }
+            return last to delta
+        }
+
+        /**
+         * 查询节令(12节气)
+         *
+         * @param calendar  查询日期
+         * @param reverse   是否倒序查询
+         */
+        fun findNearestSolarSeason(calendar: Calendar,reverse: Boolean): Pair<SolarTerm,Long> {
+            val pair1 = findNearestSolarTerm(calendar,reverse)
+            // 是节令
+            return if(pair1.first.ordinal % 2 == 0) pair1
+            // 不是节令
+            else {
+                val pair2 = findNearestSolarTerm(pair1.first.getExactTime(calendar[Calendar.YEAR]),reverse)
+                pair2.first to pair2.second + pair1.second
+            }
         }
     }
     private val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

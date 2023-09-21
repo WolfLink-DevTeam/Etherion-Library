@@ -11,9 +11,7 @@ import org.wolflink.etherion.api.enums.base.TianGan
 import org.wolflink.etherion.api.enums.base.YinYang
 import org.wolflink.etherion.api.enums.bazi.WangShuai
 import org.wolflink.etherion.api.enums.date.SolarTerm
-import org.wolflink.etherion.api.expansions.lastSolarTerm
-import org.wolflink.etherion.api.expansions.millsToHours
-import org.wolflink.etherion.api.expansions.nextSolarTerm
+import org.wolflink.etherion.api.expansions.*
 import java.util.*
 
 class DynamicBaZi(
@@ -40,7 +38,7 @@ class DynamicBaZi(
     val startLuckCalendar: Calendar
     private fun updateLuckPillars(queryYear: Int) {
         val startYear = startLuckCalendar[Calendar.YEAR]
-        val index = queryYear - startYear
+        val index = (queryYear - startYear) / 10 + 1
         majorLuckPillar = if(needReverse()) BaZiPillar(master,monthPillar.pillar.first.last(index) as TianGan to monthPillar.pillar.second.last(index) as DiZhi)
         else BaZiPillar(master,monthPillar.pillar.first.next(index) as TianGan to monthPillar.pillar.second.next(index) as DiZhi)
         minorLuckPillar = BaZiPillar(master,FateCalendar.getYearGanZhi(queryYear))
@@ -59,9 +57,9 @@ class DynamicBaZi(
     init {
         // 阴男阳女 倒排
         luckStartHours = if(needReverse()) {
-            (120 * fateCalendar.solarCalendar.realCalendar.lastSolarTerm().second.millsToHours()).toInt()
+            (120 * fateCalendar.solarCalendar.realCalendar.lastSolarSeason().second.millsToHours()).toInt()
         } else {
-            (120 * fateCalendar.solarCalendar.realCalendar.nextSolarTerm().second.millsToHours()).toInt()
+            (120 * fateCalendar.solarCalendar.realCalendar.nextSolarSeason().second.millsToHours()).toInt()
         }
         // 起运时间
         startLuckCalendar = fateCalendar.solarCalendar.realCalendar.clone() as Calendar
