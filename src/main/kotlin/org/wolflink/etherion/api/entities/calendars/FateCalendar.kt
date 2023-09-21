@@ -7,6 +7,8 @@ import org.wolflink.etherion.api.enums.base.DiZhi
 import org.wolflink.etherion.api.enums.base.TianGan
 import org.wolflink.etherion.api.enums.date.Month
 import org.wolflink.etherion.api.enums.date.SolarTerm
+import org.wolflink.etherion.api.expansions.inRange
+import org.wolflink.etherion.api.expansions.show
 import java.util.*
 
 /*
@@ -119,24 +121,16 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     init {
 
         // 太阳历时间对象
-        val year = solarCalendar.realCalendar.get(Calendar.YEAR)
-        val month = solarCalendar.realCalendar.get(Calendar.MONTH)
-        val day = solarCalendar.realCalendar.get(Calendar.DAY_OF_MONTH)
-        val hour = solarCalendar.realCalendar.get(Calendar.HOUR_OF_DAY)
-
-        val solarMDH = SolarMDH(month + 1, day, hour)
-
+        val calendar = solarCalendar.realCalendar
+        val year = calendar.get(Calendar.YEAR)
         //是否达到立春
-        fateYear = if (solarMDH >= SolarTerm.LiChun.getSolarMDH(year)) year else year - 1
+        fateYear = if (calendar >= SolarTerm.LiChun.getExactTime(year)) year else year - 1
         val solarTerms = SolarTerm.entries.toTypedArray()
 
         for (i in solarTerms.indices step 2) {
-            if (solarMDH.inRange(
-                    solarTerms[i].getSolarMDH(fateYear),
-                    solarTerms[(i + 2) % solarTerms.size].getSolarMDH(fateYear)
-                )
-            ) fateMonth =
-                i/2 + 1
+            val start = solarTerms[i].getExactTime(fateYear)
+            val end = solarTerms[(i + 2) % solarTerms.size].getExactTime(fateYear)
+            if (calendar.inRange(start, end)) fateMonth = i/2 + 1
 //          else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
 

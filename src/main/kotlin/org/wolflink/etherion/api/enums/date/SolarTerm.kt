@@ -68,7 +68,7 @@ enum class SolarTerm(val chineseName: String) {
             return last!! to delta
         }
     }
-    private val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+    private val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private val exactTimeMap: Map<Int, Calendar>
 
     init {
