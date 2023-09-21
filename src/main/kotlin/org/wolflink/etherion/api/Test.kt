@@ -1,6 +1,7 @@
 package org.wolflink.etherion.api
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import org.wolflink.etherion.api.bazi.BaZiInterpreter
 import org.wolflink.etherion.api.entities.bazi.DynamicBaZi
 import org.wolflink.etherion.api.entities.bazi.StaticBaZi
 import org.wolflink.etherion.api.entities.bazi.packs.TwelveWords
@@ -18,7 +19,8 @@ object Test {
         val calendar = Calendar.getInstance()
         calendar.set(2007,7,6,23,53)
         val staticBaZi = StaticBaZi(fateCalendar = FateCalendar(SolarCalendar(calendar,120.0,false)))
-        staticBaZi.show()
+        BaZiInterpreter.overallEvaluation(staticBaZi)
+//        staticBaZi.show()
         DynamicBaZi(staticBaZi).apply {
             queryYear = 2010
             val ja = JsonArray()
@@ -38,7 +40,7 @@ object Test {
             ja.add(help)
             ja.add(restraint)
             ja.add(delta)
-            println(ja)
+//            println(ja)
         }
 
     }

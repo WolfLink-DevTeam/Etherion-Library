@@ -9,6 +9,7 @@ import org.wolflink.etherion.api.enums.bazi.relationTo
 /**
  * 八字计算器
  * 提供各种八字相关的数值运算支持
+ * 也提供一些底层概念的解释
  */
 object BaZiCalculator {
 

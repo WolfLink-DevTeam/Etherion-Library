@@ -1,5 +1,6 @@
 package org.wolflink.etherion.api.entities.bazi
 
+import org.wolflink.etherion.api.bazi.BaZiCalculator
 import org.wolflink.etherion.api.bazi.BaZiInterpreter
 import org.wolflink.etherion.api.entities.bazi.packs.BaZiPillar
 import org.wolflink.etherion.api.entities.bazi.packs.TwelveWords
@@ -70,7 +71,7 @@ class DynamicBaZi(
      * Pair<HelpValue,restrainValue>
      */
     override fun getWangShuaiValue(): Pair<Double, Double> {
-        return BaZiInterpreter.calcWangShuaiValue(words)
+        return BaZiCalculator.calcWangShuaiValue(words)
     }
 
     /**

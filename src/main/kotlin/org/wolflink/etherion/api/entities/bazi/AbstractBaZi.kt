@@ -9,6 +9,8 @@ import org.wolflink.etherion.api.enums.Gender
 import org.wolflink.etherion.api.enums.base.TianGan
 import org.wolflink.etherion.api.enums.bazi.WangShuai
 import org.jetbrains.annotations.TestOnly
+import org.wolflink.etherion.api.enums.bazi.MixedWuXing
+import org.wolflink.etherion.api.enums.bazi.WuXing
 
 abstract class AbstractBaZi(
     val name: String = "",
@@ -26,6 +28,16 @@ abstract class AbstractBaZi(
     init {
         // TODO 不安全的调用方式
         baZiRelation.updateBy(words)
+    }
+    fun getWuXingPercent(wuXing: WuXing): Double {
+        var percent = 0.0
+        for (word in words) {
+            val triple = word.getWuXing()
+            if(triple.first == wuXing) percent += MixedWuXing.powers[0]
+            if(triple.second == wuXing) percent += MixedWuXing.powers[1]
+            if(triple.third == wuXing) percent += MixedWuXing.powers[2]
+        }
+        return percent / words.size
     }
     /**
      * 获取当前日主旺衰的具体值
