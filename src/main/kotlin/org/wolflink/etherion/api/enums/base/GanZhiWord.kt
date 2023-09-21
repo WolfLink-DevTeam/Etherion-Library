@@ -5,16 +5,16 @@ import kotlin.enums.EnumEntries
 
 interface GanZhiWord {
 
-    val entries: EnumEntries<*>
+    val iEntries: EnumEntries<*>
     val ordinal: Int
 
     fun last(index: Int):GanZhiWord {
-        var resultIndex = (ordinal - index) % entries.size
-        if(resultIndex < 0) resultIndex += entries.size
-        return entries[resultIndex] as GanZhiWord
+        var resultIndex = (ordinal - index) % iEntries.size
+        if(resultIndex < 0) resultIndex += iEntries.size
+        return iEntries[resultIndex] as GanZhiWord
     }
     fun next(index: Int):GanZhiWord {
-        return entries[(ordinal + index) % entries.size] as GanZhiWord
+        return iEntries[(ordinal + index) % iEntries.size] as GanZhiWord
     }
     fun getChineseName(): Char
 
