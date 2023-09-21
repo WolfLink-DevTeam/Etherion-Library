@@ -1,5 +1,6 @@
 package org.wolflink.etherion.api.entities.bazi
 
+import org.wolflink.etherion.api.bazi.BaZiCalculator
 import org.wolflink.etherion.api.entities.bazi.packs.EightWords
 import org.wolflink.etherion.api.entities.bazi.relations.StaticBaZiRelation
 import org.wolflink.etherion.api.entities.calendars.FateCalendar
@@ -140,7 +141,7 @@ open class StaticBaZi(
                 hourPillar.ziZuo.chineseName
             )
         )
-        println("日主旺衰 ${BaZiInterpreter.calcWangShuai(this).chineseName}")
+        println("日主旺衰 ${BaZiCalculator.calcWangShuai(this).chineseName}")
 //        println("五行关系 >>")
 //        relationalBaZi.show()
     }
@@ -154,7 +155,7 @@ open class StaticBaZi(
      * Pair<HelpValue,restrainValue>
      */
     override fun getWangShuaiValue(): Pair<Double, Double> {
-        if (wangShuaiValue == null) wangShuaiValue = BaZiInterpreter.calcWangShuaiValue(words)
+        if (wangShuaiValue == null) wangShuaiValue = BaZiCalculator.calcWangShuaiValue(words)
         return wangShuaiValue!!
     }
 
@@ -165,7 +166,7 @@ open class StaticBaZi(
      */
     override fun getWangShuai(): WangShuai {
         if (wangShuaiValue == null) getWangShuaiValue()
-        wangShuai = BaZiInterpreter.calcWangShuai(wangShuaiValue!!)
+        wangShuai = BaZiCalculator.calcWangShuai(wangShuaiValue!!)
         return wangShuai!!
     }
 
@@ -186,7 +187,7 @@ open class StaticBaZi(
                 DeviationRecord.LiChunDeviation
             )
             // 节气附近检查
-            for (solarTerm in SolarTerm.values()) {
+            for (solarTerm in SolarTerm.entries) {
                 if (totalHours - solarTerm.getSolarMDH(year).getTotalHours() in -24..24) deviationTable.add(
                     DeviationRecord.SolarTermDeviation
                 )
