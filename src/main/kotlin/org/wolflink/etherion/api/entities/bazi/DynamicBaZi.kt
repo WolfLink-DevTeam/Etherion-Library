@@ -17,41 +17,57 @@ import org.wolflink.etherion.api.expansions.nextSolarTerm
 import java.util.*
 
 class DynamicBaZi(
-    val staticBaZi: StaticBaZi,
-    val queryYear: Int
+    val staticBaZi: StaticBaZi
 ) : AbstractBaZi(staticBaZi.name, staticBaZi.gender, staticBaZi.birthplace, staticBaZi.fateCalendar,TwelveWords(staticBaZi.fateCalendar), DynamicBaZiRelation()) {
-    // TODO 临时实现，请根据实际 queryCalendar 日期计算以获得，可以在 init 初始化块中完成相关任务
+    var queryYear: Int = Calendar.getInstance()[Calendar.YEAR]
+        set(value) {
+            field = value
+            updateLuckPillars(value)
+        }
     /**
      * 大运柱
      */
-    val majorLuckPillar: BaZiPillar
-
+    lateinit var majorLuckPillar: BaZiPillar
+        private set
     /**
      * 流年柱
      */
-    val minorLuckPillar: BaZiPillar = BaZiPillar(master,TianGan.Bing to DiZhi.Chen)
-
+    lateinit var minorLuckPillar: BaZiPillar
+        private set
+    /**
+     * 起运时间
+     */
+    val startLuckCalendar: Calendar
+    private fun updateLuckPillars(queryYear: Int) {
+        val startYear = startLuckCalendar[Calendar.YEAR]
+        val index = queryYear - startYear
+        majorLuckPillar = if(needReverse()) BaZiPillar(master,monthPillar.pillar.first.last(index) as TianGan to monthPillar.pillar.second.last(index) as DiZhi)
+        else BaZiPillar(master,monthPillar.pillar.first.next(index) as TianGan to monthPillar.pillar.second.next(index) as DiZhi)
+        minorLuckPillar = BaZiPillar(master,FateCalendar.getYearGanZhi(queryYear))
+        (words as TwelveWords).extraFourWords = listOf(
+            majorLuckPillar.pillar.first,
+            majorLuckPillar.pillar.second,
+            minorLuckPillar.pillar.first,
+            minorLuckPillar.pillar.second
+        )
+    }
 
     /**
      * 起运时间(自出生起的小时数)
      */
     val luckStartHours: Int
     init {
-        val needReverse = needReverse()
         // 阴男阳女 倒排
-        luckStartHours = if(needReverse) {
+        luckStartHours = if(needReverse()) {
             (120 * fateCalendar.solarCalendar.realCalendar.lastSolarTerm().second.millsToHours()).toInt()
         } else {
             (120 * fateCalendar.solarCalendar.realCalendar.nextSolarTerm().second.millsToHours()).toInt()
         }
         // 起运时间
-        val startCalendar = fateCalendar.solarCalendar.realCalendar.clone() as Calendar
-        startCalendar.add(Calendar.HOUR,luckStartHours)
+        startLuckCalendar = fateCalendar.solarCalendar.realCalendar.clone() as Calendar
+        startLuckCalendar.add(Calendar.HOUR,luckStartHours)
 
-        val startYear = startCalendar[Calendar.YEAR]
-        val index = queryYear - startYear
-        majorLuckPillar = if(needReverse) BaZiPillar(master,monthPillar.pillar.first.last(index) as TianGan to monthPillar.pillar.second.last(index) as DiZhi)
-        else BaZiPillar(master,monthPillar.pillar.first.next(index) as TianGan to monthPillar.pillar.second.next(index) as DiZhi)
+        updateLuckPillars(queryYear)
     }
 
     /**
