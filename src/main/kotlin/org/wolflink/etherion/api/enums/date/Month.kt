@@ -15,9 +15,10 @@ enum class Month(val dayCount: Int) {
             for (i in 0 until month-1) {
                 result += entries[i].dayCount
             }
-            if (year % 4 == 0 && year % 100 != 0) return result + 1
-            if (year % 400 == 0) return result + 1
-            println(result)
+            // 闰年
+            if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                if(month > 2) return result + 1
+            }
             return result
         }
     }
