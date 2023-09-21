@@ -22,7 +22,7 @@ object BaZiInterpreter {
         var helpWeights = 0.0
         var restrainWeights = 0.0
         val normalizationValue = 100.0 / wangShuaiValueList.subList(0, eightWords.size).reduce { a, b -> a + b }
-        for (index in 0..eightWords.size) {
+        for (index in 0 until eightWords.size) {
             if (index == 3) continue // 暂时跳过月令
             if (index == 4) continue // 跳过日主
             val tripleRelation = (master relationTo eightWords[index]).toList()

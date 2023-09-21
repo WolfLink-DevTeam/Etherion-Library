@@ -60,8 +60,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
             return monthGan to monthZhi
         }
         // 获取日天干 日地支
-        fun getDayGanZhi(fateYear: Int, fateMonth: Int, fateDay: Int): Pair<TianGan, DiZhi> {
-            val index = ((fateYear - 1) * 5 + (fateYear - 1) / 4 + Month.getDays(fateYear, fateMonth, fateDay)) % 60
+        fun getDayGanZhi(solarYear: Int, solarMonth: Int, fateDay: Int): Pair<TianGan, DiZhi> {
+            val index = ((solarYear - 1) * 5 + (solarYear - 1) / 4 + Month.getDays(solarYear, solarMonth + 1, fateDay)) % 60
             val tianGanIndex = if (index % 10 == 0) 10 else index % 10
             val diZhiIndex = if (index % 12 == 0) 12 else index % 12
             val tianGan = TianGan.entries[tianGanIndex - 1]
@@ -75,8 +75,8 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
          * 丙辛从戊起，丁壬庚子居
          * 戊癸何方发，壬子是真途
          */
-        fun getHourGanZhi(fateYear: Int,fateMonth: Int,fateDay: Int,fateHour: Int): Pair<TianGan, DiZhi> {
-            val dayColumn = getDayGanZhi(fateYear,fateMonth,fateDay)
+        fun getHourGanZhi(solarYear: Int, solarMonth: Int, fateDay: Int, fateHour: Int): Pair<TianGan, DiZhi> {
+            val dayColumn = getDayGanZhi(solarYear,solarMonth,fateDay)
             val offset = ((fateHour + 1) % 24) / 2
             val diZhi: DiZhi = DiZhi.entries[offset % 12]
             val tianGan: TianGan = when (dayColumn.first) {
@@ -128,15 +128,15 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
 
         //是否达到立春
         fateYear = if (solarMDH >= SolarTerm.LiChun.getSolarMDH(year)) year else year - 1
-        val solarTerms = SolarTerm.values()
+        val solarTerms = SolarTerm.entries.toTypedArray()
 
-        for (i in solarTerms.indices) {
+        for (i in solarTerms.indices step 2) {
             if (solarMDH.inRange(
                     solarTerms[i].getSolarMDH(fateYear),
-                    solarTerms[(i + 1) % solarTerms.size].getSolarMDH(fateYear)
+                    solarTerms[(i + 2) % solarTerms.size].getSolarMDH(fateYear)
                 )
             ) fateMonth =
-                i + 1
+                i/2 + 1
 //          else println("${solarMDH.month} 不存在区间内 ${solarTerms[i].solarMDH.month} ${solarTerms[(i+1)%solarTerms.size].solarMDH.month}")
         }
 
@@ -158,6 +158,6 @@ class FateCalendar(val solarCalendar: SolarCalendar) {
     }
     fun getYearGanZhi(): Pair<TianGan, DiZhi> = Companion.getYearGanZhi(fateYear)
     fun getMonthGanZhi(): Pair<TianGan, DiZhi> = Companion.getMonthGanZhi(fateYear,fateMonth)
-    fun getDayGanZhi(): Pair<TianGan, DiZhi> = Companion.getDayGanZhi(fateYear,fateMonth,fateDay)
-    fun getHourGanZhi(): Pair<TianGan, DiZhi> = getHourGanZhi(fateYear,fateMonth,fateDay,fateHour)
+    fun getDayGanZhi(): Pair<TianGan, DiZhi> = Companion.getDayGanZhi(solarCalendar.realCalendar[Calendar.YEAR],solarCalendar.realCalendar[Calendar.MONTH],fateDay)
+    fun getHourGanZhi(): Pair<TianGan, DiZhi> = getHourGanZhi(solarCalendar.realCalendar[Calendar.YEAR],solarCalendar.realCalendar[Calendar.MONTH],fateDay,fateHour)
 }

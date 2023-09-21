@@ -1,9 +1,7 @@
-package org.wolflink.etherion.api
-
-import entities.bazi.StaticBaZi
-import entities.calendars.FateCalendar
-import entities.calendars.SolarCalendar
-import enums.Gender
+import org.wolflink.etherion.api.entities.bazi.StaticBaZi
+import org.wolflink.etherion.api.entities.calendars.FateCalendar
+import org.wolflink.etherion.api.entities.calendars.SolarCalendar
+import org.wolflink.etherion.api.enums.Gender
 import java.util.*
 /**
  * @param year          阳历年，如 2023 代表2023年

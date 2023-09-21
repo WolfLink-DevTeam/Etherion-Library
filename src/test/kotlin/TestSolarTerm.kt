@@ -1,6 +1,4 @@
-package org.wolflink.etherion.api
-
-import enums.date.SolarTerm
+import org.wolflink.etherion.api.enums.date.SolarTerm
 
 fun main() {
     println(SolarTerm.LiChun.getSolarMDH(2021))

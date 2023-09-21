@@ -1,7 +1,5 @@
-package org.wolflink.etherion.api
-
-import entities.bazi.packs.BaZiPillar
-import enums.bazi.WangShuai
+import org.wolflink.etherion.api.entities.bazi.packs.BaZiPillar
+import org.wolflink.etherion.api.enums.bazi.WangShuai
 import java.time.Month
 import java.time.Year
 
