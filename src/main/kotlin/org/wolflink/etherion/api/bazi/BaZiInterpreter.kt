@@ -2,6 +2,7 @@ package org.wolflink.etherion.api.bazi
 
 import org.wolflink.etherion.api.entities.bazi.StaticBaZi
 import org.wolflink.etherion.api.enums.bazi.WuXing
+import org.wolflink.etherion.api.enums.bazi.relationTo
 import kotlin.math.roundToInt
 
 /**
@@ -22,6 +23,7 @@ object BaZiInterpreter {
         val monthDecree = staticBaZi.monthPillar.pillar.second
         // 旺衰
         val wangShuai = staticBaZi.getWangShuai()
+        val wangShuaiValue = staticBaZi.getWangShuaiValue()
         // 五行比例
         val wuXingList = mutableListOf<Pair<WuXing,Double>>()
         for (wuXing in WuXing.entries) {
@@ -32,6 +34,18 @@ object BaZiInterpreter {
 
         // 忌神
 
-        println("日主${dayMaster.chineseName}${dayMaster.wuXing.chineseName},生于${staticBaZi.fateCalendar.fateYear}年${monthDecree.chineseName}月,")
+        println("日主 ${dayMaster.chineseName}${dayMaster.wuXing.chineseName} , 生于 ${staticBaZi.fateCalendar.fateYear} 年 ${monthDecree.chineseName}月")
+        println("日主旺衰程度 ${wangShuai.chineseName}")
+        println("生助值 ${wangShuaiValue.first.roundToInt()} 克泄值 ${wangShuaiValue.second.roundToInt()}")
+        println("十神旺衰程度")
+//        for (pair in wuXingList) {
+//            println(pair.first.chineseName+" "+(dayMaster.wuXing relationTo pair.first).chineseName+" "+(pair.second * 100).roundToInt()+"%")
+//        }
+
+        val testMaster = WuXing.Shui
+        for (wuXing in WuXing.entries) {
+            println(testMaster.chineseName+" <- "+wuXing.chineseName)
+            println(testMaster relationTo wuXing)
+        }
     }
 }

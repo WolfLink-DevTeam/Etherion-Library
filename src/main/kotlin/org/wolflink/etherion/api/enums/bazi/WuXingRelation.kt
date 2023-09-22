@@ -19,9 +19,13 @@ infix fun GanZhiWord.relationTo(another: GanZhiWord): Triple<WuXingRelation,WuXi
         this.getWuXing().third relationTo another.getWuXing().third
     )
 }
+
+/**
+ * 以当前五行作为日主，查询另一个五行与当前五行的关系
+ */
 infix fun WuXing.relationTo(another: WuXing): WuXingRelation {
     var deltaOrdinal = this.ordinal - another.ordinal
-    if (deltaOrdinal >= 3) deltaOrdinal = 5 - deltaOrdinal
+    if (deltaOrdinal >= 3) deltaOrdinal -= 5
     if (deltaOrdinal <= -3) deltaOrdinal += 5
     return when (deltaOrdinal) {
         -2 -> WuXingRelation.WoKe
