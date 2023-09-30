@@ -31,25 +31,6 @@ fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
         ${palace.palaceType.chineseName} ${palace.tianGan.chineseName} ${palace.diZhi.chineseName}
     """.trimIndent())
 }
-
-fun testShiShen()
-{
-    for (first in TianGan.values())
-        for (second in TianGan.values())
-        {
-            println("${first.chineseName} <- ${second.chineseName} : ${ShiShens.get(first,second).chineseName}")
-        }
-}
-fun testChangSheng()
-{
-    for (gan in TianGan.values())
-    {
-        for (zhi in DiZhi.values())
-        {
-            println("${gan.chineseName} ${zhi.chineseName} ${ShiErChangSheng.get(gan,zhi).chineseName}")
-        }
-    }
-}
 fun testBazi()
 {
     val testList = listOf(
