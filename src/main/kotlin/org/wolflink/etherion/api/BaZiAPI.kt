@@ -37,6 +37,6 @@ class BaZiAPI {
         calendar.set(year,month-1,day,hour,min)
         val solarCalendar = SolarCalendar(calendar,longitude,true)
         val fateCalendar = FateCalendar(solarCalendar)
-        return fateCalendar.toDetailBaZi(name, gender,birthplace)
+        return fateCalendar.toStaticBaZi(name, gender,birthplace)
     }
 }
