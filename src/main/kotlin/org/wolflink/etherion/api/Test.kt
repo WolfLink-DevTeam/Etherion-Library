@@ -17,10 +17,10 @@ object Test {
     @JvmStatic
     fun main(args: Array<String>) {
         val calendar = Calendar.getInstance()
-        calendar.set(2007,7,6,23,53)
+        calendar.set(2008,0,11,20,0)
         val staticBaZi = StaticBaZi(fateCalendar = FateCalendar(SolarCalendar(calendar,120.0,false)))
         BaZiInterpreter.overallEvaluation(staticBaZi)
-//        staticBaZi.show()
+        staticBaZi.show()
         DynamicBaZi(staticBaZi).apply {
             queryYear = 2010
             val ja = JsonArray()
@@ -40,7 +40,7 @@ object Test {
             ja.add(help)
             ja.add(restraint)
             ja.add(delta)
-//            println(ja)
+            println(ja)
         }
 
     }

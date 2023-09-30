@@ -1,8 +1,10 @@
 package org.wolflink.etherion.api.bazi
 
 import org.wolflink.etherion.api.entities.bazi.StaticBaZi
+import org.wolflink.etherion.api.enums.bazi.ShiShens
 import org.wolflink.etherion.api.enums.bazi.WuXing
 import org.wolflink.etherion.api.enums.bazi.relationTo
+import org.wolflink.etherion.api.enums.bazi.string
 import kotlin.math.roundToInt
 
 /**
@@ -38,14 +40,8 @@ object BaZiInterpreter {
         println("日主旺衰程度 ${wangShuai.chineseName}")
         println("生助值 ${wangShuaiValue.first.roundToInt()} 克泄值 ${wangShuaiValue.second.roundToInt()}")
         println("十神旺衰程度")
-//        for (pair in wuXingList) {
-//            println(pair.first.chineseName+" "+(dayMaster.wuXing relationTo pair.first).chineseName+" "+(pair.second * 100).roundToInt()+"%")
-//        }
-
-        val testMaster = WuXing.Shui
-        for (wuXing in WuXing.entries) {
-            println(testMaster.chineseName+" <- "+wuXing.chineseName)
-            println(testMaster relationTo wuXing)
+        for (pair in wuXingList) {
+            println(pair.first.chineseName+" "+ShiShens.get(dayMaster.wuXing,pair.first).string()+" "+(pair.second * 100).roundToInt()+"%")
         }
     }
 }
