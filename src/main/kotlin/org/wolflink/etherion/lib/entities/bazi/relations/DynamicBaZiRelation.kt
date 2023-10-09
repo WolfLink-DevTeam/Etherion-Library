@@ -45,6 +45,13 @@ class DynamicBaZiRelation: IBaZiRelation {
     }
 
     /**
+     * 获取地支三刑索引
+     */
+    override fun getDiZhiThreeTorture(): Set<Triple<Int, Int, Int>> {
+        TODO("Not yet implemented")
+    }
+
+    /**
      * 获取地支相刑索引
      */
     override fun getDiZhiTorture(): Set<Pair<Int, Int>> {

@@ -18,6 +18,7 @@ class StaticBaZiRelation: IBaZiRelation {
         halfCombine.clear()
         threeMeet.clear()
         sixConflict.clear()
+        diZhiThreeTorture.clear()
         diZhiTorture.clear()
         diZhiHurt.clear()
         diZhiDestroy.clear()
@@ -25,29 +26,29 @@ class StaticBaZiRelation: IBaZiRelation {
     override fun <T : AbstractWords> updateBy(words: T) {
         clearCache()
         // 天干六合检测
-        for (main in 0..6 step 2)
+        for (main in 0 until words.size step 2)
         {
-            for (i in main+2..6 step 2)
+            for (i in main+2 until words.size step 2)
             {
                 val deltaIndex = (words[main].ordinal - words[i].ordinal).absoluteValue
                 if(deltaIndex == 5)sixCombine.add(main to i)
             }
         }
         // 地支六合检测
-        for (main in 1..7 step 2)
+        for (main in 1 until words.size step 2)
         {
-            for (i in main+2..7 step 2)
+            for (i in main+2 until words.size step 2)
             {
                 val totalIndex = words[main].ordinal + words[i].ordinal
                 if(totalIndex == 1 || totalIndex == 13)sixCombine.add(main to i)
             }
         }
         // 地支三合检测 0/4/8 1/5/9 2/6/10 3/7/11
-        for (first in 1..7 step 2)
+        for (first in 1 until words.size step 2)
         {
-            for (second in first+2..7 step 2)
+            for (second in first+2 until words.size step 2)
             {
-                for (third in second+2..7 step 2)
+                for (third in second+2 until words.size step 2)
                 {
                     val firstDiZhi = words[first]
                     val secondDiZhi = words[second]
@@ -67,9 +68,9 @@ class StaticBaZiRelation: IBaZiRelation {
         }
         // 地支半合，未形成三合，两个地支距离为4，并且其中有一个 子/午/卯/酉
         val temp1 = listOf(DiZhi.Zi,DiZhi.Wu,DiZhi.Mao,DiZhi.You)
-        for(first in 1..7 step 2)
+        for(first in 1 until words.size step 2)
         {
-            out@for(second in first+2..7 step 2)
+            out@for(second in first+2 until words.size step 2)
             {
                 val firstDiZhi = words[first]
                 val secondDiZhi = words[second]
@@ -89,11 +90,11 @@ class StaticBaZiRelation: IBaZiRelation {
         }
         // 数字范围 0~11
         // 三会方局 2/3/4 5/6/7 8/9/10 11/0/1
-        for (first in 1..7 step 2)
+        for (first in 1 until words.size step 2)
         {
-            for(second in first+2..7 step 2)
+            for(second in first+2 until words.size step 2)
             {
-                for(third in second+2..7 step 2)
+                for(third in second+2 until words.size step 2)
                 {
                     val firstDiZhi = words[first]
                     val secondDiZhi = words[second]
@@ -110,14 +111,84 @@ class StaticBaZiRelation: IBaZiRelation {
             }
         }
         // 六冲
-        for (first in 1..7 step 2)
+        for (first in 1 until words.size step 2)
         {
-            for (second in first+2..7 step 2)
+            for (second in first+2 until words.size step 2)
             {
                 val firstDiZhi = words[first]
                 val secondDiZhi = words[second]
                 val deltaIndex = (firstDiZhi.ordinal - secondDiZhi.ordinal).absoluteValue
                 if(deltaIndex == 6)sixConflict.add(first to second)
+            }
+        }
+        //三刑
+        for (first in 1 until words.size step 2)
+        {
+            for(second in first+2 until words.size step 2)
+            {
+                for(third in second+2 until words.size step 2)
+                {
+                    val firstDiZhi = words[first]
+                    val secondDiZhi = words[second]
+                    val thirdDiZhi = words[third]
+                    if(firstDiZhi == secondDiZhi || secondDiZhi == thirdDiZhi || firstDiZhi == thirdDiZhi)continue
+                    val list = mutableListOf(firstDiZhi.ordinal,secondDiZhi.ordinal,thirdDiZhi.ordinal)
+                    list.sort()
+                    // 寅巳申
+                    if(list[0] == 2 && list[1] == 5 && list[2] == 8)diZhiThreeTorture.add(Triple(first,second,third))
+                    // 丑未戌
+                    if(list[0] == 1 && list[1] == 7 && list[2] == 10)diZhiThreeTorture.add(Triple(first,second,third))
+                }
+            }
+        }
+        //相刑
+        for (first in 1 until words.size step 2)
+        {
+            for(second in first+2 until words.size step 2)
+            {
+                val firstDiZhi = words[first]
+                val secondDiZhi = words[second]
+                val list = mutableListOf(firstDiZhi.ordinal,secondDiZhi.ordinal)
+                list.sort()
+                if(list[0] == 0 && list[1] == 3) diZhiTorture.add(first to second)
+                if(list[0] == 4 && list[1] == 4) diZhiTorture.add(first to second)
+                if(list[0] == 6 && list[1] == 6) diZhiTorture.add(first to second)
+                if(list[0] == 9 && list[1] == 9) diZhiTorture.add(first to second)
+                if(list[0] == 11 && list[1] == 11) diZhiTorture.add(first to second)
+            }
+        }
+        //相害
+        for (first in 1 until words.size step 2)
+        {
+            for(second in first+2 until words.size step 2)
+            {
+                val firstDiZhi = words[first]
+                val secondDiZhi = words[second]
+                val list = mutableListOf(firstDiZhi.ordinal,secondDiZhi.ordinal)
+                list.sort()
+                if(list[0] == 2 && list[1] == 5) diZhiHurt.add(first to second)
+                if(list[0] == 3 && list[1] == 4) diZhiHurt.add(first to second)
+                if(list[0] == 9 && list[1] == 10) diZhiHurt.add(first to second)
+                if(list[0] == 8 && list[1] == 11) diZhiHurt.add(first to second)
+                if(list[0] == 1 && list[1] == 6) diZhiHurt.add(first to second)
+                if(list[0] == 0 && list[1] == 7) diZhiHurt.add(first to second)
+            }
+        }
+        //相破
+        for (first in 1 until words.size step 2)
+        {
+            for(second in first+2 until words.size step 2)
+            {
+                val firstDiZhi = words[first]
+                val secondDiZhi = words[second]
+                val list = mutableListOf(firstDiZhi.ordinal,secondDiZhi.ordinal)
+                list.sort()
+                if(list[0] == 0 && list[1] == 9) diZhiDestroy.add(first to second)
+                if(list[0] == 2 && list[1] == 11) diZhiDestroy.add(first to second)
+                if(list[0] == 3 && list[1] == 6) diZhiDestroy.add(first to second)
+                if(list[0] == 4 && list[1] == 1) diZhiDestroy.add(first to second)
+                if(list[0] == 5 && list[1] == 8) diZhiDestroy.add(first to second)
+                if(list[0] == 7 && list[1] == 10) diZhiDestroy.add(first to second)
             }
         }
     }
@@ -132,11 +203,13 @@ class StaticBaZiRelation: IBaZiRelation {
     private val threeMeet : MutableSet<Triple<Int,Int,Int>> = mutableSetOf()
     // 地支六冲
     private val sixConflict : MutableSet<Pair<Int,Int>> = mutableSetOf()
-    // 地支相刑 ( 暂时不管 )
+    // 地支三刑
+    private val diZhiThreeTorture : MutableSet<Triple<Int,Int,Int>> = mutableSetOf()
+    // 地支相刑
     private val diZhiTorture : MutableSet<Pair<Int,Int>> = mutableSetOf()
-    // 地支相害 ( 暂时不管 )
+    // 地支相害
     private val diZhiHurt : MutableSet<Pair<Int,Int>> = mutableSetOf()
-    // 地支破 ( 暂时不管 )
+    // 地支破
     private val diZhiDestroy : MutableSet<Pair<Int,Int>> = mutableSetOf()
 
 
@@ -146,7 +219,11 @@ class StaticBaZiRelation: IBaZiRelation {
         println("三合 $threeCombine")
         println("半合 $halfCombine")
         println("三会 $threeMeet")
-        println()
+        println("六冲 $sixConflict")
+        println("三刑 $diZhiThreeTorture")
+        println("相刑 $diZhiTorture")
+        println("相害 $diZhiHurt")
+        println("相破 $diZhiDestroy")
     }
 
     /**
@@ -173,6 +250,11 @@ class StaticBaZiRelation: IBaZiRelation {
      * 获取地支六冲索引
      */
     override fun getSixConflict(): Set<Pair<Int, Int>> = sixConflict
+
+    /**
+     * 获取地支三刑索引
+     */
+    override fun getDiZhiThreeTorture(): Set<Triple<Int, Int, Int>> = diZhiThreeTorture
 
     /**
      * 获取地支相刑索引

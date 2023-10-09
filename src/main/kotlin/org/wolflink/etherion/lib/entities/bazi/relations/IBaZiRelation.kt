@@ -29,15 +29,20 @@ interface IBaZiRelation {
     fun getSixConflict(): Set<Pair<Int,Int>>
 
     /**
+     * 获取地支三刑索引
+     */
+    fun getDiZhiThreeTorture(): Set<Triple<Int,Int,Int>>
+
+    /**
      * 获取地支相刑索引
      */
     fun getDiZhiTorture(): Set<Pair<Int,Int>>
     /**
-     * 地支相害 ( 暂时不管 )
+     * 地支相害索引
       */
     fun getDiZhiHurt(): Set<Pair<Int,Int>>
     /**
-     * 地支破 ( 暂时不管 )
+     * 地支破索引
       */
     fun getDiZhiDestroy(): Set<Pair<Int,Int>>
 }

@@ -1,3 +1,5 @@
+import org.wolflink.etherion.lib.entities.bazi.StaticBaZi
+import org.wolflink.etherion.lib.entities.bazi.relations.StaticBaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
 import org.wolflink.etherion.lib.entities.purplestar.TianBoard
@@ -7,7 +9,8 @@ import java.util.*
 
 fun main()
 {
-    testBaZi()
+//    testBaZi()
+    singleTest()
 }
 
 fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
@@ -22,6 +25,10 @@ fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
     for (palace in board.twelvePalaces) println("""
         ${palace.palaceType.chineseName} ${palace.tianGan.chineseName} ${palace.diZhi.chineseName}
     """.trimIndent())
+}
+fun singleTest() {
+    val baZi = TestBaZi(2002, 12, 19, 15, 50, 108.7, "壬午壬子辛酉丙申",Gender.MALE,false)
+    (baZi.staticBaZi.baZiRelation as StaticBaZiRelation).show()
 }
 fun testBaZi()
 {

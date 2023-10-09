@@ -18,7 +18,7 @@ abstract class AbstractBaZi(
     val birthplace: String = "",
     val fateCalendar: FateCalendar,
     val words: AbstractWords,
-    private val baZiRelation: IBaZiRelation
+    val baZiRelation: IBaZiRelation
 ): IBaZiRelation by baZiRelation {
     val master: TianGan = fateCalendar.getDayGanZhi().first
     val yearPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getYearGanZhi())
