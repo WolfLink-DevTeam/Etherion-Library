@@ -18,17 +18,12 @@ abstract class AbstractBaZi(
     val birthplace: String = "",
     val fateCalendar: FateCalendar,
     val words: AbstractWords,
-    val baZiRelation: IBaZiRelation
-): IBaZiRelation by baZiRelation {
+) {
     val master: TianGan = fateCalendar.getDayGanZhi().first
     val yearPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getYearGanZhi())
     val monthPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
     val dayPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
     val hourPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
-    init {
-        // TODO 不安全的调用方式
-        baZiRelation.updateBy(words)
-    }
     fun getWuXingPercent(wuXing: WuXing): Double {
         var percent = 0.0
         for (word in words) {
@@ -39,6 +34,7 @@ abstract class AbstractBaZi(
         }
         return percent / words.size
     }
+    abstract fun getBaZiRelation(): IBaZiRelation
     /**
      * 获取当前日主旺衰的具体值
      * Pair<HelpValue,restrainValue>

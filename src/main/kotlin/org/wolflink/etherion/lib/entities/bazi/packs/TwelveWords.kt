@@ -15,8 +15,6 @@ class TwelveWords(
         else extraFourWords!![index-8]
     }
 
-    //TODO 更改 year 更新 extraFourWords
-    var year: Int = 0
     private var extraFourWords: List<GanZhiWord>? = null
 
     override fun iterator(): Iterator<GanZhiWord> {

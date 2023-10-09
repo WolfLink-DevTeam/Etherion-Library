@@ -4,6 +4,7 @@ import org.wolflink.etherion.lib.bazi.BaZiCalculator
 import org.wolflink.etherion.lib.entities.bazi.packs.BaZiPillar
 import org.wolflink.etherion.lib.entities.bazi.packs.TwelveWords
 import org.wolflink.etherion.lib.entities.bazi.relations.DynamicBaZiRelation
+import org.wolflink.etherion.lib.entities.bazi.relations.IBaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable
 import org.wolflink.etherion.lib.enums.Gender
@@ -16,7 +17,7 @@ import java.util.*
 
 class DynamicBaZi(
     val staticBaZi: StaticBaZi
-) : AbstractBaZi(staticBaZi.name, staticBaZi.gender, staticBaZi.birthplace, staticBaZi.fateCalendar,TwelveWords(staticBaZi.fateCalendar), DynamicBaZiRelation()) {
+) : AbstractBaZi(staticBaZi.name, staticBaZi.gender, staticBaZi.birthplace, staticBaZi.fateCalendar,TwelveWords(staticBaZi.fateCalendar)) {
 
     var queryYear: Int = Calendar.getInstance()[Calendar.YEAR]
         private set
@@ -67,6 +68,12 @@ class DynamicBaZi(
         startLuckCalendar.add(Calendar.HOUR,luckStartHours)
 
         updateLuckPillars(queryYear)
+    }
+
+    override fun getBaZiRelation(): IBaZiRelation {
+        val relation = DynamicBaZiRelation()
+        relation.updateBy(words)
+        return relation
     }
 
     /**

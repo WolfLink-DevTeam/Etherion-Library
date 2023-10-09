@@ -2,6 +2,7 @@ package org.wolflink.etherion.lib.entities.bazi
 
 import org.wolflink.etherion.lib.bazi.BaZiCalculator
 import org.wolflink.etherion.lib.entities.bazi.packs.EightWords
+import org.wolflink.etherion.lib.entities.bazi.relations.IBaZiRelation
 import org.wolflink.etherion.lib.entities.bazi.relations.StaticBaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationRecord
@@ -25,7 +26,7 @@ open class StaticBaZi(
     gender: Gender = Gender.MALE,
     birthplace: String = "",
     fateCalendar: FateCalendar
-) : AbstractBaZi(name, gender, birthplace, fateCalendar,EightWords(fateCalendar) ,StaticBaZiRelation()) {
+) : AbstractBaZi(name, gender, birthplace, fateCalendar,EightWords(fateCalendar)) {
     override fun show() {
         fateCalendar.solarCalendar.show()
         val format = "%-2s | %-2s | %-2s | %-2s | %-2s"
@@ -148,6 +149,11 @@ open class StaticBaZi(
 
     private var wangShuaiValue: Pair<Double, Double>? = null
     private var wangShuai: WangShuai? = null
+    private val baZiRelation = StaticBaZiRelation()
+    init {
+        baZiRelation.updateBy(words)
+    }
+    override fun getBaZiRelation(): IBaZiRelation = baZiRelation
 
     /**
      * 获取当前日主旺衰的具体值
