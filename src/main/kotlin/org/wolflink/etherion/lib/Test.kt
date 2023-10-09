@@ -2,11 +2,11 @@ package org.wolflink.etherion.lib
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import org.wolflink.etherion.lib.bazi.BaZiInterpreter
+import org.wolflink.etherion.lib.bazi.alg.WangShuaiMap
 import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
 import org.wolflink.etherion.lib.entities.bazi.StaticBaZi
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
-import java.io.InputStreamReader
 import java.util.*
 
 object Test {
@@ -18,7 +18,6 @@ object Test {
         BaZiInterpreter.overallEvaluation(staticBaZi)
         staticBaZi.show()
         DynamicBaZi(staticBaZi).apply {
-            queryYear = 2010
             val ja = JsonArray()
             val help = JsonObject()
             val restraint = JsonObject()
@@ -31,12 +30,13 @@ object Test {
                 help.addProperty("$queryYear",pair.first)
                 restraint.addProperty("$queryYear",pair.second)
                 delta.addProperty("$queryYear",pair.first - pair.second)
-                queryYear++
+//                queryYear++
             }
             ja.add(help)
             ja.add(restraint)
             ja.add(delta)
             println(ja)
+            println(EtherionImpl.applyAlgorithm(this,WangShuaiMap,2010,100))
         }
 
     }

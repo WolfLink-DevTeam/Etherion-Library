@@ -17,11 +17,10 @@ import java.util.*
 class DynamicBaZi(
     val staticBaZi: StaticBaZi
 ) : AbstractBaZi(staticBaZi.name, staticBaZi.gender, staticBaZi.birthplace, staticBaZi.fateCalendar,TwelveWords(staticBaZi.fateCalendar), DynamicBaZiRelation()) {
+
     var queryYear: Int = Calendar.getInstance()[Calendar.YEAR]
-        set(value) {
-            field = value
-            updateLuckPillars(value)
-        }
+        private set
+
     /**
      * 大运柱
      */
@@ -36,7 +35,14 @@ class DynamicBaZi(
      * 起运时间
      */
     val startLuckCalendar: Calendar
-    private fun updateLuckPillars(queryYear: Int) {
+
+    /**
+     * 更新动态八字盘的年份
+     *
+     * @param queryYear 年份
+     */
+    fun updateLuckPillars(queryYear: Int) {
+        this.queryYear = queryYear
         val startYear = startLuckCalendar[Calendar.YEAR]
         val index = (queryYear - startYear) / 10 + 1
         majorLuckPillar = if(needReverse()) BaZiPillar(master,monthPillar.pillar.first.last(index) as TianGan to monthPillar.pillar.second.last(index) as DiZhi)

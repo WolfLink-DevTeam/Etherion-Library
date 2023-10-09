@@ -68,7 +68,7 @@ object EtherionImpl: IEtherion {
      * @return              算法计算结果
      */
     override fun applyAlgorithm(abstractBaZi: AbstractBaZi, algorithm: BaZiAlgorithm,vararg arguments: Any): JsonElement {
-        return if(algorithm.checkInput(arguments)) {
+        return if(algorithm.checkInput(abstractBaZi,arguments)) {
             algorithm.compute(abstractBaZi,arguments)
         } else JsonObject()
     }
