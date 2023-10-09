@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "org.wolflink.etherion.api"
+group = "org.wolflink.etherion.lib"
 version = "1.0-SNAPSHOT"
 val mainClassPath = "$group.Test"
 

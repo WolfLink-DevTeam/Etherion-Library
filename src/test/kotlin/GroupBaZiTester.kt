@@ -1,4 +1,4 @@
-import org.wolflink.etherion.api.enums.Gender
+import org.wolflink.etherion.lib.enums.Gender
 
 /**
  * 八字分组测试对象
