@@ -3,8 +3,7 @@ package org.wolflink.etherion.lib.entities.bazi
 import org.wolflink.etherion.lib.bazi.BaZiCalculator
 import org.wolflink.etherion.lib.entities.bazi.packs.BaZiPillar
 import org.wolflink.etherion.lib.entities.bazi.packs.TwelveWords
-import org.wolflink.etherion.lib.entities.bazi.relations.DynamicBaZiRelation
-import org.wolflink.etherion.lib.entities.bazi.relations.IBaZiRelation
+import org.wolflink.etherion.lib.entities.bazi.relations.BaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable
 import org.wolflink.etherion.lib.enums.Gender
@@ -70,8 +69,8 @@ class DynamicBaZi(
         updateLuckPillars(queryYear)
     }
 
-    override fun getBaZiRelation(): IBaZiRelation {
-        val relation = DynamicBaZiRelation()
+    override fun getBaZiRelation(): BaZiRelation {
+        val relation = BaZiRelation()
         relation.updateBy(words)
         return relation
     }

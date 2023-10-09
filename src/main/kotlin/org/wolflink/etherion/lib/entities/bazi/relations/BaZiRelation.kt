@@ -4,8 +4,8 @@ import org.wolflink.etherion.lib.entities.bazi.packs.AbstractWords
 import org.wolflink.etherion.lib.enums.base.DiZhi
 import kotlin.math.absoluteValue
 
-class DynamicBaZiRelation: IBaZiRelation {
-    override fun clearCache() {
+class BaZiRelation {
+    fun clearCache() {
         sixCombine.clear()
         threeCombine.clear()
         halfCombine.clear()
@@ -16,7 +16,7 @@ class DynamicBaZiRelation: IBaZiRelation {
         diZhiHurt.clear()
         diZhiDestroy.clear()
     }
-    override fun <T : AbstractWords> updateBy(words: T) {
+    fun <T : AbstractWords> updateBy(words: T) {
         clearCache()
         // 天干六合检测
         for (main in 0 until words.size step 2)
@@ -222,46 +222,46 @@ class DynamicBaZiRelation: IBaZiRelation {
     /**
      * 获取六合元素索引
      */
-    override fun getSixCombine(): Set<Pair<Int, Int>> = sixCombine
+    fun getSixCombine(): Set<Pair<Int, Int>> = sixCombine
 
     /**
      * 获取三合元素索引
      */
-    override fun getThreeCombine(): Set<Triple<Int, Int, Int>> = threeCombine
+    fun getThreeCombine(): Set<Triple<Int, Int, Int>> = threeCombine
 
     /**
      * 获取地支半合索引
      */
-    override fun getHalfCombine(): Set<Pair<Int, Int>> = halfCombine
+    fun getHalfCombine(): Set<Pair<Int, Int>> = halfCombine
 
     /**
      * 获取地支三会方局索引
      */
-    override fun getThreeMeet(): Set<Triple<Int, Int, Int>> = threeMeet
+    fun getThreeMeet(): Set<Triple<Int, Int, Int>> = threeMeet
 
     /**
      * 获取地支六冲索引
      */
-    override fun getSixConflict(): Set<Pair<Int, Int>> = sixConflict
+    fun getSixConflict(): Set<Pair<Int, Int>> = sixConflict
 
     /**
      * 获取地支三刑索引
      */
-    override fun getDiZhiThreeTorture(): Set<Triple<Int, Int, Int>> = diZhiThreeTorture
+    fun getDiZhiThreeTorture(): Set<Triple<Int, Int, Int>> = diZhiThreeTorture
 
     /**
      * 获取地支相刑索引
      */
-    override fun getDiZhiTorture(): Set<Pair<Int, Int>> = diZhiTorture
+    fun getDiZhiTorture(): Set<Pair<Int, Int>> = diZhiTorture
 
     /**
-     * 地支相害 ( 暂时不管 )
+     * 地支相害
      */
-    override fun getDiZhiHurt(): Set<Pair<Int, Int>> = diZhiHurt
+    fun getDiZhiHurt(): Set<Pair<Int, Int>> = diZhiHurt
 
     /**
-     * 地支破 ( 暂时不管 )
+     * 地支破
      */
-    override fun getDiZhiDestroy(): Set<Pair<Int, Int>> = diZhiDestroy
+    fun getDiZhiDestroy(): Set<Pair<Int, Int>> = diZhiDestroy
 
 }

@@ -2,7 +2,7 @@ package org.wolflink.etherion.lib.entities.bazi
 
 import org.wolflink.etherion.lib.entities.bazi.packs.AbstractWords
 import org.wolflink.etherion.lib.entities.bazi.packs.BaZiPillar
-import org.wolflink.etherion.lib.entities.bazi.relations.IBaZiRelation
+import org.wolflink.etherion.lib.entities.bazi.relations.BaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable
 import org.wolflink.etherion.lib.enums.Gender
@@ -34,7 +34,7 @@ abstract class AbstractBaZi(
         }
         return percent / words.size
     }
-    abstract fun getBaZiRelation(): IBaZiRelation
+    abstract fun getBaZiRelation(): BaZiRelation
     /**
      * 获取当前日主旺衰的具体值
      * Pair<HelpValue,restrainValue>
