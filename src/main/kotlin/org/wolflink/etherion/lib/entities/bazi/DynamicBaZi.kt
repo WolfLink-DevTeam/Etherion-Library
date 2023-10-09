@@ -3,7 +3,6 @@ package org.wolflink.etherion.lib.entities.bazi
 import org.wolflink.etherion.lib.bazi.BaZiCalculator
 import org.wolflink.etherion.lib.entities.bazi.packs.BaZiPillar
 import org.wolflink.etherion.lib.entities.bazi.packs.TwelveWords
-import org.wolflink.etherion.lib.entities.bazi.relations.BaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable
 import org.wolflink.etherion.lib.enums.Gender
@@ -69,6 +68,9 @@ class DynamicBaZi(
         updateLuckPillars(queryYear)
     }
 
+    /**
+     * 每次获取八字对象都会根据当前命盘动态创建一个对象
+     */
     override fun getBaZiRelation(): BaZiRelation {
         val relation = BaZiRelation()
         relation.updateBy(words)

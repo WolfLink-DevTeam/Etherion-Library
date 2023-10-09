@@ -2,7 +2,6 @@ package org.wolflink.etherion.lib.entities.bazi
 
 import org.wolflink.etherion.lib.bazi.BaZiCalculator
 import org.wolflink.etherion.lib.entities.bazi.packs.EightWords
-import org.wolflink.etherion.lib.entities.bazi.relations.BaZiRelation
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationRecord
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable

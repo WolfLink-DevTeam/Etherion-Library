@@ -1,4 +1,4 @@
-package org.wolflink.etherion.lib.entities.bazi.relations
+package org.wolflink.etherion.lib.entities.bazi
 
 import org.wolflink.etherion.lib.entities.bazi.packs.AbstractWords
 import org.wolflink.etherion.lib.enums.base.DiZhi
