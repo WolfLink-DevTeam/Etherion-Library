@@ -1,3 +1,4 @@
+import org.wolflink.etherion.lib.bazi.alg.WuXingPercentMap
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
 import org.wolflink.etherion.lib.entities.purplestar.TianBoard
@@ -26,7 +27,7 @@ fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
 }
 fun singleTest() {
     val baZi = TestBaZi(2002, 12, 19, 15, 50, 108.7, "壬午壬子辛酉丙申",Gender.MALE,false)
-    baZi.dynamicBaZi.getBaZiRelation().show()
+    println(WuXingPercentMap.getWuXingPercent(baZi.staticBaZi))
 }
 fun testBaZi()
 {
