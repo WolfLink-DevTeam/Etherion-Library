@@ -6,7 +6,6 @@ import com.google.gson.JsonObject
 import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
 import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
 import java.lang.Exception
-import kotlin.math.abs
 
 /**
  * 计算动态八字盘的流年大运影响下的日主旺衰走势
@@ -15,7 +14,7 @@ import kotlin.math.abs
  * [1]: 查询数组长度，例如：100 代表从起始年份开始连续查询100年
  * [2]: 是否忽略复杂元素反应，如刑冲克破合化等，true 则忽略
  */
-data object WangShuaiMap : BaZiAlgorithm() {
+data object WangShuaiValueChart : BaZiAlgorithm() {
     override fun checkInput(abstractBaZi: AbstractBaZi,vararg arguments: Any): Boolean {
         if(abstractBaZi !is DynamicBaZi) return false
         return try {
