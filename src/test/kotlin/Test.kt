@@ -1,4 +1,5 @@
 import org.wolflink.etherion.lib.bazi.alg.WangShuaiValueChart
+import org.wolflink.etherion.lib.bazi.alg.WuXingPercentChart
 import org.wolflink.etherion.lib.chart.ChartDrawer
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
@@ -27,11 +28,12 @@ fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
     """.trimIndent())
 }
 fun singleTest() {
-    val baZi = TestBaZi(2006, 4, 2, 20, 28, 108.7, "壬午癸丑甲午庚午",Gender.MALE,false)
+    val baZi = TestBaZi(2008, 1, 11, 8, 0, 108.7, "壬午癸丑甲午庚午",Gender.MALE,false)
 //    println(WuXingPercentChart.getWuXingPercentIgnoreElementReaction(baZi.dynamicBaZi))
-    val ja = WangShuaiValueChart.compute(baZi.dynamicBaZi,2000,100,true)
-    println(ja.toString())
-    ChartDrawer.drawStackedLine("旺衰量化表",ja.asJsonArray,"年份")
+    var ja = WuXingPercentChart.compute(baZi.dynamicBaZi, arrayOf(2000,100,true))
+    ChartDrawer.drawStackedLine("五行比例量化表",ja.asJsonArray,"年份",true,"五行比例量化表.html")
+    ja = WangShuaiValueChart.compute(baZi.dynamicBaZi,2000,100,true)
+    ChartDrawer.drawStackedLine("日主旺衰量化表",ja.asJsonArray,"年份",false,"日主旺衰量化表.html")
 }
 fun testBaZi()
 {

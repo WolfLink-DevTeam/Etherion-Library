@@ -34,12 +34,31 @@ data object WuXingPercentChart: BaZiAlgorithm() {
     override fun compute(abstractBaZi: AbstractBaZi, arguments: Array<out Any>): JsonElement {
         abstractBaZi as DynamicBaZi
         val ja = JsonArray()
+        val startYear = arguments[0] as Int
+        val queryLength = arguments[1] as Int
+
+        val wuXingJOMap = mutableMapOf<WuXing,JsonObject>()
+        // 初始化
         for (wuXing in WuXing.entries) {
             val jo = JsonObject()
             jo.addProperty("年份",wuXing.chineseName+"比例")
-
+            wuXingJOMap[wuXing] = jo
         }
-        return JsonObject()
+        abstractBaZi.apply {
+            val originYear = queryYear
+            for (i in 0..queryLength) {
+                updateLuckPillars(startYear+i)
+                val map = getWuXingPercentWithElementReaction(this)
+                for (entry in map) {
+                    wuXingJOMap[entry.key]?.addProperty("$queryYear",entry.value)
+                }
+            }
+            updateLuckPillars(originYear)
+        }
+        for (entry in wuXingJOMap) {
+            ja.add(entry.value)
+        }
+        return ja
     }
     private
     fun getWuXingPercentWithElementReaction(abstractBaZi: AbstractBaZi):Map<WuXing,Double> {
