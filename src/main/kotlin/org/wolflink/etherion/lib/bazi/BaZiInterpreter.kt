@@ -28,7 +28,8 @@ object BaZiInterpreter {
         // 五行比例
         val wuXingList = mutableListOf<Pair<WuXing,Double>>()
         for (wuXing in WuXing.entries) {
-            wuXingList.add(wuXing to staticBaZi.getWuXingPercent(wuXing))
+            //TODO 五行比例API迁移到算法封装中
+//            wuXingList.add(wuXing to staticBaZi.getWuXingPercent(wuXing))
         }
         wuXingList.sortBy { pair -> -pair.second }
         // 喜神

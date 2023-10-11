@@ -63,30 +63,30 @@ open class StaticBaZi(
             String.format(
                 format,
                 "藏干",
-                yearPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName,
-                monthPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName,
-                dayPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName,
-                hourPillar.pillar.second.mixedWuXing.nativeTianGan.chineseName
+                yearPillar.pillar.second.mixedTianGan.nativeTianGan.chineseName,
+                monthPillar.pillar.second.mixedTianGan.nativeTianGan.chineseName,
+                dayPillar.pillar.second.mixedTianGan.nativeTianGan.chineseName,
+                hourPillar.pillar.second.mixedTianGan.nativeTianGan.chineseName
             )
         )
         println(
             String.format(
                 format,
                 "藏干",
-                yearPillar.pillar.second.mixedWuXing.middleTianGan.chineseName,
-                monthPillar.pillar.second.mixedWuXing.middleTianGan.chineseName,
-                dayPillar.pillar.second.mixedWuXing.middleTianGan.chineseName,
-                hourPillar.pillar.second.mixedWuXing.middleTianGan.chineseName
+                yearPillar.pillar.second.mixedTianGan.middleTianGan.chineseName,
+                monthPillar.pillar.second.mixedTianGan.middleTianGan.chineseName,
+                dayPillar.pillar.second.mixedTianGan.middleTianGan.chineseName,
+                hourPillar.pillar.second.mixedTianGan.middleTianGan.chineseName
             )
         )
         println(
             String.format(
                 format,
                 "藏干",
-                yearPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName,
-                monthPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName,
-                dayPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName,
-                hourPillar.pillar.second.mixedWuXing.remnantTianGan.chineseName
+                yearPillar.pillar.second.mixedTianGan.remnantTianGan.chineseName,
+                monthPillar.pillar.second.mixedTianGan.remnantTianGan.chineseName,
+                dayPillar.pillar.second.mixedTianGan.remnantTianGan.chineseName,
+                hourPillar.pillar.second.mixedTianGan.remnantTianGan.chineseName
             )
         )
         println(

@@ -8,7 +8,7 @@ import org.wolflink.etherion.lib.enums.Gender
 import org.wolflink.etherion.lib.enums.base.TianGan
 import org.wolflink.etherion.lib.enums.bazi.WangShuai
 import org.jetbrains.annotations.TestOnly
-import org.wolflink.etherion.lib.enums.bazi.MixedWuXing
+import org.wolflink.etherion.lib.enums.bazi.MixedTianGan
 import org.wolflink.etherion.lib.enums.bazi.WuXing
 
 abstract class AbstractBaZi(
@@ -23,16 +23,6 @@ abstract class AbstractBaZi(
     val monthPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getMonthGanZhi())
     val dayPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getDayGanZhi())
     val hourPillar: BaZiPillar = BaZiPillar(master, fateCalendar.getHourGanZhi())
-    fun getWuXingPercent(wuXing: WuXing): Double {
-        var percent = 0.0
-        for (word in words) {
-            val triple = word.getWuXing()
-            if(triple.first == wuXing) percent += MixedWuXing.powers[0]
-            if(triple.second == wuXing) percent += MixedWuXing.powers[1]
-            if(triple.third == wuXing) percent += MixedWuXing.powers[2]
-        }
-        return percent / words.size
-    }
     abstract fun getBaZiRelation(): BaZiRelation
     /**
      * 获取当前日主旺衰的具体值

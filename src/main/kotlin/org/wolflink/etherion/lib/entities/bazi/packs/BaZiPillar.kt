@@ -33,9 +33,9 @@ class BaZiPillar(master : TianGan, val pillar: Pair<TianGan, DiZhi>) {
     private fun update() {
         primaryStar = ShiShens.get(master,pillar.first)
         accessoryStars = Triple(
-            ShiShens.get(master,pillar.second.mixedWuXing.nativeTianGan),
-            ShiShens.get(master,pillar.second.mixedWuXing.middleTianGan),
-            ShiShens.get(master,pillar.second.mixedWuXing.remnantTianGan))
+            ShiShens.get(master,pillar.second.mixedTianGan.nativeTianGan),
+            ShiShens.get(master,pillar.second.mixedTianGan.middleTianGan),
+            ShiShens.get(master,pillar.second.mixedTianGan.remnantTianGan))
         xingYun = ShiErChangSheng.get(master,pillar.second)
         ziZuo = ShiErChangSheng.get(pillar.first,pillar.second)
     }

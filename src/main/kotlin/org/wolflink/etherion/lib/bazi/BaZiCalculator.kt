@@ -2,7 +2,7 @@ package org.wolflink.etherion.lib.bazi
 
 import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
 import org.wolflink.etherion.lib.entities.bazi.packs.AbstractWords
-import org.wolflink.etherion.lib.enums.bazi.MixedWuXing
+import org.wolflink.etherion.lib.enums.bazi.MixedTianGan
 import org.wolflink.etherion.lib.enums.bazi.WangShuai
 import org.wolflink.etherion.lib.enums.bazi.relationTo
 
@@ -31,7 +31,7 @@ object BaZiCalculator {
             if (index == 4) continue // 跳过日主
             val tripleRelation = (master relationTo eightWords[index]).toList()
             for (relationIndex in 0..2) {
-                val power = MixedWuXing.powers[relationIndex]
+                val power = MixedTianGan.triplePowers[relationIndex]
                 val relation = tripleRelation[relationIndex]
                 helpWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.helpWeight)
                 restrainWeights += (wangShuaiValueList[index] * normalizationValue * power * relation.restrainWeight)
