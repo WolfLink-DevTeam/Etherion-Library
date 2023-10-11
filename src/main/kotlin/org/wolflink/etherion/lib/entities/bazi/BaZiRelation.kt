@@ -4,6 +4,10 @@ import org.wolflink.etherion.lib.entities.bazi.packs.AbstractWords
 import org.wolflink.etherion.lib.enums.base.DiZhi
 import kotlin.math.absoluteValue
 
+/**
+ * 八字关系对象
+ * 包含：干支六合，地支三合，地支半合，地支三会，地支六冲，地支三刑，地支相刑，地支相害，地支破
+ */
 class BaZiRelation {
     fun clearCache() {
         sixCombine.clear()
