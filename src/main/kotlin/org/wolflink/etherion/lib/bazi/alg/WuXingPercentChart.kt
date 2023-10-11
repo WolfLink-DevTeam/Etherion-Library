@@ -1,20 +1,47 @@
 package org.wolflink.etherion.lib.bazi.alg
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
+import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
 import org.wolflink.etherion.lib.entities.bazi.packs.QuantizationBaZi
 import org.wolflink.etherion.lib.enums.bazi.MixedTianGan
 import org.wolflink.etherion.lib.enums.bazi.WuXing
+import java.lang.Exception
+import kotlin.math.abs
 
+/**
+ * 计算动态八字盘的五行比例
+ *
+ * [0]: 起始查询年份，例如：2010 代表从2010年开始进行数据计算
+ * [1]: 查询数组长度，例如：100 代表从起始年份开始连续查询100年
+ * [2]: 是否忽略复杂元素反应，如刑冲克破合化等，true 则忽略
+ */
 data object WuXingPercentChart: BaZiAlgorithm() {
     override fun checkInput(abstractBaZi: AbstractBaZi, arguments: Array<out Any>): Boolean {
-        return false
+        if(abstractBaZi !is DynamicBaZi) return false
+        return try {
+            arguments[0] as Int
+            arguments[1] as Int
+            arguments[2] as Boolean
+            true
+        } catch (ignore: Exception) {
+            false
+        }
     }
 
     override fun compute(abstractBaZi: AbstractBaZi, arguments: Array<out Any>): JsonElement {
+        abstractBaZi as DynamicBaZi
+        val ja = JsonArray()
+        for (wuXing in WuXing.entries) {
+            val jo = JsonObject()
+            jo.addProperty("年份",wuXing.chineseName+"比例")
+
+        }
         return JsonObject()
     }
+    private
     fun getWuXingPercentWithElementReaction(abstractBaZi: AbstractBaZi):Map<WuXing,Double> {
         val relation = abstractBaZi.getBaZiRelation()
         val quantizationBaZi = QuantizationBaZi(abstractBaZi)

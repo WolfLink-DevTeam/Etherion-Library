@@ -43,8 +43,8 @@ data object WangShuaiValueChart : BaZiAlgorithm() {
         val restraint = JsonObject()
         val delta = JsonObject()
         help.addProperty("年份","生助值")
-        help.addProperty("年份","克泄值")
-        help.addProperty("年份","旺衰值")
+        restraint.addProperty("年份","克泄值")
+        delta.addProperty("年份","旺衰值(生助-克泄)")
         dynamicBaZi.apply {
             // 备份年份
             val originYear = queryYear

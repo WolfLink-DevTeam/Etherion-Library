@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+//    implementation("org.jfree:jfreechart:1.5.4")
+//    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.1")
+    implementation("org.icepear.echarts:echarts-java:1.0.7")
     testImplementation(kotlin("test"))
     implementation("com.google.code.gson:gson:2.10.1")
 }

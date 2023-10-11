@@ -1,4 +1,5 @@
-import org.wolflink.etherion.lib.bazi.alg.WuXingPercentChart
+import org.wolflink.etherion.lib.bazi.alg.WangShuaiValueChart
+import org.wolflink.etherion.lib.chart.ChartDrawer
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
 import org.wolflink.etherion.lib.entities.purplestar.TianBoard
@@ -26,8 +27,11 @@ fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)
     """.trimIndent())
 }
 fun singleTest() {
-    val baZi = TestBaZi(2002, 12, 19, 15, 50, 108.7, "壬午壬子辛酉丙申",Gender.MALE,false)
-    println(WuXingPercentChart.getWuXingPercentIgnoreElementReaction(baZi.dynamicBaZi))
+    val baZi = TestBaZi(2006, 4, 2, 20, 28, 108.7, "壬午癸丑甲午庚午",Gender.MALE,false)
+//    println(WuXingPercentChart.getWuXingPercentIgnoreElementReaction(baZi.dynamicBaZi))
+    val ja = WangShuaiValueChart.compute(baZi.dynamicBaZi,2000,100,true)
+    println(ja.toString())
+    ChartDrawer.drawStackedLine("旺衰量化表",ja.asJsonArray,"年份")
 }
 fun testBaZi()
 {
