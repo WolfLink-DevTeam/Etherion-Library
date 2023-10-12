@@ -14,9 +14,8 @@ object ChartDrawer {
      * @param jsonArray 数据(每组数据第一列作为分组名)
      * @param keyName   第一组的主键名
      * @param isStacked 是否堆叠显示
-     * @param fileName  文件名
      */
-    fun drawStackedLine(title: String,jsonArray: JsonArray,keyName: String,isStacked: Boolean,fileName: String) {
+    fun drawStackedLine(title: String,jsonArray: JsonArray,keyName: String,isStacked: Boolean) {
         var maxGroupSize = 0
         var maxJsonObject = JsonObject()
         for (je in jsonArray) {
@@ -88,7 +87,7 @@ object ChartDrawer {
 
             }
         }
-        Engine().render(fileName,lines)
+        Engine().render("$title.html",lines)
     }
 
 }

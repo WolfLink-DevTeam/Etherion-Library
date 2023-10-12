@@ -15,7 +15,7 @@ import java.lang.Exception
  * [2]: 是否忽略复杂元素反应，如刑冲克破合化等，true 则忽略
  */
 data object WangShuaiValueChart : BaZiAlgorithm() {
-    override fun checkInput(abstractBaZi: AbstractBaZi,vararg arguments: Any): Boolean {
+    override fun checkInput(abstractBaZi: AbstractBaZi, arguments: Array<out Any>): Boolean {
         if(abstractBaZi !is DynamicBaZi) return false
         return try {
             arguments[0] as Int
@@ -27,7 +27,7 @@ data object WangShuaiValueChart : BaZiAlgorithm() {
         }
     }
 
-    override fun compute(abstractBaZi: AbstractBaZi,vararg arguments: Any): JsonElement {
+    override fun compute(abstractBaZi: AbstractBaZi,arguments: Array<out Any>): JsonElement {
         val ignoreElementReaction = arguments[2] as Boolean
         return if(ignoreElementReaction) computeIgnoreElementReaction(abstractBaZi as DynamicBaZi,arguments[0] as Int,arguments[1] as Int)
         else computeWithElementReaction(abstractBaZi as DynamicBaZi,arguments[0] as Int,arguments[1] as Int)
