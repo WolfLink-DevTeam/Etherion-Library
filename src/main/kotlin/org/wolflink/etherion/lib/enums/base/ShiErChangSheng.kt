@@ -1,7 +1,4 @@
-package org.wolflink.etherion.lib.enums.bazi
-
-import org.wolflink.etherion.lib.enums.base.DiZhi
-import org.wolflink.etherion.lib.enums.base.TianGan
+package org.wolflink.etherion.lib.enums.base
 
 enum class ShiErChangSheng(val chineseName: String) {
     ChangSheng("长生"), MuYu("沐浴"), GuanDai("冠带"),

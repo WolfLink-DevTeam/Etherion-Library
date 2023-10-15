@@ -7,7 +7,7 @@ import org.wolflink.etherion.lib.entities.deviation.DeviationRecord
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable
 import org.wolflink.etherion.lib.entities.timeunits.SolarMDH
 import org.wolflink.etherion.lib.enums.Gender
-import org.wolflink.etherion.lib.enums.bazi.WangShuai
+import org.wolflink.etherion.lib.enums.base.WangShuai
 import org.wolflink.etherion.lib.enums.date.SolarTerm
 import java.util.*
 

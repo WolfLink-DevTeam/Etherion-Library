@@ -9,7 +9,7 @@ import org.wolflink.etherion.lib.enums.Gender
 import org.wolflink.etherion.lib.enums.base.DiZhi
 import org.wolflink.etherion.lib.enums.base.TianGan
 import org.wolflink.etherion.lib.enums.base.YinYang
-import org.wolflink.etherion.lib.enums.bazi.WangShuai
+import org.wolflink.etherion.lib.enums.base.WangShuai
 import org.wolflink.etherion.lib.expansions.*
 import java.util.*
 

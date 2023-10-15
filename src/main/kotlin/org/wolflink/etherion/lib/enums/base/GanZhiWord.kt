@@ -1,6 +1,5 @@
 package org.wolflink.etherion.lib.enums.base
 
-import org.wolflink.etherion.lib.enums.bazi.WuXing
 import kotlin.enums.EnumEntries
 
 interface GanZhiWord {

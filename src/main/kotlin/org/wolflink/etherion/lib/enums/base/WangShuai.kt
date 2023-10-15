@@ -1,4 +1,4 @@
-package org.wolflink.etherion.lib.enums.bazi
+package org.wolflink.etherion.lib.enums.base
 
 /**
  * 旺衰 旺相休囚死

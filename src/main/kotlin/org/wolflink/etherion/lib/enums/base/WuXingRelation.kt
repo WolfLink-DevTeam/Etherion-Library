@@ -1,6 +1,4 @@
-package org.wolflink.etherion.lib.enums.bazi
-
-import org.wolflink.etherion.lib.enums.base.GanZhiWord
+package org.wolflink.etherion.lib.enums.base
 
 /**
  * @param chineseName   中文名称
@@ -12,7 +10,7 @@ enum class WuXingRelation(val chineseName: String,val helpWeight: Double,val res
     WoKe("我克",-0.5,+0.5),
     TongWo("同我",+1.0,0.0);
 }
-infix fun GanZhiWord.relationTo(another: GanZhiWord): Triple<WuXingRelation,WuXingRelation,WuXingRelation> {
+infix fun GanZhiWord.relationTo(another: GanZhiWord): Triple<WuXingRelation, WuXingRelation, WuXingRelation> {
     return Triple(
         this.getWuXing().first relationTo another.getWuXing().first,
         this.getWuXing().second relationTo another.getWuXing().second,

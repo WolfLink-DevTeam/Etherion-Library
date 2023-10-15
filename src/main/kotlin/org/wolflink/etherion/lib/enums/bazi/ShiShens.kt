@@ -1,6 +1,6 @@
 package org.wolflink.etherion.lib.enums.bazi
 
-import org.wolflink.etherion.lib.enums.base.TianGan
+import org.wolflink.etherion.lib.enums.base.*
 
 enum class ShiShens(val chineseName: String) {
     ZhengGuan("正官"),

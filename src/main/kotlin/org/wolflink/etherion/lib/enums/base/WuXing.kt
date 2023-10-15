@@ -1,4 +1,4 @@
-package org.wolflink.etherion.lib.enums.bazi
+package org.wolflink.etherion.lib.enums.base
 
 import java.awt.Color
 

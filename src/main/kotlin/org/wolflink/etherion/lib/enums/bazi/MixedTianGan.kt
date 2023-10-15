@@ -1,6 +1,7 @@
 package org.wolflink.etherion.lib.enums.bazi
 
 import org.wolflink.etherion.lib.enums.base.TianGan
+import org.wolflink.etherion.lib.enums.base.WuXing
 
 /**
  * 混合天干

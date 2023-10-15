@@ -1,6 +1,4 @@
-package org.wolflink.etherion.lib.enums.bazi
-
-import org.wolflink.etherion.lib.enums.base.YinYang
+package org.wolflink.etherion.lib.enums.base
 
 enum class YinYangRelation(val chineseName: String) {
     TongXing("同性"), YiXing("异性");

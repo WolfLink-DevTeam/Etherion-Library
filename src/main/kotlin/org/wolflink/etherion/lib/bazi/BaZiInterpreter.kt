@@ -2,7 +2,7 @@ package org.wolflink.etherion.lib.bazi
 
 import org.wolflink.etherion.lib.entities.bazi.StaticBaZi
 import org.wolflink.etherion.lib.enums.bazi.ShiShens
-import org.wolflink.etherion.lib.enums.bazi.WuXing
+import org.wolflink.etherion.lib.enums.base.WuXing
 import org.wolflink.etherion.lib.enums.bazi.string
 import kotlin.math.roundToInt
 

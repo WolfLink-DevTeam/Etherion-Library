@@ -6,10 +6,8 @@ import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.deviation.DeviationTable
 import org.wolflink.etherion.lib.enums.Gender
 import org.wolflink.etherion.lib.enums.base.TianGan
-import org.wolflink.etherion.lib.enums.bazi.WangShuai
+import org.wolflink.etherion.lib.enums.base.WangShuai
 import org.jetbrains.annotations.TestOnly
-import org.wolflink.etherion.lib.enums.bazi.MixedTianGan
-import org.wolflink.etherion.lib.enums.bazi.WuXing
 
 abstract class AbstractBaZi(
     val name: String = "",

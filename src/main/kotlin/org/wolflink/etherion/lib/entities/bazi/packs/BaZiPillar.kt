@@ -2,7 +2,7 @@ package org.wolflink.etherion.lib.entities.bazi.packs
 
 import org.wolflink.etherion.lib.enums.base.DiZhi
 import org.wolflink.etherion.lib.enums.base.TianGan
-import org.wolflink.etherion.lib.enums.bazi.ShiErChangSheng
+import org.wolflink.etherion.lib.enums.base.ShiErChangSheng
 import org.wolflink.etherion.lib.enums.bazi.ShiShens
 
 /**

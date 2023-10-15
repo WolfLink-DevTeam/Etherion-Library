@@ -7,9 +7,8 @@ import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
 import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
 import org.wolflink.etherion.lib.entities.bazi.packs.QuantizationBaZi
 import org.wolflink.etherion.lib.enums.bazi.MixedTianGan
-import org.wolflink.etherion.lib.enums.bazi.WuXing
+import org.wolflink.etherion.lib.enums.base.WuXing
 import java.lang.Exception
-import kotlin.math.abs
 
 /**
  * 计算动态八字盘的五行比例

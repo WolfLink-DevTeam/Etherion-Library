@@ -3,8 +3,8 @@ package org.wolflink.etherion.lib.bazi
 import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
 import org.wolflink.etherion.lib.entities.bazi.packs.AbstractWords
 import org.wolflink.etherion.lib.enums.bazi.MixedTianGan
-import org.wolflink.etherion.lib.enums.bazi.WangShuai
-import org.wolflink.etherion.lib.enums.bazi.relationTo
+import org.wolflink.etherion.lib.enums.base.WangShuai
+import org.wolflink.etherion.lib.enums.base.relationTo
 
 /**
  * 八字计算器
