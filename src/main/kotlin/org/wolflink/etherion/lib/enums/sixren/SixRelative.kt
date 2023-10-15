@@ -1,6 +1,6 @@
 package org.wolflink.etherion.lib.enums.sixren
 
-enum class SixRelation(val chineseName: String) {
+enum class SixRelative(val chineseName: String) {
     ZiSun("子孙"),
     FuMu("父母"),
     GuanGui("官鬼"),
