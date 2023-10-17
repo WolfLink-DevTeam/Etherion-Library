@@ -7,7 +7,22 @@ val mainClassPath = "$group.Test"
 plugins {
     kotlin("jvm") version "1.9.10"
     application
+    `maven-publish`
     id("com.github.johnrengelman.shadow") version ("8.1.1")
+}
+java {
+    withSourcesJar()
+}
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava"){
+            artifact(tasks.getByName("jar"))
+            artifact(tasks.getByName("sourcesJar"))
+            artifactId = rootProject.name
+            groupId = group.toString()
+            version = project.version.toString()
+        }
+    }
 }
 
 application {
