@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "org.wolflink.etherion.lib"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 val mainClassPath = "$group.Test"
 
 plugins {
