@@ -4,14 +4,39 @@ import org.wolflink.etherion.lib.chart.ChartDrawer
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
 import org.wolflink.etherion.lib.entities.purplestar.TianBoard
+import org.wolflink.etherion.lib.entities.smallsixren.SmallSixRen
 import org.wolflink.etherion.lib.enums.Gender
+import org.wolflink.etherion.lib.expansions.forEach
+import org.wolflink.etherion.lib.expansions.show
 import java.util.*
 
 
 fun main()
 {
+    testSSR()
+//    val fateCalendar = FateCalendar(SolarCalendar(Calendar.getInstance(),120.0,false))
+//    val ssr = SmallSixRen(fateCalendar,Triple(1,4,8))
+//    ssr.show()
 //    testBaZi()
-    singleTest()
+//    singleTest()
+}
+
+/**
+ * 测试 1000 组数据
+ */
+fun testSSR() {
+    val random = Random()
+    repeat(1000) {
+        val calendar = Calendar.getInstance()
+        calendar.set(2010 + random.nextInt(14),0 + random.nextInt(12),1 + random.nextInt(30),random.nextInt(24),random.nextInt(60))
+        val fateCalendar = FateCalendar(SolarCalendar(calendar,120.0,false))
+        val ssr = SmallSixRen(fateCalendar, Triple((random.nextInt(60)+1).toShort(), (random.nextInt(60)+1).toShort(),
+            (random.nextInt(60)+1).toShort()
+        ))
+        ssr.show()
+        println(" ")
+    }
+
 }
 
 fun testPurpleStar(year : Int,month : Int,date : Int,hour : Int,minute : Int)

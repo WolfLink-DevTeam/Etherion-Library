@@ -19,6 +19,9 @@ enum class ShiErChangSheng(val chineseName: String) {
             }
         }
 
+        /**
+         * 天干地支十二长生表
+         */
         fun get(tianGan: TianGan, diZhi: DiZhi): ShiErChangSheng {
             // 十二长生索引
             val index = when (tianGan) {
@@ -33,7 +36,20 @@ enum class ShiErChangSheng(val chineseName: String) {
                 TianGan.Ren -> getIndex(DiZhi.Shen, true, diZhi)
                 TianGan.Gui -> getIndex(DiZhi.Mao, false, diZhi)
             }
-            return values()[index]
+            return entries[index]
+        }
+
+        /**
+         * 五行十二长生表(注意区别天干地支十二长生表)
+         */
+        fun get(wuXing: WuXing, diZhi: DiZhi): ShiErChangSheng {
+            val index = when(wuXing) {
+                WuXing.Mu -> getIndex(DiZhi.Hai,true,diZhi)
+                WuXing.Huo -> getIndex(DiZhi.Yin,true,diZhi)
+                WuXing.Jin -> getIndex(DiZhi.Si,true,diZhi)
+                WuXing.Shui,WuXing.Tu -> getIndex(DiZhi.Shen,true,diZhi)
+            }
+            return entries[index]
         }
     }
 }
