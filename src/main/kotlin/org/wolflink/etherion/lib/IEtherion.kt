@@ -5,6 +5,7 @@ import org.wolflink.etherion.lib.bazi.alg.BaZiAlgorithm
 import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
 import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
 import org.wolflink.etherion.lib.entities.bazi.StaticBaZi
+import org.wolflink.etherion.lib.entities.smallsixren.SmallSixRen
 import org.wolflink.etherion.lib.enums.Gender
 
 interface IEtherion {
@@ -50,5 +51,23 @@ interface IEtherion {
      * @param arguments     算法参数
      * @return              算法计算结果
      */
-    fun applyAlgorithm(abstractBaZi: AbstractBaZi,algorithm: BaZiAlgorithm,vararg arguments: Any): JsonElement
+    fun applyAlgorithm(abstractBaZi: AbstractBaZi, algorithm: BaZiAlgorithm, vararg arguments: Any): JsonElement
+
+    /**
+     * 创建小六壬盘
+     * @param year      起盘年份
+     * @param month     起盘月份
+     * @param day       起盘日期
+     * @param hour      起盘小时
+     * @param min       起盘分钟
+     * @param numbers   占问数字
+     */
+    fun createSmallSixRen(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        min: Int,
+        numbers: Triple<Int,Int,Int>
+    ): SmallSixRen
 }

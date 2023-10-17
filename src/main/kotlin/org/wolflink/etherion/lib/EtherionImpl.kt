@@ -9,6 +9,7 @@ import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
 import org.wolflink.etherion.lib.entities.bazi.StaticBaZi
 import org.wolflink.etherion.lib.entities.calendars.FateCalendar
 import org.wolflink.etherion.lib.entities.calendars.SolarCalendar
+import org.wolflink.etherion.lib.entities.smallsixren.SmallSixRen
 import org.wolflink.etherion.lib.enums.Gender
 import java.util.*
 
@@ -71,6 +72,32 @@ object EtherionImpl: IEtherion {
         return if(algorithm.checkInput(abstractBaZi,arguments)) {
             algorithm.compute(abstractBaZi,arguments)
         } else JsonObject()
+    }
+
+    /**
+     * 创建小六壬盘
+     * @param year      起盘年份
+     * @param month     起盘月份(1~12月)
+     * @param day       起盘日期
+     * @param hour      起盘小时
+     * @param min       起盘分钟
+     * @param numbers   占问数字
+     */
+    override fun createSmallSixRen(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        min: Int,
+        numbers: Triple<Int, Int, Int>
+    ): SmallSixRen {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR,year)
+        calendar.set(Calendar.MONTH,month-1)
+        calendar.set(Calendar.DATE,day)
+        calendar.set(Calendar.HOUR,hour)
+        calendar.set(Calendar.MINUTE,min)
+        return SmallSixRen(FateCalendar(SolarCalendar(calendar,120.0,false)),numbers)
     }
 
 }

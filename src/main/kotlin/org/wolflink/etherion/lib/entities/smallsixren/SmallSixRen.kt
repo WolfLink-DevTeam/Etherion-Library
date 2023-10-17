@@ -14,7 +14,7 @@ import org.wolflink.etherion.lib.expansions.forEach
  * @param monthDiZhi    月建
  * @param hourDiZhi     时辰
  */
-class SmallSixRen(val fateCalendar: FateCalendar,val tripleNumber: Triple<Short,Short,Short>) {
+class SmallSixRen(val fateCalendar: FateCalendar,val tripleNumber: Triple<Int,Int,Int>) {
 
     val monthDiZhi: DiZhi = fateCalendar.getMonthGanZhi().second
     val hourDiZhi: DiZhi = fateCalendar.getHourGanZhi().second
