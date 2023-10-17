@@ -1,7 +1,6 @@
 package org.wolflink.etherion.lib
 
 import com.google.gson.JsonElement
-import org.omg.CORBA.Object
 import org.wolflink.etherion.lib.bazi.alg.BaZiAlgorithm
 import org.wolflink.etherion.lib.entities.bazi.AbstractBaZi
 import org.wolflink.etherion.lib.entities.bazi.DynamicBaZi
@@ -23,7 +22,7 @@ interface IEtherion {
      * @param longitude     出生地经度，如114.5度，不要分秒
      * @return              静态八字盘
      */
-    fun parseStaticBaZi(
+    fun createStaticBaZi(
         name: String,
         gender: Gender,
         birthplace: String,
@@ -41,7 +40,7 @@ interface IEtherion {
      * @param staticBaZi    静态八字盘
      * @return              动态八字盘
      */
-    fun parseDynamicBaZi(staticBaZi: StaticBaZi): DynamicBaZi
+    fun createDynamicBaZi(staticBaZi: StaticBaZi): DynamicBaZi
 
     /**
      * 应用八字算法对八字进行计算/解析

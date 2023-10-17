@@ -31,7 +31,7 @@ object EtherionImpl: IEtherion {
      * @param longitude     出生地经度，如114.5度，不要分秒
      * @return              静态八字盘
      */
-    override fun parseStaticBaZi(
+    override fun createStaticBaZi(
         name: String,
         gender: Gender,
         birthplace: String,
@@ -55,7 +55,7 @@ object EtherionImpl: IEtherion {
      * @param staticBaZi    静态八字盘
      * @return              动态八字盘
      */
-    override fun parseDynamicBaZi(staticBaZi: StaticBaZi): DynamicBaZi {
+    override fun createDynamicBaZi(staticBaZi: StaticBaZi): DynamicBaZi {
         return DynamicBaZi(staticBaZi)
     }
 
